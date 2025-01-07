@@ -27,11 +27,9 @@ having to generate sql with quotes in it.
 
 * king authentication/authorization
 
-*** all endpoints that require authentication
+** all endpoints that require authentication
 
 all endpoints that require a king to be logged in
-
-**** error response
 
 #+begin_src verb
   http/1.1 401 unauthorized
@@ -42,12 +40,10 @@ all endpoints that require a king to be logged in
   }
 #+end_src
 
-*** all endpoints that require authorization
+** all endpoints that require authorization
 
 all endpoints that require authentication and the current king does
 not have the correct role(s) or permission(s).
-
-**** error response for unauthorized
 
 #+begin_src verb
   http/1.1 403 forbidden
