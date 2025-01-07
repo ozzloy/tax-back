@@ -87,9 +87,9 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-    "email": "john.smith@example.com",
-    "nick": "johnsmith",
-    "password": "secret password"
+      "email": "john.smith@example.com",
+      "nick": "johnsmith",
+      "password": "secret password",
   }
 #+end_src
 
