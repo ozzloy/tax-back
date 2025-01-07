@@ -75,7 +75,9 @@ not have the correct role(s) or permission(s).
 
 * king
 
-** create a king (sign up an account)
+** create, sign up an account
+
+*** request
 
   + require authentication: true
   + require authorization: false
@@ -91,7 +93,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-*** success
+*** response
+
+**** success
 
 #+begin_src verb
   http/1.1 201 created
@@ -109,9 +113,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-*** failures
+**** failures
 
-**** missing required fields
+***** missing required fields
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -126,7 +130,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-**** validation errors
+***** validation errors
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
