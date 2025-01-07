@@ -73,6 +73,87 @@ not have the correct role(s) or permission(s).
   set-cookie: csrf_token=csrf_token;
 #+end_src
 
+** login
+
+*** request
+
+#+begin_src verb
+  post /api/login
+  content-type: application/json
+
+  {
+    "credential": "email or nick",
+    "password": "secret password"
+  }
+#+end_src
+
+*** response
+
+**** success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+    "king":
+    {
+      "1":
+      {
+        "id": 1,
+        "email": "john.smith@example.com",
+        "nick": "johnsmith",
+        "theme_id": 1
+      }
+    }
+  }
+#+end_src
+
+**** failures
+
+***** invalid credentials
+
+#+begin_src verb
+  http/1.1 401 unauthorized
+  content-type: application/json
+
+  {
+    "message": "invalid credentials"
+  }
+#+end_src
+
+***** missing required fields
+
+#+begin_src verb
+  http/1.1 400 bad request
+  content-type: application/json
+
+  {
+    "message": "bad request",
+    "errors":
+    {
+      "credential": "credential with nick or email value required",
+      "password": "password is required"
+    }
+  }
+#+end_src
+
+***** validation errors
+
+#+begin_src verb
+  http/1.1 400 bad request
+  content-type: application/json
+
+  {
+    "message": "bad request",
+    "errors":
+    {
+      "credential": "credential field must be at least 1 character",
+      "password": "must be at least 1 character"
+    }
+  }
+#+end_src
+
 * king
 
 ** create, sign up an account
