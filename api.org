@@ -146,7 +146,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-**** nick or email already taken
+***** conflict
 
 #+begin_src verb
   http/1.1 409 conflict
@@ -210,6 +210,8 @@ not have the correct role(s) or permission(s).
 
 *** request
 
+  + all fields are optional
+
 #+begin_src verb
   put /api/king/current
   content-type: application/json
@@ -217,7 +219,8 @@ not have the correct role(s) or permission(s).
   {
       "email": "john.smith@example.com",
       "nick": "johnsmith",
-      "password": "secret password"
+      "password": "secret password",
+      "theme_id": 2
   }
 #+end_src
 
@@ -230,28 +233,21 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-      "email": "john.smith2@example.com",
-      "nick": "johnsmith2",
-      "password": "secret password2",
-      "theme_id": 1
+      "king": {
+          "1": {
+              {
+                  "id": 1
+                  "email": "john.smith2@example.com",
+                  "nick": "johnsmith2",
+                  "password": "secret password2",
+                  "theme_id": 1
+              }
+          }
+      }
   }
 #+end_src
 
 **** failures
-
-***** missing required fields
-
-#+begin_src verb
-  http/1.1 400 bad request
-  content-type: application/json
-
-  {
-      "message": "missing required field",
-      "errors": {
-          "credential": "email or nick is required"
-      }
-  }
-#+end_src
 
 ***** validation errors
 
@@ -263,12 +259,14 @@ not have the correct role(s) or permission(s).
       "message": "bad request",
       "errors": {
           "email": "invalid email",
-          "nick": "nickname must be non-empty"
+          "nick": "nick must have at least 1 character",
+          "email": "email must have at least 1 character",
+          "theme_id": "theme_id must be an existing theme's id"
       }
   }
 #+end_src
 
-***** nick or email already taken
+***** account conflict
 
 #+begin_src verb
   http/1.1 409 conflict
@@ -301,6 +299,8 @@ not have the correct role(s) or permission(s).
   http/1.1 200 ok
 
   {
-      "message": "deleted king 1 successfully"
+      "king": {
+          "1": null
+      }
   }
 #+end_src
