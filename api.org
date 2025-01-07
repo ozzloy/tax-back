@@ -8,6 +8,7 @@
   {
     "slice, aka table": {
       "record id": {
+        "id": "record id",
         "column name": "column value",
         "another column name": "another column value"
       }
@@ -50,7 +51,7 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-    "message":"forbidden"
+    "message": "forbidden"
   }
 #+end_src
 
@@ -91,6 +92,72 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
+*** success
+
+#+begin_src verb
+  http/1.1 201 created
+  content-type: application/json
+
+  {
+      "king": {
+          "1": {
+              "id": 1,
+              "email": "john.smith@example.com",
+              "nick": "johnsmith",
+              "theme_id": 1
+          }
+      }
+  }
+#+end_src
+
+*** failures
+
+**** missing required fields
+
+#+begin_src verb
+  http/1.1 400 bad request
+  content-type: application/json
+
+  {
+      "message": "missing required fields",
+      "errors": {
+          "email": "email is required",
+          "nick": "nick is required"
+      }
+  }
+#+end_src
+
+**** validation errors
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "email": "invalid email",
+          "nick": "nickname is required",
+          "name": "name is required",
+      }
+  }
+#+end_src
+
+**** nick or email already taken
+
+#+begin_src verb
+  http/1.1 409 conflict
+  content-type: application/json
+
+  {
+      "message": "account conflict",
+      "errors": {
+          "email": "email is taken",
+          "nick": "nick is taken"
+      }
+  }
+#+end_src
+
 ** read current king
 
   + require authentication: false
@@ -111,16 +178,14 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-    "king":
-    {
-      "1":
-      {
-        "id": 1,
-        "email": "john.smith@example.com",
-        "nick": "johnsmith",
-        "theme_id": 1
+      "king": {
+          "1": {
+              "id": 1,
+              "email": "john.smith@example.com",
+              "nick": "johnsmith",
+              "theme_id": 1
+          }
       }
-    }
   }
 #+end_src
 
@@ -131,6 +196,108 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-    "king": null
+      "king": null
+  }
+#+end_src
+
+** update king
+
+  + require authentication: true
+  + require authorization: true
+
+*** request
+
+#+begin_src verb
+  put /api/king/current
+  content-type: application/json
+
+  {
+      "email": "john.smith@example.com",
+      "nick": "johnsmith",
+      "password": "secret password"
+  }
+#+end_src
+
+*** response
+
+**** success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+      "email": "john.smith2@example.com",
+      "nick": "johnsmith2",
+      "password": "secret password2",
+      "theme_id": 1
+  }
+#+end_src
+
+**** failures
+
+***** missing required fields
+
+#+begin_src verb
+  http/1.1 400 bad request
+  content-type: application/json
+
+  {
+      "message": "missing required field",
+      "errors": {
+          "credential": "email or nick is required"
+      }
+  }
+#+end_src
+
+***** validation errors
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "email": "invalid email",
+          "nick": "nickname must be non-empty"
+      }
+  }
+#+end_src
+
+***** nick or email already taken
+
+#+begin_src verb
+  http/1.1 409 conflict
+  content-type: application/json
+
+  {
+      "message": "account conflict",
+      "errors": {
+          "email": "email is taken",
+          "nick": "nick is taken"
+      }
+  }
+#+end_src
+
+** delete a king
+
+  + require authentication: true
+  + require authorization: true
+
+*** request
+
+#+begin_src verb
+  delete /api/king/
+#+end_src
+
+*** response
+
+**** success
+#+begin_src verb
+  http/1.1 200 ok
+
+  {
+      "message": "deleted king 1 successfully"
   }
 #+end_src
