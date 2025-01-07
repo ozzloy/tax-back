@@ -2,7 +2,7 @@
 
 [[./schema.png]]
 
-** general format of all successful responses
+* general format of all successful responses
 
 #+begin_src json
   {
@@ -15,38 +15,122 @@
   }
 #+end_src
 
-** "king" == "user"
+* "king" == "user"
+
 "user" is a reserved word in psql, which needs to be quoted. since
 this project is generating sql with libraries, it uses "king" to avoid
 having to generate sql with quotes in it.
 
-** king authentication/authorization
+* king authentication/authorization
 
 *** all endpoints that require authentication
 
 all endpoints that require a king to be logged in
 
-  + request: endpoints that require authentication
-  + error response
-    #+begin_src verb
-      http/1.1 401 unauthorized
-      content-type: application/json
+**** error response
 
-      {
-        "message": "authentication required"
-      }
-    #+end_src
+#+begin_src verb
+  http/1.1 401 unauthorized
+  content-type: application/json
+
+  {
+    "message": "authentication required"
+  }
+#+end_src
 
 *** all endpoints that require authorization
 
 all endpoints that require authentication and the current king does
 not have the correct role(s) or permission(s).
 
-  + response:
-    #+begin_src verb
-      http/1.1 403 forbidden
-      content-type: application/json
+**** error response for unauthorized
 
-      {"message":"forbidden"}
-    #+end_src
+#+begin_src verb
+  http/1.1 403 forbidden
+  content-type: application/json
 
+  {
+    "message":"forbidden"
+  }
+#+end_src
+
+* session
+
+** generate a csrf token
+
+  + require authentication: false
+
+*** request
+
+#+begin_src verb
+  get /api/csrf
+#+end_src
+
+*** response
+
+#+begin_src verb
+  http/1.1 200 ok
+  set-cookie: csrf_token=csrf_token;
+#+end_src
+
+* king
+
+** create a king (sign up an account)
+
+  + require authentication: true
+  + require authorization: false
+
+#+begin_src verb
+  post /api/king
+  content-type: application/json
+
+  {
+    "email": "john.smith@example.com",
+    "nick": "johnsmith",
+    "password": "secret password"
+  }
+#+end_src
+
+** read current king
+
+  + require authentication: false
+  + require authorization: false
+
+*** request
+
+#+begin_src verb
+  get /api/king/current
+#+end_src
+
+*** response
+
+**** when logged in
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+    "king":
+    {
+      "1":
+      {
+        "id": 1,
+        "email": "john.smith@example.com",
+        "nick": "johnsmith",
+        "theme_id": 1
+      }
+    }
+  }
+#+end_src
+
+**** when anonymous
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+    "king": null
+  }
+#+end_src
