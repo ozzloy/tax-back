@@ -1,0 +1,48 @@
+#+title: tax
+
+* fill out federal 1040 easily
+
+* tables
+  all tables will have id, created, updated
+
+  [[./schema.png]]
+
+    + king (aka user)
+      + nick, required
+      + email, required
+      + name, required
+      + theme id, required (foreign key, theme.id)
+
+    + theme
+      + name
+      + text color
+      + background color
+
+    + human
+      + first name
+      + middle initial
+      + last name
+      + king_id (foreign key, king.id)
+
+    + address
+      + street
+      + city
+      + state
+      + zip
+
+    + form 1040
+      + tax year
+      + filer id (foreign key, human.id)
+      + spouse id (foreign key, human.id)
+      + address id (foreign key, address.id)
+      + wages, total amount from form w-2, box 1
+      + withheld wages, form w-2, box 2
+      + filing status
+
+* tech stack
+** backend
+*** flask
+*** alembic
+** frontend
+*** react
+*** redux
