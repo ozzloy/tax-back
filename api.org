@@ -304,3 +304,85 @@ not have the correct role(s) or permission(s).
       }
   }
 #+end_src
+
+**** failures
+
+this request can't fail, other than the already covered unauthorized
+and unauthenticated failures described above.
+
+* human
+
+** create a human
+
+*** request
+
+  + authentication required
+  + authorization required
+  + "king_id" taken from session, do not put it in request's body
+
+#+begin_src verb
+  post /api/human/
+  content-type: application/json
+
+  {
+      "first_name": "bob",
+      "middle_initial": "b",
+      "last_name": "bobert"
+  }
+#+end_src
+
+*** response
+
+**** success
+
+#+begin_src verb
+  http/1.1 201 created
+  content-type: application/json
+
+  {
+      "id": 1,
+      "first_name": "bob",
+      "middle_initial": "b",
+      "last_name": "bobert",
+  }
+#+end_src
+
+**** failures
+
+***** missing required fields
+
+#+begin_src verb
+  http/1.1 400 bad request
+  content-type: application/json
+
+  {
+      "message": "missing required fields",
+      "errors": {
+          "king_id": "king_id is required"
+      }
+  }
+#+end_src
+
+***** validation errors
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "email": "invalid email",
+          "first_name": "first_name must have at least 1 character",
+          "middle_initial": "middle_initial must have at least 1 character",
+          "last_name": "last_name must have at least 1 character",
+          "king_id": "king_id must be an existing king's id"
+      }
+  }
+#+end_src
+
+***** conflict
+
+currently have no way of uniquely identifying each person. this would
+be SSN, but i'm not going to ask people for their SSN's on this
+project.
