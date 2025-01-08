@@ -30,6 +30,7 @@
       + city
       + state
       + zip
+      + king_id (foreign key, king.id)
 
     + form 1040
       + tax year
@@ -39,6 +40,7 @@
       + wages, total amount from form w-2, box 1
       + withholdings, form w-2, box 2
       + filing status
+      + king_id (foreign key, king.id)
 
 * tech stack
 ** backend
