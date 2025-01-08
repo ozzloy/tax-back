@@ -1037,7 +1037,7 @@ every field is optional, this allows partial complete saves
 *** form_1040.read_all.request
 
 #+begin_src verb
-  get /api/form_1040/:form_1040_id
+  get /api/form_1040/
 #+end_src
 
 *** form_1040.read_all.response
