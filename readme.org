@@ -3,43 +3,46 @@
 * fill out federal 1040 easily
 
 * tables
+
   all tables will have id, created, updated
 
-  [[./schema.png]]
+  [[./schema.svg]]
 
-    + king (aka user)
-      + nick, required
-      + email, required
-      + name, required
-      + current theme id, (foreign key, theme.id)
++ table: king (aka account)
+  + id, int, required
+  + nick, string, required
+  + email, string, required
+  + name, string, required
+  + current_theme id, integer, (foreign key, theme.id)
 
-    + theme
-      + name
-      + text color
-      + background color
-      + creator id, required (foreign key, king.id)
++ table: theme
+  + id, int, required
+  + name, string, required
+  + text_color, string, required
+  + background_color, string, required
+  + creator_id, int, required (foreign key, king.id)
 
-    + human
-      + first name
-      + middle initial
-      + last name
-      + creator id, required (foreign key, king.id)
++ table: human
+  + first_name, string, optional
+  + middle_initial, string, optional
+  + last_name, string, optional
+  + creator_id, integer, required (foreign key, king.id)
 
-    + address
-      + street
-      + city
-      + state
-      + zip
-      + creator id, required (foreign key, king.id)
++ table: address
+  + street, string, optional
+  + city, string, optional
+  + state, string, optional
+  + zip, string, optional
+  + creator_id, integer, required (foreign key, king.id)
 
-    + form 1040
-      + tax year
-      + filer id, required (foreign key, human.id)
-      + spouse id (foreign key, human.id)
-      + address id (foreign key, address.id)
-      + wages, total amount from form w-2, box 1
-      + withholdings, form w-2, box 2
-      + filing status
++ table: form_1040
+  + tax_year, integer, required
+  + filer_id, integer, required (foreign key, human.id)
+  + spouse_id, integer, (foreign key, human.id)
+  + address_id, integer, (foreign key, address.id)
+  + wages, number, optional
+  + withholdings, number, optional
+  + filing_status, string, optional
 
 * tech stack
 ** backend

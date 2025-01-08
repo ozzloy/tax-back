@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="571px" preserveAspectRatio="none" style="width:608px;height:571px;background:#000000;" version="1.1" viewBox="0 0 608 571" width="608px" zoomAndPan="magnify"><defs><filter height="300%" id="f19kfg71hhx2iy" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[d0f44e6db120855bbe469cd8a2879a9b]
+class king--><rect fill="#000000" filter="url(#f19kfg71hhx2iy)" height="113.9995" id="king" style="stroke: #00FF99; stroke-width: 1.5;" width="180" x="178" y="8"/><ellipse cx="249.75" cy="24" fill="#9932CC" rx="11" ry="11" style="stroke: #00FF99; stroke-width: 1.0;"/><path d="M250.5938,30.75 L248.1406,30.75 L248.1406,20.5 L245,20.5 L245,18.3594 L253.7344,18.3594 L253.7344,20.5 L250.5938,20.5 L250.5938,30.75 Z "/><text fill="#00FF99" font-family="Courier" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="28" x="270.25" y="27.744">king</text><line style="stroke: #00FF99; stroke-width: 1.5;" x1="179" x2="357" y1="40" y2="40"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="14" x="198" y="54.0319">id</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="35" x="212" y="54.0319">: INT</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="84" x="198" y="67.2318">nick: STRING</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="91" x="198" y="80.4317">email: STRING</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="84" x="198" y="93.6316">name: STRING</text><polygon fill="none" points="189,98.7996,193,102.7996,189,106.7996,185,102.7996" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="154" x="198" y="106.8315">current_theme_id#: INT</text><line style="stroke: #00FF99; stroke-width: 1.5;" x1="179" x2="357" y1="113.9995" y2="113.9995"/><!--MD5=[cea1adfabf0fbc55760af31f2017123c]
+class theme--><rect fill="#000000" filter="url(#f19kfg71hhx2iy)" height="113.9995" id="theme" style="stroke: #00FF99; stroke-width: 1.5;" width="194" x="6" y="207.5"/><ellipse cx="81.25" cy="223.5" fill="#9932CC" rx="11" ry="11" style="stroke: #00FF99; stroke-width: 1.0;"/><path d="M82.0938,230.25 L79.6406,230.25 L79.6406,220 L76.5,220 L76.5,217.8594 L85.2344,217.8594 L85.2344,220 L82.0938,220 L82.0938,230.25 Z "/><text fill="#00FF99" font-family="Courier" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="35" x="101.75" y="227.244">theme</text><line style="stroke: #00FF99; stroke-width: 1.5;" x1="7" x2="199" y1="239.5" y2="239.5"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="14" x="26" y="253.5319">id</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="35" x="40" y="253.5319">: INT</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="84" x="26" y="266.7318">name: STRING</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="126" x="26" y="279.9317">text_color: STRING</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="168" x="26" y="293.1316">background_color: STRING</text><polygon fill="none" points="17,298.2996,21,302.2996,17,306.2996,13,302.2996" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="112" x="26" y="306.3315">creator_id#: INT</text><line style="stroke: #00FF99; stroke-width: 1.5;" x1="7" x2="199" y1="313.4995" y2="313.4995"/><!--MD5=[c05a5a9d7f7f5287e0ff3f850618d27b]
+class human--><rect fill="#000000" filter="url(#f19kfg71hhx2iy)" height="113.9995" id="human" style="stroke: #00FF99; stroke-width: 1.5;" width="180" x="244" y="207.5"/><ellipse cx="312.25" cy="223.5" fill="#9932CC" rx="11" ry="11" style="stroke: #00FF99; stroke-width: 1.0;"/><path d="M313.0938,230.25 L310.6406,230.25 L310.6406,220 L307.5,220 L307.5,217.8594 L316.2344,217.8594 L316.2344,220 L313.0938,220 L313.0938,230.25 Z "/><text fill="#00FF99" font-family="Courier" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="35" x="332.75" y="227.244">human</text><line style="stroke: #00FF99; stroke-width: 1.5;" x1="245" x2="423" y1="239.5" y2="239.5"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="14" x="264" y="253.5319">id</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="35" x="278" y="253.5319">: INT</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="126" x="264" y="266.7318">first_name: STRING</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="154" x="264" y="279.9317">middle_initial: STRING</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="119" x="264" y="293.1316">last_name: STRING</text><polygon fill="none" points="255,298.2996,259,302.2996,255,306.2996,251,302.2996" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="112" x="264" y="306.3315">creator_id#: INT</text><line style="stroke: #00FF99; stroke-width: 1.5;" x1="245" x2="423" y1="313.4995" y2="313.4995"/><!--MD5=[8739cefb37fa88296c52d839cadb2af0]
+class address--><rect fill="#000000" filter="url(#f19kfg71hhx2iy)" height="127.1994" id="address" style="stroke: #00FF99; stroke-width: 1.5;" width="138" x="459" y="201"/><ellipse cx="499.65" cy="217" fill="#9932CC" rx="11" ry="11" style="stroke: #00FF99; stroke-width: 1.0;"/><path d="M500.4938,223.75 L498.0406,223.75 L498.0406,213.5 L494.9,213.5 L494.9,211.3594 L503.6344,211.3594 L503.6344,213.5 L500.4938,213.5 L500.4938,223.75 Z "/><text fill="#00FF99" font-family="Courier" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="49" x="519.35" y="220.744">address</text><line style="stroke: #00FF99; stroke-width: 1.5;" x1="460" x2="596" y1="233" y2="233"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="14" x="479" y="247.0319">id</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="35" x="493" y="247.0319">: INT</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="98" x="479" y="260.2318">street: STRING</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="84" x="479" y="273.4317">city: STRING</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="91" x="479" y="286.6316">state: STRING</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="77" x="479" y="299.8315">zip: STRING</text><polygon fill="none" points="470,304.9995,474,308.9995,470,312.9995,466,308.9995" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="112" x="479" y="313.0314">creator_id#: INT</text><line style="stroke: #00FF99; stroke-width: 1.5;" x1="460" x2="596" y1="320.1994" y2="320.1994"/><!--MD5=[1561f924b7046e5b1a34ddda04ca47e8]
+class form_1040--><rect fill="#000000" filter="url(#f19kfg71hhx2iy)" height="153.5992" id="form_1040" style="stroke: #00FF99; stroke-width: 1.5;" width="173" x="291.5" y="407"/><ellipse cx="342.25" cy="423" fill="#9932CC" rx="11" ry="11" style="stroke: #00FF99; stroke-width: 1.0;"/><path d="M343.0938,429.75 L340.6406,429.75 L340.6406,419.5 L337.5,419.5 L337.5,417.3594 L346.2344,417.3594 L346.2344,419.5 L343.0938,419.5 L343.0938,429.75 Z "/><text fill="#00FF99" font-family="Courier" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="63" x="362.75" y="426.744">form_1040</text><line style="stroke: #00FF99; stroke-width: 1.5;" x1="292.5" x2="463.5" y1="439" y2="439"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="14" x="311.5" y="453.0319">id</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="35" x="325.5" y="453.0319">: INT</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="91" x="311.5" y="466.2318">tax_year: INT</text><polygon fill="none" points="302.5,471.3998,306.5,475.3998,302.5,479.3998,298.5,475.3998" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="98" x="311.5" y="479.4317">filer_id#: INT</text><polygon fill="none" points="302.5,484.5997,306.5,488.5997,302.5,492.5997,298.5,488.5997" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="105" x="311.5" y="492.6316">spouse_id#: INT</text><polygon fill="none" points="302.5,497.7996,306.5,501.7996,302.5,505.7996,298.5,501.7996" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="112" x="311.5" y="505.8315">address_id#: INT</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="98" x="311.5" y="519.0314">wages: DECIMAL</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="147" x="311.5" y="532.2313">withholdings: DECIMAL</text><text fill="#E600E6" font-family="Courier" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="147" x="311.5" y="545.4312">filing_status: STRING</text><line style="stroke: #00FF99; stroke-width: 1.5;" x1="292.5" x2="463.5" y1="552.5992" y2="552.5992"/><!--MD5=[528d1e1b65259af22ded17d55752d3a0]
+link king to theme--><path d="M177.54,85.32 C141.41,97.96 103.37,118.58 82,152 C71.55,168.35 72.25,188.62 77.07,207.38 " fill="none" id="king-theme" style="stroke: #00FF99; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="83" y="166.897">"</text><text fill="#BB00B2" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="43" x="88" y="166.897">creates</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="131" y="166.897">"</text><polygon fill="#000000" points="105,176.706,108,182.706,111,176.706,105,176.706" style="stroke: #000000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="163.0526" y="83.1871">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="66.1153" y="195.5068">*</text><!--MD5=[b9c11275bb0c8bcd934745532ee81dcb]
+link theme to king--><path d="M142.65,207.46 C155.98,189.4 171.22,169.52 186,152 C194.25,142.22 203.31,132.14 212.31,122.47 " fill="none" id="theme-king" style="stroke: #00FF99; stroke-width: 1.0;"/><polygon fill="#000000" points="230.5,163,233.5,157,236.5,163,230.5,163" style="stroke: #000000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="187" y="179.897">"</text><text fill="#BB00B2" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="86" x="192" y="179.897">current theme</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="278" y="179.897">"</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="140.5077" y="195.5975">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="198.4662" y="144.0356">*</text><!--MD5=[a9d500cfceee09e0068658703820df51]
+link king to human--><path d="M293.72,122.42 C297.75,132.19 301.68,142.31 305,152 C311.1,169.78 316.63,189.54 321.19,207.43 " fill="none" id="king-human" style="stroke: #00FF99; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="311" y="166.897">"</text><text fill="#BB00B2" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="43" x="316" y="166.897">creates</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="359" y="166.897">"</text><polygon fill="#000000" points="333,176.706,336,182.706,339,176.706,333,176.706" style="stroke: #000000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="289.2892" y="143.9799">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="311.9983" y="195.5635">*</text><!--MD5=[f70837fb8a344f405790f48f408529d1]
+link king to address--><path d="M345.73,122.04 C359.22,131.94 373.06,142.21 386,152 C409.87,170.06 435.69,190.16 458.69,208.27 " fill="none" id="king-address" style="stroke: #00FF99; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="410" y="166.897">"</text><text fill="#BB00B2" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="43" x="415" y="166.897">creates</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="458" y="166.897">"</text><polygon fill="#000000" points="466,160.353,472,163.353,466,166.353,466,160.353" style="stroke: #000000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="347.7768" y="143.9678">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="444.1815" y="198.5179">*</text><!--MD5=[ec5bf40531afce3038b74186519fe611]
+link human to form_1040--><path d="M292.72,321.55 C284.52,339.17 280.25,358.78 287,377 C290.83,387.35 296.18,397.37 302.38,406.85 " fill="none" id="human-form_1040" style="stroke: #00FF99; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="288" y="372.897">"</text><text fill="#BB00B2" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="23" x="293" y="372.897">files</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="316" y="372.897">"</text><polygon fill="#000000" points="300,382.706,303,388.706,306,382.706,300,382.706" style="stroke: #000000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="280.2624" y="343.479">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="287.2208" y="394.9714">*</text><!--MD5=[ec5bf40531afce3038b74186519fe611]
+link human to form_1040--><path d="M345.33,321.51 C350.58,347.44 356.89,378.65 362.56,406.69 " fill="none" id="human-form_1040-1" style="stroke: #00FF99; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="357" y="372.897">"</text><text fill="#BB00B2" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="85" x="362" y="372.897">files as spouse</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="447" y="372.897">"</text><polygon fill="#000000" points="400,382.706,403,388.706,406,382.706,400,382.706" style="stroke: #000000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="339.2843" y="343.4341">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="353.6956" y="395.1946">*</text><!--MD5=[37be8de150dc053584b2cf66218ce877]
+link address to form_1040--><path d="M501.45,328.29 C493.5,344.66 484.16,361.93 474,377 C467.2,387.09 459.48,397.19 451.45,406.95 " fill="none" id="address-form_1040" style="stroke: #00FF99; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="485" y="372.897">"</text><text fill="#BB00B2" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="47" x="490" y="372.897">used by</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="5" x="537" y="372.897">"</text><polygon fill="#000000" points="509,382.706,512,388.706,515,382.706,509,382.706" style="stroke: #000000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="491.1633" y="350.1214">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="7" x="451.6636" y="395.0817">*</text><!--MD5=[e8eed4639ea75e825f28013c9e994bdc]
+@startuml
+
+
+skinparam backgroundColor black
+
+skinparam class {
+    BackgroundColor black
+    BorderColor #00ff99
+    ArrowColor #00ff99
+    FontColor #00ff99
+    FontName Courier
+}
+
+skinparam classAttribute {
+    FontColor #e600e6
+    FontName Courier
+}
+
+skinparam note {
+    BackgroundColor black
+    BorderColor #00ff99
+    FontColor #00ff99
+}
+
+class king << (T,#9932CC) >> {
+    <u>id</u>: INT
+    nick: STRING
+    email: STRING
+    name: STRING
+    #current_theme_id#: INT
+}
+
+class theme << (T,#9932CC) >> {
+    <u>id</u>: INT
+    name: STRING
+    text_color: STRING
+    background_color: STRING
+    #creator_id#: INT
+}
+
+class human << (T,#9932CC) >> {
+    <u>id</u>: INT
+    first_name: STRING
+    middle_initial: STRING
+    last_name: STRING
+    #creator_id#: INT
+}
+
+class address << (T,#9932CC) >> {
+    <u>id</u>: INT
+    street: STRING
+    city: STRING
+    state: STRING
+    zip: STRING
+    #creator_id#: INT
+}
+
+class form_1040 << (T,#9932CC) >> {
+    <u>id</u>: INT
+    tax_year: INT
+    #filer_id#: INT
+    #spouse_id#: INT
+    #address_id#: INT
+    wages: DECIMAL
+    withholdings: DECIMAL
+    filing_status: STRING
+}
+
+king "1" - - "*" theme : "<color:#BB00B2>creates</color>" >
+theme "1" - - "*" king : "<color:#BB00B2>current theme</color>" >
+king "1" - - "*" human : "<color:#BB00B2>creates</color>" >
+king "1" - - "*" address : "<color:#BB00B2>creates</color>" >
+human "1" - - "*" form_1040 : "<color:#BB00B2>files</color>" >
+human "1" - - "*" form_1040 : "<color:#BB00B2>files as spouse</color>" >
+address "1" - - "*" form_1040 : "<color:#BB00B2>used by</color>" >
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 02:22:07 PST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 21.0.5+11-Ubuntu-1ubuntu124.04
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

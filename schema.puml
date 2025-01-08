@@ -1,0 +1,80 @@
+@startuml
+
+!define TABLE(x) class x << (T,#9932CC) >>
+!define PRIMARY_KEY(x) <u>x</u>
+!define FOREIGN_KEY(x) #x#
+
+skinparam backgroundColor black
+
+skinparam class {
+    BackgroundColor black
+    BorderColor #00ff99
+    ArrowColor #00ff99
+    FontColor #00ff99
+    FontName Courier
+}
+
+skinparam classAttribute {
+    FontColor #e600e6
+    FontName Courier
+}
+
+skinparam note {
+    BackgroundColor black
+    BorderColor #00ff99
+    FontColor #00ff99
+}
+
+TABLE(king) {
+    PRIMARY_KEY(id): INT
+    nick: STRING
+    email: STRING
+    name: STRING
+    FOREIGN_KEY(current_theme_id): INT
+}
+
+TABLE(theme) {
+    PRIMARY_KEY(id): INT
+    name: STRING
+    text_color: STRING
+    background_color: STRING
+    FOREIGN_KEY(creator_id): INT
+}
+
+TABLE(human) {
+    PRIMARY_KEY(id): INT
+    first_name: STRING
+    middle_initial: STRING
+    last_name: STRING
+    FOREIGN_KEY(creator_id): INT
+}
+
+TABLE(address) {
+    PRIMARY_KEY(id): INT
+    street: STRING
+    city: STRING
+    state: STRING
+    zip: STRING
+    FOREIGN_KEY(creator_id): INT
+}
+
+TABLE(form_1040) {
+    PRIMARY_KEY(id): INT
+    tax_year: INT
+    FOREIGN_KEY(filer_id): INT
+    FOREIGN_KEY(spouse_id): INT
+    FOREIGN_KEY(address_id): INT
+    wages: DECIMAL
+    withholdings: DECIMAL
+    filing_status: STRING
+}
+
+king "1" -- "*" theme : "<color:#BB00B2>creates</color>" >
+theme "1" -- "*" king : "<color:#BB00B2>current theme</color>" >
+king "1" -- "*" human : "<color:#BB00B2>creates</color>" >
+king "1" -- "*" address : "<color:#BB00B2>creates</color>" >
+human "1" -- "*" form_1040 : "<color:#BB00B2>files</color>" >
+human "1" -- "*" form_1040 : "<color:#BB00B2>files as spouse</color>" >
+address "1" -- "*" form_1040 : "<color:#BB00B2>used by</color>" >
+
+@enduml
