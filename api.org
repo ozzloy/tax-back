@@ -1120,25 +1120,6 @@ near top
 
 **** form_1040.update.response.failure
 
-***** form_1040.update.response.failure.field missing
-
-#+begin_src verb
-  http/1.1 422 unprocessable entity
-  content-type: application/json
-
-  {
-      "message": "bad request",
-      "errors": {
-          "tax_year": "tax_year is required",
-          "filer_id": "filer_id is required",
-          "spouse_id": "spouse_id is required",
-          "address_id": "address_id is required",
-          "wages": "wages is required",
-          "withholdings": "withholdings is required"
-      }
-  }
-#+end_src
-
 ***** form_1040.update.response.failure.validation
 
 #+begin_src verb
