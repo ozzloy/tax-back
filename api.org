@@ -696,18 +696,91 @@ not own it
       }
   }
 #+end_src
-** theme>read
-*** theme>read>request
-*** theme>read>response
-**** theme>read>response>success
-**** theme>read>response>failures
-***** theme>read>response>failures>not found
-** theme>update
-*** theme>update>request
-*** theme>update>response
-**** theme>update>response>success
-**** theme>update>response>failures
-***** theme>create>response>failures>missing fields
+
+
+** theme.read
+
+*** theme.read.request
+
+#+begin_src verb
+  get /api/theme/:theme_id
+#+end_src
+
+*** theme.read.response
+
+**** theme.read.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+      "theme": {
+          "1": {
+              "id": 1,
+              "name": "blue steele",
+              "text_color": "blue",
+              "background_color": "steele"
+          }
+      }
+  }
+#+end_src
+
+**** theme.read.response.failure
+
+***** theme.read.response.failure.not found
+
+#+begin_src verb
+  http/1.1 404
+
+  {
+      "message": "theme not found",
+      "errors": {
+          "theme": "theme not found"
+      }
+  }
+#+end_src
+
+
+** theme.update
+
+*** theme.update.request
+
+#+begin_src verb
+  put /api/theme
+  content-type: application/json
+
+  {
+      "name": "blue steele",
+      "text_color": "blue",
+      "background_color": "steele"
+  }
+#+end_src
+
+*** theme.update.response
+
+**** theme.update.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+      "theme": {
+          "1": {
+              "id": 1,
+              "name": "blue steele",
+              "text_color": "blue",
+              "background_color": "steele"
+          }
+      }
+  }
+#+end_src
+
+**** theme.update.response.failure
+
+***** theme.create.response.failure.missing fields
+
 #+begin_src verb
   http/1.1 400 bad request
   content-type: application/json
