@@ -73,9 +73,9 @@ not have the correct role(s) or permission(s).
   set-cookie: csrf_token=csrf_token;
 #+end_src
 
-** login
+** session > login
 
-*** login request
+*** session > login > request
 
 #+begin_src verb
   post /api/login
@@ -87,7 +87,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-*** login response
+*** session > login > response
 
 **** login success
 
