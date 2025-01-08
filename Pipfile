@@ -5,11 +5,11 @@ name = "pypi"
 
 [packages]
 flask = "*"
-pytest = "*"
 
 [dev-packages]
 black = "*"
 pre-commit = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.9"
