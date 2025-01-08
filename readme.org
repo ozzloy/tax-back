@@ -12,6 +12,8 @@
 
   [[./wireframe.jpg]]
 
+* api
+  see [[file:api.org][api docs]]
 * tech stack
 ** backend
 *** flask
