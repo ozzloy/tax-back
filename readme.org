@@ -27,6 +27,14 @@ then fill in the path parts using the values from these two commands
   pipenv --venv | xargs basename
 #+end_src
 
+then run the tests
+
+#+begin_src bash
+  pipenv run pytest
+#+end_src
+
+yay!
+
 * schema
 
   all tables will have fields: id, created, updated
