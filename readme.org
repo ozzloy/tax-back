@@ -10,7 +10,8 @@
 
 * wireframe
 
-  [[./wireframe.jpg]]
+  [[./wireframe-0.jpg]]
+  [[./wireframe-1.jpg]]
 
 * api
   see [[file:api.org][api docs]]
