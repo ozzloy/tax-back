@@ -242,7 +242,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-** read current king
+** read current session's king
 
   + require authentication: false
   + require authorization: false
@@ -250,7 +250,7 @@ not have the correct role(s) or permission(s).
 *** request current king
 
 #+begin_src verb
-  get /api/king/current
+  get /api/king
 #+end_src
 
 *** response to current king read
@@ -294,7 +294,7 @@ not have the correct role(s) or permission(s).
   + all fields are optional
 
 #+begin_src verb
-  put /api/king/current
+  put /api/king
   content-type: application/json
 
   {
@@ -439,7 +439,9 @@ and unauthenticated failures described above.
   {
       "message": "missing required fields",
       "errors": {
-          "king_id": "king_id is required"
+          "first_name": "first name is required",
+          "middle_initial": "middle inital is required",
+          "last_name": "last name is required"
       }
   }
 #+end_src
@@ -453,11 +455,9 @@ and unauthenticated failures described above.
   {
       "message": "bad request",
       "errors": {
-          "email": "invalid email",
           "first_name": "first_name must have at least 1 character",
           "middle_initial": "middle_initial must have at least 1 character",
           "last_name": "last_name must have at least 1 character",
-          "king_id": "king_id must be an existing king's id"
       }
   }
 #+end_src
@@ -466,7 +466,8 @@ and unauthenticated failures described above.
 
 currently have no way of uniquely identifying each person. this would
 be SSN, but i'm not going to ask people for their SSN's on this
-project.
+project. two different people could have the exact same first, middle
+and last name.
 
 ** read a human
 
