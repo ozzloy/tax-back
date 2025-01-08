@@ -873,7 +873,7 @@ see authentication and authorization failures described above.
 #+end_src
 
 
-***** theme.update.response.not found
+***** theme.update.response.failure.not found
 
 #+begin_src verb
   http/1.1 404
@@ -907,7 +907,7 @@ see authentication and authorization failures described above.
 
 **** theme.delete.response.failure
 
-***** theme.delete.response.not found
+***** theme.delete.response.failure.not found
 
 #+begin_src verb
   http/1.1 404
