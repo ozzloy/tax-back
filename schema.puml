@@ -2,7 +2,7 @@
 
 !define TABLE(x) class x << (T,#9932CC) >>
 !define PRIMARY_KEY(x) <u>x</u>
-!define FOREIGN_KEY(x) x
+!define FOREIGN_KEY(x) <b>x</b>
 !define ONE "<color:#00ff99>1</color>"
 !define MANY "<color:#00ff99>*</color>"
 !define CREATES "<color:#6B00A2>creates</color>"
@@ -30,7 +30,6 @@ TABLE(king) {
     PRIMARY_KEY(id): INT
     nick: STRING
     email: STRING
-    name: STRING
     FOREIGN_KEY(current_theme_id): INT
 }
 
@@ -61,6 +60,7 @@ TABLE(address) {
 
 TABLE(form_1040) {
     PRIMARY_KEY(id): INT
+    name: STRING
     tax_year: INT
     FOREIGN_KEY(filer_id): INT
     FOREIGN_KEY(spouse_id): INT
@@ -68,6 +68,7 @@ TABLE(form_1040) {
     wages: DECIMAL
     withholdings: DECIMAL
     filing_status: STRING
+    FOREIGN_KEY(creator_id): INT
 }
 
 king ONE -- MANY theme : CREATES
@@ -77,5 +78,6 @@ king ONE -- MANY address : CREATES
 human ONE -- MANY form_1040 : FILES
 human ONE -- MANY form_1040 : FILES_AS_SPOUSE
 address ONE -- MANY form_1040 : USES
+king ONE -- MANY form_1040 : CREATES
 
 @enduml
