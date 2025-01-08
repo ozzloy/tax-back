@@ -164,8 +164,8 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-      "email": "john.smith@example.com",
-      "nick": "johnsmith",
+      "email": "bob@example.com",
+      "nick": "bob",
       "password": "secret password",
   }
 #+end_src
@@ -182,8 +182,8 @@ not have the correct role(s) or permission(s).
       "king": {
           "1": {
               "id": 1,
-              "email": "john.smith@example.com",
-              "nick": "johnsmith",
+              "email": "bob@example.com",
+              "nick": "bob",
               "theme_id": 1
           }
       }
@@ -288,15 +288,16 @@ not have the correct role(s) or permission(s).
 *** king.update.request
 
   + all fields are optional
+  + session identifies king
 
 #+begin_src verb
   put /api/king
   content-type: application/json
 
   {
-      "email": "john.smith@example.com",
-      "nick": "johnsmith",
-      "password": "secret password",
+      "email": "bob2@example.com",
+      "nick": "bob2",
+      "password": "secret password2",
       "theme_id": 2
   }
 #+end_src
@@ -313,8 +314,8 @@ not have the correct role(s) or permission(s).
       "king": {
           "1": {
               "id": 1
-              "email": "john.smith2@example.com",
-              "nick": "johnsmith2",
+              "email": "bob2@example.com",
+              "nick": "bob2",
               "password": "secret password2",
               "theme_id": 1
           }
@@ -416,10 +417,14 @@ and unauthenticated failures described above.
   content-type: application/json
 
   {
-      "id": 1,
-      "first_name": "bob",
-      "middle_initial": "b",
-      "last_name": "bobert",
+      "human": {
+          "1": {
+              "id": 1,
+              "first_name": "bob",
+              "middle_initial": "b",
+              "last_name": "bobert"
+          }
+      }
   }
 #+end_src
 
