@@ -926,13 +926,14 @@ see authentication and authorization failures described above.
 
 *** form_1040.create.request
 
+filer id is the session's current king's id
+
 #+begin_src verb
   post /api/form_1040
   content-type: application/json
 
   {
       "tax_year": 2024,
-      "filer_id": 1,
       "spouse_id": 2,
       "address_id": 1,
       "wages": 1,
@@ -955,7 +956,6 @@ every field is optional, this allows partial complete saves
           "1": {
               "id": 1,
               "tax_year": 2024,
-              "filer_id": 1,
               "spouse_id": 2,
               "address_id": 1,
               "wages": 1,
@@ -977,7 +977,6 @@ every field is optional, this allows partial complete saves
       "message": "bad request",
       "errors": {
           "tax_year": "must be a postive integer",
-          "filer_id": "filer_id must be id of a human",
           "spouse_id": "spouse_id must be id of a human",
           "address_id": "address_id must be the id of an address",
           "wages": "wages must be a number",
@@ -1007,7 +1006,6 @@ every field is optional, this allows partial complete saves
           "1": {
               "id": 1,
               "tax_year": 2024,
-              "filer_id": 1,
               "spouse_id": 2,
               "address_id": 1,
               "wages": 1,
@@ -1020,6 +1018,8 @@ every field is optional, this allows partial complete saves
 **** form_1040.read.response.failure
 
 ***** form_1040.read.response.failure.not found
+
+form does not exist, or is not filed by current king
 
 #+begin_src verb
   http/1.1 404
@@ -1053,7 +1053,6 @@ every field is optional, this allows partial complete saves
           "1": {
               "id": 1,
               "tax_year": 2024,
-              "filer_id": 1,
               "spouse_id": 2,
               "address_id": 1,
               "wages": 1,
@@ -1062,7 +1061,6 @@ every field is optional, this allows partial complete saves
           "2": {
               "id": 1,
               "tax_year": 2023,
-              "filer_id": 1,
               "spouse_id": 3,
               "address_id": 1,
               "wages": 1,
@@ -1081,13 +1079,14 @@ near top
 
 *** form_1040.update.request
 
+filer id comes is current session's king id
+
 #+begin_src verb
   put /api/form_1040/:form_1040_id
   content-type: application/json
 
   {
       "tax_year": 2024,
-      "filer_id": 1,
       "spouse_id": 2,
       "address_id": 1,
       "wages": 1,
@@ -1108,7 +1107,6 @@ near top
           "1": {
               "id": 1,
               "tax_year": 2024,
-              "filer_id": 1,
               "spouse_id": 2,
               "address_id": 1,
               "wages": 1,
@@ -1130,7 +1128,6 @@ near top
       "message": "bad request",
       "errors": {
           "tax_year": "must be a postive integer",
-          "filer_id": "filer_id must be id of a human",
           "spouse_id": "spouse_id must be id of a human",
           "address_id": "address_id must be the id of an address",
           "wages": "wages must be a number",
@@ -1179,6 +1176,8 @@ near top
 **** form_1040.delete.response.failure
 
 ***** form_1040.delete.response.failure.not found
+
+form does not exist or is not filed by current king
 
 #+begin_src verb
   http/1.1 404
