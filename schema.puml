@@ -27,14 +27,12 @@ skinparam classAttribute {
 }
 
 TABLE(king) {
-    PRIMARY_KEY(id): INT
     nick: STRING
     email: STRING
     FOREIGN_KEY(current_theme_id): INT
 }
 
 TABLE(theme) {
-    PRIMARY_KEY(id): INT
     name: STRING
     text_color: STRING
     background_color: STRING
@@ -42,7 +40,6 @@ TABLE(theme) {
 }
 
 TABLE(human) {
-    PRIMARY_KEY(id): INT
     first_name: STRING
     middle_initial: STRING
     last_name: STRING
@@ -50,7 +47,6 @@ TABLE(human) {
 }
 
 TABLE(address) {
-    PRIMARY_KEY(id): INT
     street: STRING
     city: STRING
     state: STRING
@@ -59,7 +55,6 @@ TABLE(address) {
 }
 
 TABLE(form_1040) {
-    PRIMARY_KEY(id): INT
     name: STRING
     tax_year: INT
     FOREIGN_KEY(filer_id): INT

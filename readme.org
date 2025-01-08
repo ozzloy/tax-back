@@ -2,9 +2,9 @@
 
 * fill out federal 1040 easily
 
-* tables
+* schema
 
-  all tables will have id, created, updated
+  all tables will have fields: id, created, updated
 
   [[./schema.svg]]
 
