@@ -56,26 +56,26 @@ not have the correct role(s) or permission(s).
 
 * session
 
-** generate a csrf token
+** session.create
 
   + require authentication: false
 
-*** csrf request
+*** session.create.request
 
 #+begin_src verb
   get /api/csrf
 #+end_src
 
-*** csrf response
+*** session.create.response
 
 #+begin_src verb
   http/1.1 200 ok
   set-cookie: csrf_token=csrf_token;
 #+end_src
 
-** session > login
+** session.login
 
-*** session > login > request
+*** session.login.request
 
 #+begin_src verb
   post /api/login
@@ -87,9 +87,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-*** session > login > response
+*** session.login.response
 
-**** login success
+**** session.login.response.success
 
 #+begin_src verb
   http/1.1 200 ok
@@ -107,9 +107,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-**** login failures
+**** session.login.response.failure
 
-***** login invalid credentials
+***** session.login.response.failure.invalid credentials
 
 #+begin_src verb
   http/1.1 401 unauthorized
@@ -120,7 +120,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** login missing required fields
+***** session.login.response.failure.fields missing
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -135,7 +135,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** login validation errors
+***** session.login.response.failure.validation errors
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
@@ -152,9 +152,9 @@ not have the correct role(s) or permission(s).
 
 * king
 
-** create king, sign up an account
+** king.create, aka create an account
 
-*** create king request
+*** king.create.request
 
   + require authentication: true
   + require authorization: false
@@ -170,9 +170,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-*** king create response
+*** king.create.response
 
-**** success for king create
+**** king.create.response.success
 
 #+begin_src verb
   http/1.1 201 created
@@ -190,9 +190,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-**** failures for king create
+**** king.create.response.failure
 
-***** king create missing required fields
+***** king.create.response.failure.missing required fields
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -207,7 +207,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** king create validation errors
+***** king.create.response.failure.validation errors
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
@@ -223,7 +223,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** king create conflict
+***** king.create.response.failure.conflict
 
 #+begin_src verb
   http/1.1 409 conflict
@@ -238,20 +238,20 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-** read current session's king
+** king.read
 
   + require authentication: false
   + require authorization: false
 
-*** request current king
+*** king.read.request
 
 #+begin_src verb
   get /api/king
 #+end_src
 
-*** response to current king read
+*** king.read.response
 
-**** when logged in
+**** king.read.response.logged in
 
 #+begin_src verb
   http/1.1 200 ok
@@ -269,7 +269,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-**** when anonymous
+**** king.read.response.anonymous
 
 #+begin_src verb
   http/1.1 200 ok
@@ -280,12 +280,12 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-** update king
+** king.update, change account details
 
   + require authentication: true
   + require authorization: true
 
-*** request king update
+*** king.update.request
 
   + all fields are optional
 
@@ -301,9 +301,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-*** response to king update request
+*** king.update.response
 
-**** king update success response
+**** king.update.response.success
 
 #+begin_src verb
   http/1.1 200 ok
@@ -322,9 +322,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-**** failures for king update
+**** king.update.response.failure
 
-***** validation errors for king update
+***** king.update.response.failure.validation
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
@@ -341,7 +341,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** account conflict for king update
+***** king.update.response.failure.conflict
 
 #+begin_src verb
   http/1.1 409 conflict
@@ -356,20 +356,20 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-** delete a king
+** king.delete, aka remove an account
 
   + require authentication: true
   + require authorization: true
 
-*** request
+*** king.delete.request
 
 #+begin_src verb
   delete /api/king/
 #+end_src
 
-*** response to king delete request
+*** king.delete.response
 
-**** success response to king delete request
+**** king.delete.response.success
 
 #+begin_src verb
   http/1.1 200 ok
@@ -381,16 +381,16 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-**** failures for king delete
+**** king.delte.response.failure
 
 this request can't fail, other than the already covered unauthorized
 and unauthenticated failures described above.
 
 * human
 
-** create human
+** human.create
 
-*** request create human
+*** human.create.request
 
   + authentication required
   + authorization required
@@ -407,9 +407,9 @@ and unauthenticated failures described above.
   }
 #+end_src
 
-*** response to create human request
+*** human.create.response
 
-**** success response to create human request
+**** human.create.response.success
 
 #+begin_src verb
   http/1.1 201 created
@@ -423,9 +423,9 @@ and unauthenticated failures described above.
   }
 #+end_src
 
-**** failures for create human request
+**** human.create.response.failure
 
-***** create human missing required fields
+***** human.create.response.failure.missing
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -441,7 +441,7 @@ and unauthenticated failures described above.
   }
 #+end_src
 
-***** create human validation errors
+***** human.create.response.failure.validation
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
@@ -457,27 +457,27 @@ and unauthenticated failures described above.
   }
 #+end_src
 
-***** create human conflict
+***** human.create.response.failure.conflict
 
 currently have no way of uniquely identifying each person. this would
 be SSN, but i'm not going to ask people for their SSN's on this
 project. two different people could have the exact same first, middle
 and last name.
 
-** read a human
+** human.read
 
   + require authentication: true
   + require authorization: true
 
-*** request human
+*** human.read.request
 
 #+begin_src verb
   get /api/human/:human_id
 #+end_src
 
-*** respones to human read request
+*** human.read.respone
 
-**** success response to human read request
+**** human.read.response.success
 
 king id is omitted because it will be the same as the current king
 
@@ -497,9 +497,9 @@ king id is omitted because it will be the same as the current king
   }
 #+end_src
 
-**** failures for human read requests
+**** human.read.response.failure
 
-***** human does not exist failure for human read request
+***** human.read.response.failure.not found
 
 return this response when there is no human with the specified id, and
 when there is a human with that id, but it does not belong to the king.
@@ -512,9 +512,9 @@ when there is a human with that id, but it does not belong to the king.
   }
 #+end_src
 
-** human>update
+** human.update
 
-*** human>update>request
+*** human.update.request
 
   + authentication required
   + authorization required
@@ -547,7 +547,7 @@ when there is a human with that id, but it does not belong to the king.
   }
 #+end_src
 
-**** human>update>response>failures
+**** human>update>response>failure
 
 ***** human>update>response>failure>missing fields
 
@@ -581,17 +581,17 @@ when there is a human with that id, but it does not belong to the king.
   }
 #+end_src
 
-** human>delete
+** human.delete
 
-*** human>delete>request
+*** human.delete.request
 
 #+begin_src verb
   delete /api/human/:human_id
 #+end_src
 
-*** human>delete>response
+*** human.delete.response
 
-**** human>delete>response>success
+**** human.delete.response.success
 
 #+begin_src verb
   http/1.1 200 ok
@@ -603,9 +603,9 @@ when there is a human with that id, but it does not belong to the king.
   }
 #+end_src
 
-**** human>delete>response>failures
+**** human.delete.response.failure
 
-**** human>delete>response>failures>not-found
+***** human.delete.response.failure.not-found
 
 when human with specified id does not belong to current king, either
 because it does not exist, or because it exists, but current king does
@@ -624,10 +624,14 @@ not own it
 #+end_src
 
 * theme
-** theme>create
+
+** theme.create
+
   + require authentication: true
   + require authorization: false
-*** theme>create>request
+
+*** theme.create.request
+
 #+begin_src verb
   post /api/theme
   content-type: application/json
@@ -638,8 +642,11 @@ not own it
       "background_color": "steele"
   }
 #+end_src
-*** theme>create>response
-**** theme>create>response>success
+
+*** theme.create.response
+
+**** theme.create.response.success
+
 #+begin_src verb
   http/1.1 201 created
   content-type: application/json
@@ -655,8 +662,11 @@ not own it
       }
   }
 #+end_src
-**** theme>create>response>failures
-***** theme>create>response>failures>missing fields
+
+**** theme.create.response.failure
+
+***** theme.create.response.failure.missing fields
+
 #+begin_src verb
   http/1.1 400 bad request
   content-type: application/json
@@ -670,7 +680,9 @@ not own it
       }
   }
 #+end_src
-***** theme>create>response>failures>validation errors
+
+***** theme.create.response.failure.validation
+
 #+begin_src verb
   http/1.1 422 unprocessable entity
   content-type: application/json
