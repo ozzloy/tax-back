@@ -794,7 +794,9 @@ not own it
       }
   }
 #+end_src
-***** theme>create>response>failures>validation errors
+
+***** theme.create.response.failure.validation
+
 #+begin_src verb
   http/1.1 422 unprocessable entity
   content-type: application/json
@@ -808,9 +810,61 @@ not own it
       }
   }
 #+end_src
-** theme>delete
-*** theme>delete>request
-*** theme>delete>response
-**** theme>delete>response>success
-**** theme>delete>response>failures
-***** theme>delete>response>not found
+
+** theme.delete
+
+*** theme.delete.request
+
+#+begin_src verb
+  delete /api/theme/:theme_id
+#+end_src
+
+*** theme.delete.response
+
+**** theme.delete.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+
+  {
+      "theme": {
+          "1": null
+      }
+  }
+#+end_src
+
+**** theme.delete.response.failure
+
+***** theme.delete.response.not found
+
+#+begin_src verb
+  http/1.1 404
+
+  {
+    "message": "theme 1 not found"
+  }
+#+end_src
+
+* form_1040
+
+** form_1040.create
+
+  + require authentication: true
+  + require authorization: false
+
+*** form_1040.create.request
+
+#+begin_src verb
+  post /api/form_1040
+  content-type: application/json
+
+  {
+      "tax_year": 2025,
+      "filer_id": 1,
+      "spouse_id": 2,
+      "address_id": 1,
+      "wages": 1,
+      "withholdings": 1
+  }
+#+end_src
+
