@@ -515,3 +515,72 @@ when there is a human with that id, but it does not belong to the king.
     "message": "human 1 not found"
   }
 #+end_src
+
+** human>update
+
+*** human>update>request
+
+  + authentication required
+  + authorization required
+  + "king_id" taken from session, do not put it in request's body
+
+#+begin_src verb
+  post /api/human/
+  content-type: application/json
+
+  {
+      "first_name": "bob",
+      "middle_initial": "b",
+      "last_name": "bobert"
+  }
+#+end_src
+
+*** human>update>response
+
+**** human>update>response>success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+      "id": 1,
+      "first_name": "bob",
+      "middle_initial": "b",
+      "last_name": "bobert",
+  }
+#+end_src
+
+**** human>update>response>failures
+
+***** human>update>response>failure>missing fields
+
+#+begin_src verb
+  http/1.1 400 bad request
+  content-type: application/json
+
+  {
+      "message": "missing required fields",
+      "errors": {
+          "first_name": "first name is required",
+          "middle_initial": "middle inital is required",
+          "last_name": "last name is required"
+      }
+  }
+#+end_src
+
+***** human>update>response>failure>validation errors
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "first_name": "first_name must have at least 1 character",
+          "middle_initial": "middle_initial must have at least 1 character",
+          "last_name": "last_name must have at least 1 character",
+      }
+  }
+#+end_src
