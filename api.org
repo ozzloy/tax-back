@@ -60,13 +60,13 @@ not have the correct role(s) or permission(s).
 
   + require authentication: false
 
-*** session.create.request
+*** session.authenticate.request
 
 #+begin_src verb
   get /api/csrf
 #+end_src
 
-*** session.create.response
+*** session.authenticate.response
 
 #+begin_src verb
   http/1.1 200 ok
@@ -109,17 +109,6 @@ not have the correct role(s) or permission(s).
 
 **** session.login.response.failure
 
-***** session.login.response.failure.invalid credentials
-
-#+begin_src verb
-  http/1.1 401 unauthorized
-  content-type: application/json
-
-  {
-    "message": "invalid credentials"
-  }
-#+end_src
-
 ***** session.login.response.failure.field missing
 
 #+begin_src verb
@@ -147,6 +136,17 @@ not have the correct role(s) or permission(s).
           "credential": "credential field must be at least 1 character",
           "password": "must be at least 1 character"
       }
+  }
+#+end_src
+
+***** session.login.response.failure.invalid credentials
+
+#+begin_src verb
+  http/1.1 401 unauthorized
+  content-type: application/json
+
+  {
+    "message": "invalid credentials"
   }
 #+end_src
 
