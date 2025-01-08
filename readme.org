@@ -11,36 +11,35 @@
       + nick, required
       + email, required
       + name, required
-      + theme id, required (foreign key, theme.id)
+      + current theme id, (foreign key, theme.id)
 
     + theme
       + name
       + text color
       + background color
-      + king id, required (foreign key, king.id)
+      + creator id, required (foreign key, king.id)
 
     + human
       + first name
       + middle initial
       + last name
-      + king_id (foreign key, king.id)
+      + creator id, required (foreign key, king.id)
 
     + address
       + street
       + city
       + state
       + zip
-      + king_id (foreign key, king.id)
+      + creator id, required (foreign key, king.id)
 
     + form 1040
       + tax year
-      + filer id (foreign key, human.id)
+      + filer id, required (foreign key, human.id)
       + spouse id (foreign key, human.id)
       + address id (foreign key, address.id)
       + wages, total amount from form w-2, box 1
       + withholdings, form w-2, box 2
       + filing status
-      + king_id (foreign key, king.id)
 
 * tech stack
 ** backend
