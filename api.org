@@ -585,3 +585,45 @@ when there is a human with that id, but it does not belong to the king.
       }
   }
 #+end_src
+
+** human>delete
+
+*** human>delete>request
+
+#+begin_src verb
+  delete /api/human/:human_id
+#+end_src
+
+*** human>delete>response
+
+**** human>delete>response>success
+
+#+begin_src verb
+  http/1.1 200 ok
+
+  {
+      "human": {
+          "1": null
+      }
+  }
+#+end_src
+
+**** human>delete>response>failures
+
+**** human>delete>response>failures>not-found
+
+when human with specified id does not belong to current king, either
+because it does not exist, or because it exists, but current king does
+not own it
+
+#+begin_src verb
+  http/1.1 404 not found
+  content-type: application/json
+
+  {
+      "message": "human not found",
+      "errors": {
+          "human": "human not found"
+      }
+  }
+#+end_src
