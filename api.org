@@ -138,7 +138,7 @@ not have the correct role(s) or permission(s).
 ***** login validation errors
 
 #+begin_src verb
-  http/1.1 400 bad request
+  http/1.1 422 unprocessable entity
   content-type: application/json
 
   {
@@ -622,3 +622,110 @@ not own it
       }
   }
 #+end_src
+
+* theme
+** theme>create
+  + require authentication: true
+  + require authorization: false
+*** theme>create>request
+#+begin_src verb
+  post /api/theme
+  content-type: application/json
+
+  {
+      "name": "blue steele",
+      "text_color": "blue",
+      "background_color": "steele"
+  }
+#+end_src
+*** theme>create>response
+**** theme>create>response>success
+#+begin_src verb
+  http/1.1 201 created
+  content-type: application/json
+
+  {
+      "theme": {
+          "1": {
+              "id": 1,
+              "name": "blue steele",
+              "text_color": "blue",
+              "background_color": "steele"
+          }
+      }
+  }
+#+end_src
+**** theme>create>response>failures
+***** theme>create>response>failures>missing fields
+#+begin_src verb
+  http/1.1 400 bad request
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "name": "theme name required",
+          "text_color": "text color is required",
+          "background_color": "background color is required"
+      }
+  }
+#+end_src
+***** theme>create>response>failures>validation errors
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "name": "theme name must have at least 1 character",
+          "text_color": "text color must have at least 1 character",
+          "background_color": "background color must have at least 1 character"
+      }
+  }
+#+end_src
+** theme>read
+*** theme>read>request
+*** theme>read>response
+**** theme>read>response>success
+**** theme>read>response>failures
+***** theme>read>response>failures>not found
+** theme>update
+*** theme>update>request
+*** theme>update>response
+**** theme>update>response>success
+**** theme>update>response>failures
+***** theme>create>response>failures>missing fields
+#+begin_src verb
+  http/1.1 400 bad request
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "name": "theme name required",
+          "text_color": "text color is required",
+          "background_color": "background color is required"
+      }
+  }
+#+end_src
+***** theme>create>response>failures>validation errors
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "name": "theme name must have at least 1 character",
+          "text_color": "text color must have at least 1 character",
+          "background_color": "background color must have at least 1 character"
+      }
+  }
+#+end_src
+** theme>delete
+*** theme>delete>request
+*** theme>delete>response
+**** theme>delete>response>success
+**** theme>delete>response>failures
+***** theme>delete>response>not found
