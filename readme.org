@@ -10,7 +10,10 @@
 
 * wireframe
 
+signup, sign in, list forms, delete account
   [[./wireframe-0.jpg]]
+
+fill form, theme management
   [[./wireframe-1.jpg]]
 
 * api
