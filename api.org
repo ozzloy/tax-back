@@ -120,7 +120,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** session.login.response.failure.fields missing
+***** session.login.response.failure.field missing
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -192,14 +192,14 @@ not have the correct role(s) or permission(s).
 
 **** king.create.response.failure
 
-***** king.create.response.failure.missing required fields
+***** king.create.response.failure.field missing
 
 #+begin_src verb
   http/1.1 400 bad request
   content-type: application/json
 
   {
-      "message": "missing required fields",
+      "message": "field missing",
       "errors": {
           "email": "email is required",
           "nick": "nick is required"
@@ -425,14 +425,14 @@ and unauthenticated failures described above.
 
 **** human.create.response.failure
 
-***** human.create.response.failure.missing
+***** human.create.response.failure.field missing
 
 #+begin_src verb
   http/1.1 400 bad request
   content-type: application/json
 
   {
-      "message": "missing required fields",
+      "message": "field missing",
       "errors": {
           "first_name": "first name is required",
           "middle_initial": "middle inital is required",
@@ -549,14 +549,14 @@ when there is a human with that id, but it does not belong to the king.
 
 **** human>update>response>failure
 
-***** human>update>response>failure>missing fields
+***** human>update>response>failure>field missing
 
 #+begin_src verb
   http/1.1 400 bad request
   content-type: application/json
 
   {
-      "message": "missing required fields",
+      "message": "field missing",
       "errors": {
           "first_name": "first name is required",
           "middle_initial": "middle inital is required",
@@ -665,7 +665,7 @@ not own it
 
 **** theme.create.response.failure
 
-***** theme.create.response.failure.missing fields
+***** theme.create.response.failure.field missing
 
 #+begin_src verb
   http/1.1 400 bad request
