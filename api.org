@@ -512,6 +512,50 @@ when there is a human with that id, but it does not belong to the king.
   }
 #+end_src
 
+** human.read_all
+
+  + require authentication: true
+  + require authorization: true
+
+*** human.read_all.request
+
+#+begin_src verb
+  get /api/human/
+#+end_src
+
+*** human.read_all.respone
+
+**** human.read_all.response.success
+
+king id is omitted because it will be the same as the current king
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+    "human": {
+        "1": {
+            "id": 1,
+            "first_name": "bob",
+            "middle_initial": "b",
+            "last_name": "bobert",
+        },
+        "2": {
+            "id": 2,
+            "first_name": "laura",
+            "middle_initial": "b",
+            "last_name": "bobert",
+        }
+    }
+  }
+#+end_src
+
+**** human.read_all.response.failure
+
+no way to fail, except for authentication and authorization failures
+described at the top for all routes.
+
 ** human.update
 
 *** human.update.request
@@ -740,6 +784,44 @@ not own it
   }
 #+end_src
 
+** theme.read_all
+
+*** theme.read_all.request
+
+#+begin_src verb
+  get /api/theme/
+#+end_src
+
+*** theme.read_all.response
+
+**** theme.read_all.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+      "theme": {
+          "1": {
+              "id": 1,
+              "name": "blue steele",
+              "text_color": "blue",
+              "background_color": "steele"
+          },
+          "2": {
+              "id": 1,
+              "name": "tropic thunder",
+              "text_color": "darkslateblue",
+              "background_color": "darkslategray"
+          }
+      }
+  }
+#+end_src
+
+**** theme.read_all.response.failure
+
+see authentication and authorization failures described above.
+
 ** theme.update
 
 *** theme.update.request
@@ -868,7 +950,7 @@ not own it
   content-type: application/json
 
   {
-      "tax_year": 2025,
+      "tax_year": 2024,
       "filer_id": 1,
       "spouse_id": 2,
       "address_id": 1,
@@ -891,7 +973,7 @@ every field is optional, this allows partial complete saves
       "form_1040": {
           "1": {
               "id": 1,
-              "tax_year": 2025,
+              "tax_year": 2024,
               "filer_id": 1,
               "spouse_id": 2,
               "address_id": 1,
@@ -962,7 +1044,7 @@ every field is optional, this allows partial complete saves
       "form_1040": {
           "1": {
               "id": 1,
-              "tax_year": 2025,
+              "tax_year": 2024,
               "filer_id": 1,
               "spouse_id": 2,
               "address_id": 1,
@@ -988,6 +1070,50 @@ every field is optional, this allows partial complete saves
   }
 #+end_src
 
+** form_1040.read_all
+
+*** form_1040.read_all.request
+
+#+begin_src verb
+  get /api/form_1040/:form_1040_id
+#+end_src
+
+*** form_1040.read_all.response
+
+**** form_1040.read_all.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+      "form_1040": {
+          "1": {
+              "id": 1,
+              "tax_year": 2024,
+              "filer_id": 1,
+              "spouse_id": 2,
+              "address_id": 1,
+              "wages": 1,
+              "withholdings": 1
+          },
+          "2": {
+              "id": 1,
+              "tax_year": 2023,
+              "filer_id": 1,
+              "spouse_id": 3,
+              "address_id": 1,
+              "wages": 1,
+              "withholdings": 1
+          }
+      }
+  }
+#+end_src
+
+**** form_1040.read_all.response.failure
+
+see authentication and authorization failures for all routes described
+near top
 
 ** form_1040.update
 
@@ -998,7 +1124,7 @@ every field is optional, this allows partial complete saves
   content-type: application/json
 
   {
-      "tax_year": 2025,
+      "tax_year": 2024,
       "filer_id": 1,
       "spouse_id": 2,
       "address_id": 1,
@@ -1019,7 +1145,7 @@ every field is optional, this allows partial complete saves
       "form_1040": {
           "1": {
               "id": 1,
-              "tax_year": 2025,
+              "tax_year": 2024,
               "filer_id": 1,
               "spouse_id": 2,
               "address_id": 1,
