@@ -17,6 +17,7 @@
       + name
       + text color
       + background color
+      + king id, required (foreign key, king.id)
 
     + human
       + first name
