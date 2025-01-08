@@ -630,7 +630,7 @@ described at the top for all routes.
 
 **** human.delete.response.failure
 
-***** human.delete.response.failure.not-found
+***** human.delete.response.failure.not found
 
 when human with specified id does not belong to current king, either
 because it does not exist, or because it exists, but current king does
