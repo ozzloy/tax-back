@@ -96,16 +96,14 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-    "king":
-    {
-      "1":
-      {
-        "id": 1,
-        "email": "john.smith@example.com",
-        "nick": "johnsmith",
-        "theme_id": 1
+      "king": {
+          "1": {
+              "id": 1,
+              "email": "john.smith@example.com",
+              "nick": "johnsmith",
+              "theme_id": 1
+          }
       }
-    }
   }
 #+end_src
 
@@ -129,12 +127,11 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-    "message": "bad request",
-    "errors":
-    {
-      "credential": "credential with nick or email value required",
-      "password": "password is required"
-    }
+      "message": "bad request",
+      "errors": {
+          "credential": "credential with nick or email value required",
+          "password": "password is required"
+      }
   }
 #+end_src
 
@@ -145,12 +142,11 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-    "message": "bad request",
-    "errors":
-    {
-      "credential": "credential field must be at least 1 character",
-      "password": "must be at least 1 character"
-    }
+      "message": "bad request",
+      "errors": {
+          "credential": "credential field must be at least 1 character",
+          "password": "must be at least 1 character"
+      }
   }
 #+end_src
 
@@ -316,13 +312,11 @@ not have the correct role(s) or permission(s).
   {
       "king": {
           "1": {
-              {
-                  "id": 1
-                  "email": "john.smith2@example.com",
-                  "nick": "johnsmith2",
-                  "password": "secret password2",
-                  "theme_id": 1
-              }
+              "id": 1
+              "email": "john.smith2@example.com",
+              "nick": "johnsmith2",
+              "password": "secret password2",
+              "theme_id": 1
           }
       }
   }
@@ -376,6 +370,7 @@ not have the correct role(s) or permission(s).
 *** response to king delete request
 
 **** success response to king delete request
+
 #+begin_src verb
   http/1.1 200 ok
 
