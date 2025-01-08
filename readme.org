@@ -4,11 +4,19 @@
 
 * developer setup
 
+install pipenv and get the dev packages
+#+begin_src bash
+  git clone <repo-url>
+  cd tax
+  pipenv install --dev
+  pipenv run pre-commit install
+#+end_src
+
 set up pyrightconfig.json by first creating the file using the template
 
 #+begin_src bash
   cd tax
-  cp exmaple.pyrightconfig.json pyrightconfig.json
+  cp example.pyrightconfig.json pyrightconfig.json
 #+end_src
 
 then fill in the path parts using the values from these two commands
