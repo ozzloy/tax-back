@@ -19,12 +19,6 @@ skinparam classAttribute {
     FontName Courier
 }
 
-skinparam note {
-    BackgroundColor black
-    BorderColor #00ff99
-    FontColor #00ff99
-}
-
 TABLE(king) {
     PRIMARY_KEY(id): INT
     nick: STRING
