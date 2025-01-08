@@ -877,3 +877,244 @@ not own it
   }
 #+end_src
 
+*** form_1040.create.response
+
+**** form_1040.create.response.success
+
+every field is optional, this allows partial complete saves
+
+#+begin_src verb
+  http/1.1 201 created
+  content-type: application/json
+
+  {
+      "form_1040": {
+          "1": {
+              "id": 1,
+              "tax_year": 2025,
+              "filer_id": 1,
+              "spouse_id": 2,
+              "address_id": 1,
+              "wages": 1,
+              "withholdings": 1
+          }
+      }
+  }
+#+end_src
+
+**** form_1040.create.response.failure
+
+***** form_1040.create.response.failure.field missing
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "tax_year": "tax_year is required",
+          "filer_id": "filer_id is required",
+          "spouse_id": "spouse_id is required",
+          "address_id": "address_id is required",
+          "wages": "wages is required",
+          "withholdings": "withholdings is required"
+      }
+  }
+#+end_src
+
+***** form_1040.create.response.failure.validation
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "tax_year": "must be a postive integer",
+          "filer_id": "filer_id must be id of a human",
+          "spouse_id": "spouse_id must be id of a human",
+          "address_id": "address_id must be the id of an address",
+          "wages": "wages must be a number",
+          "withholdings": "withholdings must be a number"
+      }
+  }
+#+end_src
+
+** form_1040.read
+
+*** form_1040.read.request
+
+#+begin_src verb
+  get /api/form_1040/:form_1040_id
+#+end_src
+
+*** form_1040.read.response
+
+**** form_1040.read.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+      "form_1040": {
+          "1": {
+              "id": 1,
+              "tax_year": 2025,
+              "filer_id": 1,
+              "spouse_id": 2,
+              "address_id": 1,
+              "wages": 1,
+              "withholdings": 1
+          }
+      }
+  }
+#+end_src
+
+**** form_1040.read.response.failure
+
+***** form_1040.read.response.failure.not found
+
+#+begin_src verb
+  http/1.1 404
+
+  {
+      "message": "form_1040 not found",
+      "errors": {
+          "form_1040": "form_1040 not found"
+      }
+  }
+#+end_src
+
+
+** form_1040.update
+
+*** form_1040.update.request
+
+#+begin_src verb
+  put /api/form_1040/:form_1040_id
+  content-type: application/json
+
+  {
+      "tax_year": 2025,
+      "filer_id": 1,
+      "spouse_id": 2,
+      "address_id": 1,
+      "wages": 1,
+      "withholdings": 1
+  }
+#+end_src
+
+*** form_1040.update.response
+
+**** form_1040.update.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+      "form_1040": {
+          "1": {
+              "id": 1,
+              "tax_year": 2025,
+              "filer_id": 1,
+              "spouse_id": 2,
+              "address_id": 1,
+              "wages": 1,
+              "withholdings": 1
+          }
+      }
+  }
+#+end_src
+
+**** form_1040.update.response.failure
+
+***** form_1040.update.response.failure.field missing
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "tax_year": "tax_year is required",
+          "filer_id": "filer_id is required",
+          "spouse_id": "spouse_id is required",
+          "address_id": "address_id is required",
+          "wages": "wages is required",
+          "withholdings": "withholdings is required"
+      }
+  }
+#+end_src
+
+***** form_1040.update.response.failure.validation
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "tax_year": "must be a postive integer",
+          "filer_id": "filer_id must be id of a human",
+          "spouse_id": "spouse_id must be id of a human",
+          "address_id": "address_id must be the id of an address",
+          "wages": "wages must be a number",
+          "withholdings": "withholdings must be a number"
+      }
+  }
+#+end_src
+
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "name": "form_1040 name must have at least 1 character",
+          "text_color": "text color must have at least 1 character",
+          "background_color": "background color must have at least 1 character"
+      }
+  }
+#+end_src
+
+** form_1040.delete
+
+*** form_1040.delete.request
+
+#+begin_src verb
+  delete /api/form_1040/:form_1040_id
+#+end_src
+
+*** form_1040.delete.response
+
+**** form_1040.delete.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+
+  {
+      "form_1040": {
+          "1": null
+      }
+  }
+#+end_src
+
+**** form_1040.delete.response.failure
+
+***** form_1040.delete.response.not found
+
+#+begin_src verb
+  http/1.1 404
+
+  {
+    "message": "form_1040 1 not found"
+  }
+#+end_src
