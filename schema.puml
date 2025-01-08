@@ -18,12 +18,12 @@ skinparam class {
     BorderColor #00ff99
     ArrowColor #00ff99
     FontColor #00ff99
-    FontName Courier
+    FontName DejaVu Sans Mono
 }
 
 skinparam classAttribute {
     FontColor #e600e6
-    FontName Courier
+    FontName DejaVu Sans Mono
 }
 
 TABLE(king) {
