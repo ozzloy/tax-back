@@ -577,10 +577,14 @@ described at the top for all routes.
   content-type: application/json
 
   {
-      "id": 1,
-      "first_name": "bob",
-      "middle_initial": "b",
-      "last_name": "bobert",
+      "human": {
+          "1": {
+              "id": 1,
+              "first_name": "bob",
+              "middle_initial": "b",
+              "last_name": "bobert"
+          }
+      }
   }
 #+end_src
 
