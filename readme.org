@@ -37,7 +37,7 @@
       + spouse id (foreign key, human.id)
       + address id (foreign key, address.id)
       + wages, total amount from form w-2, box 1
-      + withheld wages, form w-2, box 2
+      + withholdings, form w-2, box 2
       + filing status
 
 * tech stack
