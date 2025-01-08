@@ -425,22 +425,6 @@ and unauthenticated failures described above.
 
 **** human.create.response.failure
 
-***** human.create.response.failure.field missing
-
-#+begin_src verb
-  http/1.1 400 bad request
-  content-type: application/json
-
-  {
-      "message": "field missing",
-      "errors": {
-          "first_name": "first name is required",
-          "middle_initial": "middle inital is required",
-          "last_name": "last name is required"
-      }
-  }
-#+end_src
-
 ***** human.create.response.failure.validation
 
 #+begin_src verb
@@ -592,22 +576,6 @@ described at the top for all routes.
 #+end_src
 
 **** human.update.response.failure
-
-***** human.update.response.failure.field missing
-
-#+begin_src verb
-  http/1.1 400 bad request
-  content-type: application/json
-
-  {
-      "message": "field missing",
-      "errors": {
-          "first_name": "first name is required",
-          "middle_initial": "middle inital is required",
-          "last_name": "last name is required"
-      }
-  }
-#+end_src
 
 ***** human.update.response.failure.validation errors
 
@@ -985,25 +953,6 @@ every field is optional, this allows partial complete saves
 #+end_src
 
 **** form_1040.create.response.failure
-
-***** form_1040.create.response.failure.field missing
-
-#+begin_src verb
-  http/1.1 422 unprocessable entity
-  content-type: application/json
-
-  {
-      "message": "bad request",
-      "errors": {
-          "tax_year": "tax_year is required",
-          "filer_id": "filer_id is required",
-          "spouse_id": "spouse_id is required",
-          "address_id": "address_id is required",
-          "wages": "wages is required",
-          "withholdings": "withholdings is required"
-      }
-  }
-#+end_src
 
 ***** form_1040.create.response.failure.validation
 
