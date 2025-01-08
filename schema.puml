@@ -2,7 +2,14 @@
 
 !define TABLE(x) class x << (T,#9932CC) >>
 !define PRIMARY_KEY(x) <u>x</u>
-!define FOREIGN_KEY(x) #x#
+!define FOREIGN_KEY(x) x
+!define ONE "<color:#00ff99>1</color>"
+!define MANY "<color:#00ff99>*</color>"
+!define CREATES "<color:#6B00A2>creates</color>"
+!define USES "<color:#6B00A2>used by</color>"
+!define FILES "<color:#6B00A2>files</color>"
+!define FILES_AS_SPOUSE "<color:#6B00A2>files as spouse</color>"
+!define CURRENT_THEME "<color:#6B00A2>current theme</color>"
 
 skinparam backgroundColor black
 
@@ -63,12 +70,12 @@ TABLE(form_1040) {
     filing_status: STRING
 }
 
-king "1" -- "*" theme : "<color:#BB00B2>creates</color>" >
-theme "1" -- "*" king : "<color:#BB00B2>current theme</color>" >
-king "1" -- "*" human : "<color:#BB00B2>creates</color>" >
-king "1" -- "*" address : "<color:#BB00B2>creates</color>" >
-human "1" -- "*" form_1040 : "<color:#BB00B2>files</color>" >
-human "1" -- "*" form_1040 : "<color:#BB00B2>files as spouse</color>" >
-address "1" -- "*" form_1040 : "<color:#BB00B2>used by</color>" >
+king ONE -- MANY theme : CREATES
+theme ONE -- MANY king : CURRENT_THEME
+king ONE -- MANY human : CREATES
+king ONE -- MANY address : CREATES
+human ONE -- MANY form_1040 : FILES
+human ONE -- MANY form_1040 : FILES_AS_SPOUSE
+address ONE -- MANY form_1040 : USES
 
 @enduml
