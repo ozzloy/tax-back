@@ -467,3 +467,51 @@ and unauthenticated failures described above.
 currently have no way of uniquely identifying each person. this would
 be SSN, but i'm not going to ask people for their SSN's on this
 project.
+
+** read a human
+
+  + require authentication: true
+  + require authorization: true
+
+*** request human
+
+#+begin_src verb
+  get /api/human/:human_id
+#+end_src
+
+*** respones to human read request
+
+**** success response to human read request
+
+king id is omitted because it will be the same as the current king
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+    "human": {
+        "1": {
+            "id": 1,
+            "first_name": "bob",
+            "middle_initial": "b",
+            "last_name": "bobert",
+        }
+    }
+  }
+#+end_src
+
+**** failures for human read requests
+
+***** human does not exist failure for human read request
+
+return this response when there is no human with the specified id, and
+when there is a human with that id, but it does not belong to the king.
+
+#+begin_src verb
+  http/1.1 404
+
+  {
+    "message": "human 1 not found"
+  }
+#+end_src
