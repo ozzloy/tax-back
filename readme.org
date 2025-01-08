@@ -2,6 +2,23 @@
 
 * fill out federal 1040 easily
 
+* developer setup
+
+set up pyrightconfig.json by first creating the file using the template
+
+#+begin_src bash
+  cd tax
+  cp exmaple.pyrightconfig.json pyrightconfig.json
+#+end_src
+
+then fill in the path parts using the values from these two commands
+
+#+begin_src bash
+  cd tax
+  pipenv --venv | xargs dirname
+  pipenv --venv | xargs basename
+#+end_src
+
 * schema
 
   all tables will have fields: id, created, updated
