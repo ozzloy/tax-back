@@ -60,13 +60,13 @@ not have the correct role(s) or permission(s).
 
   + require authentication: false
 
-*** request
+*** csrf request
 
 #+begin_src verb
   get /api/csrf
 #+end_src
 
-*** response
+*** csrf response
 
 #+begin_src verb
   http/1.1 200 ok
@@ -75,7 +75,7 @@ not have the correct role(s) or permission(s).
 
 ** login
 
-*** request
+*** login request
 
 #+begin_src verb
   post /api/login
@@ -87,9 +87,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-*** response
+*** login response
 
-**** success
+**** login success
 
 #+begin_src verb
   http/1.1 200 ok
@@ -109,9 +109,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-**** failures
+**** login failures
 
-***** invalid credentials
+***** login invalid credentials
 
 #+begin_src verb
   http/1.1 401 unauthorized
@@ -122,7 +122,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** missing required fields
+***** login missing required fields
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -138,7 +138,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** validation errors
+***** login validation errors
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -156,9 +156,9 @@ not have the correct role(s) or permission(s).
 
 * king
 
-** create, sign up an account
+** create king, sign up an account
 
-*** request
+*** create king request
 
   + require authentication: true
   + require authorization: false
@@ -174,9 +174,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-*** response
+*** king create response
 
-**** success
+**** success for king create
 
 #+begin_src verb
   http/1.1 201 created
@@ -194,9 +194,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-**** failures
+**** failures for king create
 
-***** missing required fields
+***** king create missing required fields
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -211,7 +211,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** validation errors
+***** king create validation errors
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
@@ -227,7 +227,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** conflict
+***** king create conflict
 
 #+begin_src verb
   http/1.1 409 conflict
@@ -247,13 +247,13 @@ not have the correct role(s) or permission(s).
   + require authentication: false
   + require authorization: false
 
-*** request
+*** request current king
 
 #+begin_src verb
   get /api/king/current
 #+end_src
 
-*** response
+*** response to current king read
 
 **** when logged in
 
@@ -289,7 +289,7 @@ not have the correct role(s) or permission(s).
   + require authentication: true
   + require authorization: true
 
-*** request
+*** request king update
 
   + all fields are optional
 
@@ -305,9 +305,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-*** response
+*** response to king update request
 
-**** success
+**** king update success response
 
 #+begin_src verb
   http/1.1 200 ok
@@ -328,9 +328,9 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-**** failures
+**** failures for king update
 
-***** validation errors
+***** validation errors for king update
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
@@ -347,7 +347,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** account conflict
+***** account conflict for king update
 
 #+begin_src verb
   http/1.1 409 conflict
@@ -373,9 +373,9 @@ not have the correct role(s) or permission(s).
   delete /api/king/
 #+end_src
 
-*** response
+*** response to king delete request
 
-**** success
+**** success response to king delete request
 #+begin_src verb
   http/1.1 200 ok
 
@@ -386,16 +386,16 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-**** failures
+**** failures for king delete
 
 this request can't fail, other than the already covered unauthorized
 and unauthenticated failures described above.
 
 * human
 
-** create a human
+** create human
 
-*** request
+*** request create human
 
   + authentication required
   + authorization required
@@ -412,9 +412,9 @@ and unauthenticated failures described above.
   }
 #+end_src
 
-*** response
+*** response to create human request
 
-**** success
+**** success response to create human request
 
 #+begin_src verb
   http/1.1 201 created
@@ -428,9 +428,9 @@ and unauthenticated failures described above.
   }
 #+end_src
 
-**** failures
+**** failures for create human request
 
-***** missing required fields
+***** create human missing required fields
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -444,7 +444,7 @@ and unauthenticated failures described above.
   }
 #+end_src
 
-***** validation errors
+***** create human validation errors
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
@@ -462,7 +462,7 @@ and unauthenticated failures described above.
   }
 #+end_src
 
-***** conflict
+***** create human conflict
 
 currently have no way of uniquely identifying each person. this would
 be SSN, but i'm not going to ask people for their SSN's on this
