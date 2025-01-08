@@ -1178,12 +1178,264 @@ near top
 
 **** form_1040.delete.response.failure
 
-***** form_1040.delete.response.not found
+***** form_1040.delete.response.failure.not found
 
 #+begin_src verb
   http/1.1 404
 
   {
     "message": "form_1040 1 not found"
+  }
+#+end_src
+
+* address
+
+** address.create
+
+  + require authentication: true
+  + require authorization: false
+
+*** address.create.request
+
+#+begin_src verb
+  post /api/address
+  content-type: application/json
+
+  {
+      "street": "1600 pennsylvania avenue",
+      "city": "beverly hills",
+      "state": "california",
+      "zip": "90210"
+  }
+#+end_src
+
+*** address.create.response
+
+**** address.create.response.success
+
+every field is optional, this allows partial complete saves
+
+#+begin_src verb
+  http/1.1 201 created
+  content-type: application/json
+
+  {
+      "address": {
+          "1": {
+              "id": 1,
+              "street": "1600 pennsylvania avenue",
+              "city": "beverly hills",
+              "state": "california",
+              "zip": "90210"
+          }
+      }
+  }
+#+end_src
+
+**** address.create.response.failure
+
+***** address.create.response.failure.validation
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "street": "street must have at least 1 character",
+          "city": "city must have at least 1 character",
+          "state": "state must have at least 1 character",
+          "zip": "zip must have at least 1 character"
+      }
+  }
+#+end_src
+
+** address.read
+
+*** address.read.request
+
+#+begin_src verb
+  get /api/address/:address_id
+#+end_src
+
+*** address.read.response
+
+**** address.read.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+      "address": {
+          "1": {
+              "id": 1,
+              "street": "1600 pennsylvania avenue",
+              "city": "beverly hills",
+              "state": "california",
+              "zip": "90210"
+          }
+      }
+  }
+#+end_src
+
+**** address.read.response.failure
+
+***** address.read.response.failure.not found
+
+#+begin_src verb
+  http/1.1 404
+
+  {
+      "message": "address not found",
+      "errors": {
+          "address": "address not found"
+      }
+  }
+#+end_src
+
+** address.read_all
+
+*** address.read_all.request
+
+#+begin_src verb
+  get /api/address/
+#+end_src
+
+*** address.read_all.response
+
+**** address.read_all.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+      "address": {
+          "1": {
+              "id": 1,
+              "street": "1600 pennsylvania avenue",
+              "city": "beverly hills",
+              "state": "california",
+              "zip": "90210"
+          },
+          "2": {
+              "id": 1,
+              "street": "10 downing street",
+              "city": "britain",
+              "state": "ok",
+              "zip": "90210-1776"
+          }
+      }
+  }
+#+end_src
+
+**** address.read_all.response.failure
+
+see authentication and authorization failures for all routes described
+near top
+
+** address.update
+
+*** address.update.request
+
+#+begin_src verb
+  put /api/address/:address_id
+  content-type: application/json
+
+  {
+      "street": "1600 pennsylvania avenue",
+      "city": "beverly hills",
+      "state": "california",
+      "zip": "90210"
+  }
+#+end_src
+
+*** address.update.response
+
+**** address.update.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+  content-type: application/json
+
+  {
+      "address": {
+          "1": {
+              "id": 1,
+              "street": "1600 pennsylvania avenue",
+              "city": "beverly hills",
+              "state": "california",
+              "zip": "90210"
+          }
+      }
+  }
+#+end_src
+
+**** address.update.response.failure
+
+***** address.update.response.failure.validation
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "street": "street must have at least 1 character",
+          "city": "city must have at least 1 character",
+          "state": "state must have at least 1 character",
+          "zip": "zip must have at least 1 character"
+      }
+  }
+#+end_src
+
+#+begin_src verb
+  http/1.1 422 unprocessable entity
+  content-type: application/json
+
+  {
+      "message": "bad request",
+      "errors": {
+          "name": "address name must have at least 1 character",
+          "text_color": "text color must have at least 1 character",
+          "background_color": "background color must have at least 1 character"
+      }
+  }
+#+end_src
+
+** address.delete
+
+*** address.delete.request
+
+#+begin_src verb
+  delete /api/address/:address_id
+#+end_src
+
+*** address.delete.response
+
+**** address.delete.response.success
+
+#+begin_src verb
+  http/1.1 200 ok
+
+  {
+      "address": {
+          "1": null
+      }
+  }
+#+end_src
+
+**** address.delete.response.failure
+
+***** address.delete.response.failure.not found
+
+#+begin_src verb
+  http/1.1 404
+
+  {
+    "message": "address 1 not found"
   }
 #+end_src
