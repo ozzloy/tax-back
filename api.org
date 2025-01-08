@@ -445,7 +445,7 @@ and unauthenticated failures described above.
       "errors": {
           "first_name": "first_name must have at least 1 character",
           "middle_initial": "middle_initial must have at least 1 character",
-          "last_name": "last_name must have at least 1 character",
+          "last_name": "last_name must have at least 1 character"
       }
   }
 #+end_src
