@@ -56,7 +56,7 @@ not have the correct role(s) or permission(s).
 
 * session
 
-** session.create
+** session.authenticate
 
   + require authentication: false
 
@@ -135,7 +135,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** session.login.response.failure.validation errors
+***** session.login.response.failure.validation
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
@@ -207,7 +207,7 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-***** king.create.response.failure.validation errors
+***** king.create.response.failure.validation
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
@@ -531,9 +531,9 @@ when there is a human with that id, but it does not belong to the king.
   }
 #+end_src
 
-*** human>update>response
+*** human.update.response
 
-**** human>update>response>success
+**** human.update.response.success
 
 #+begin_src verb
   http/1.1 200 ok
@@ -547,9 +547,9 @@ when there is a human with that id, but it does not belong to the king.
   }
 #+end_src
 
-**** human>update>response>failure
+**** human.update.response.failure
 
-***** human>update>response>failure>field missing
+***** human.update.response.failure.field missing
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -565,7 +565,7 @@ when there is a human with that id, but it does not belong to the king.
   }
 #+end_src
 
-***** human>update>response>failure>validation errors
+***** human.update.response.failure.validation errors
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
@@ -697,7 +697,6 @@ not own it
   }
 #+end_src
 
-
 ** theme.read
 
 *** theme.read.request
@@ -741,13 +740,12 @@ not own it
   }
 #+end_src
 
-
 ** theme.update
 
 *** theme.update.request
 
 #+begin_src verb
-  put /api/theme
+  put /api/theme/:theme_id
   content-type: application/json
 
   {
@@ -779,7 +777,7 @@ not own it
 
 **** theme.update.response.failure
 
-***** theme.create.response.failure.missing fields
+***** theme.update.response.failure.field missing
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -795,7 +793,7 @@ not own it
   }
 #+end_src
 
-***** theme.create.response.failure.validation
+***** theme.update.response.failure.validation
 
 #+begin_src verb
   http/1.1 422 unprocessable entity
@@ -808,6 +806,17 @@ not own it
           "text_color": "text color must have at least 1 character",
           "background_color": "background color must have at least 1 character"
       }
+  }
+#+end_src
+
+
+***** theme.update.response.not found
+
+#+begin_src verb
+  http/1.1 404
+
+  {
+    "message": "theme 1 not found"
   }
 #+end_src
 
