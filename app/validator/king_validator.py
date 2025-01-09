@@ -55,7 +55,8 @@ def validate_king_create_data(data):
 def validate_king_data(king_data):
     assert isinstance(king_data["nick"], str)
     assert isinstance(king_data["email"], str)
-    assert isinstance(king_data["current_theme_id"], int)
+    theme_id = king_data.get("theme_id")
+    assert theme_id == None or isinstance(theme_id, int)
 
 
 def validate_king_slice(king_slice):

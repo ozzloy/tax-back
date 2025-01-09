@@ -13,6 +13,7 @@ class King(db.Model, KingMixin):
     nick = db.Column(db.String(70), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
+    theme_id = db.Column(db.Integer, nullable=True)
     created = db.Column(
         db.DateTime, default=datetime.utcnow, nullable=False
     )

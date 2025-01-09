@@ -29,7 +29,7 @@ skinparam classAttribute {
 TABLE(king) {
     nick: STRING
     email: STRING
-    FOREIGN_KEY(current_theme_id): INT
+    FOREIGN_KEY(theme_id): INT
     password_hash: STRING
 }
 
