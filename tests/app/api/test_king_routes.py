@@ -95,3 +95,28 @@ def test_king_create_invalid_fields(client):
             test_case["expected_error"] in error
             for error in response.json["errors"].values()
         )
+
+
+def test_king_create_conflict(client):
+    """test king creation fails when email or nick is already taken"""
+    # create a king
+    first_king_data = factory.make_king_signup_data()
+    client.post("/api/king/", json=first_king_data)
+
+    # attempt to create king with same email
+    conflict_email_data = factory.make_king_signup_data()
+    conflict_email_data["email"] = first_king_data["email"]
+
+    response = client.post("/api/king/", json=conflict_email_data)
+    assert response.status_code == 409
+    assert response.json["message"] == "account conflict"
+    assert "email is taken" in response.json["errors"]["email"]
+
+    # attempt to create king with same nick
+    conflict_nick_data = factory.make_king_signup_data()
+    conflict_nick_data["nick"] = first_king_data["nick"]
+
+    response = client.post("/api/king/", json=conflict_nick_data)
+    assert response.status_code == 409
+    assert response.json["message"] == "account conflict"
+    assert "nick is taken" in response.json["errors"]["nick"]
