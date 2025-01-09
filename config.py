@@ -13,3 +13,4 @@ class Config:
     SECRET_KEY = environ.get("SECRET_KEY")
     if not SECRET_KEY:
         raise Exception("set SECRET_KEY, for example in .env file")
+    CHECK_EMAIL_DELIVERABILITY = True

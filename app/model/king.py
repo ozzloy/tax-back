@@ -38,6 +38,7 @@ class King(db.Model, KingMixin):
         return {
             "id": self.id,
             "nick": self.nick,
+            "email": self.email,
             "created": self.created.isoformat(),
             "updated": self.created.isoformat(),
         }

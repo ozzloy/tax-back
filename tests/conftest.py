@@ -8,6 +8,7 @@ from config import Config
 class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = "sqlite://"
+    CHECK_EMAIL_DELIVERABILITY = False
 
 
 @pytest.fixture
@@ -16,10 +17,6 @@ def app():
 
     with app.app_context():
         db.create_all()
-
-        king = King(nick="bob", password_hash="asdf")
-        db.session.add(king)
-        db.session.commit()
 
     yield app
 

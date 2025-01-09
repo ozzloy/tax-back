@@ -1,4 +1,24 @@
-"""test king routes"""
+from app.validator import king_validator
+
+
+def test_king_create_success(client):
+    response = client.post(
+        "/api/king/",
+        json={
+            "nick": "bob",
+            "email": "bob@example.com",
+            "password": "i love laura",
+        },
+        content_type="application/json",
+    )
+
+    assert response.status_code == 201
+
+    partial_state = response.json
+
+    assert "king" in partial_state
+    king_slice = partial_state["king"]
+    king_validator.validate_king_slice(king_slice)
 
 
 def test_king_read_all(client):

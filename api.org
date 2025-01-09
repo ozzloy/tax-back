@@ -56,7 +56,7 @@ not have the correct role(s) or permission(s).
 *** session.login.request
 
 #+begin_src verb
-  post /api/login
+  post /api/session/
   content-type: application/json
 
   {
@@ -182,7 +182,8 @@ default theme is assigned on account creation
       "message": "field missing",
       "errors": {
           "email": "email is required",
-          "nick": "nick is required"
+          "nick": "nick is required",
+          "password": "password is required"
       }
   }
 #+end_src
