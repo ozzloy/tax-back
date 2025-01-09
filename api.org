@@ -22,16 +22,15 @@ having to generate sql with quotes in it.
 
 * king authentication/authorization
 
-** all endpoints that require authentication
+** all endpoints without valid CSRF token
 
-all endpoints that require a king to be logged in
 
 #+begin_src verb
-  http/1.1 401 unauthorized
+  http/1.1 400 bad request
   content-type: application/json
 
   {
-    "message": "authentication required"
+    "message": "missing or invalid CSRF token"
   }
 #+end_src
 

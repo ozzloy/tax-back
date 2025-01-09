@@ -9,6 +9,7 @@ flask-sqlalchemy = "*"
 flask-talisman = "*"
 flask-cors = "*"
 flask-login = "*"
+flask-wtf = "*"
 
 [dev-packages]
 black = "*"

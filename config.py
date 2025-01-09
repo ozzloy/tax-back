@@ -2,9 +2,7 @@ from os import environ
 
 
 class Config:
-    SQLALCHEMY_DATABASE_URI = environ.get(
-        "DATABASE_URL", "sqlite:///app.db"
-    )
+    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
     if not SQLALCHEMY_DATABASE_URI:
         raise Exception(
             "set SQLALCHEMY_DATABASE_URI, for example in .env file"

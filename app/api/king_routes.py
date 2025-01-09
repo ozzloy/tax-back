@@ -9,6 +9,7 @@ king_blueprint = Blueprint("king", __name__, url_prefix="/king")
 
 @king_blueprint.route("/", methods=["POST"])
 def create():
+    """create a new king"""
     if not request.is_json:
         raise BadRequest("Content-Type must be application/json")
 
@@ -29,5 +30,6 @@ def create():
 
 @king_blueprint.route("/")
 def read_all():
+    """read publicly available info on all kings"""
     kings = King.query.all()
     return {"king": {str(king.id): king.to_dict() for king in kings}}
