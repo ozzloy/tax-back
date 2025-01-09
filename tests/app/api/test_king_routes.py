@@ -1,14 +1,11 @@
 from app.validator import king_validator
+from tests import factory
 
 
 def test_king_create_success(client):
     response = client.post(
         "/api/king/",
-        json={
-            "nick": "bob",
-            "email": "bob@example.com",
-            "password": "i love laura",
-        },
+        json=factory.make_king_signup_data(),
         content_type="application/json",
     )
 
