@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
+flask-talisman = "*"
+flask-cors = "*"
 
 [dev-packages]
 black = "*"
