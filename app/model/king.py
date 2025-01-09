@@ -40,6 +40,7 @@ class King(db.Model, KingMixin):
             "id": self.id,
             "nick": self.nick,
             "email": self.email,
+            "theme_id": self.theme_id,
             "created": self.created.isoformat(),
             "updated": self.created.isoformat(),
         }

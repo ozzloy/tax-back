@@ -53,9 +53,22 @@ def validate_king_create_data(data):
 
 
 def validate_king_data(king_data):
+    required_keys = [
+        "id",
+        "nick",
+        "email",
+        "theme_id",
+        "created",
+        "updated",
+    ]
+    assert all(key in king_data for key in required_keys)
+
+    allowed_keys = required_keys
+    assert all(key in allowed_keys for key in king_data)
+
     assert isinstance(king_data["nick"], str)
     assert isinstance(king_data["email"], str)
-    theme_id = king_data.get("theme_id")
+    theme_id = king_data["theme_id"]
     assert theme_id == None or isinstance(theme_id, int)
 
 
