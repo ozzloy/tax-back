@@ -51,23 +51,6 @@ not have the correct role(s) or permission(s).
 
 * session
 
-** session.authenticate
-
-  + require authentication: false
-
-*** session.authenticate.request
-
-#+begin_src verb
-  get /api/csrf
-#+end_src
-
-*** session.authenticate.response
-
-#+begin_src verb
-  http/1.1 200 ok
-  set-cookie: csrf_token=csrf_token;
-#+end_src
-
 ** session.login
 
 *** session.login.request
