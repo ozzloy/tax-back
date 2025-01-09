@@ -61,6 +61,12 @@ yay!
 
   [[./schema.svg]]
 
+  to modify, edit "schema.puml" and run
+
+  #+begin_src bash
+    plantuml -tsvg schema.puml
+  #+end_src
+
 * wireframe
 
 signup, sign in, list forms, delete account
