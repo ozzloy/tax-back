@@ -220,7 +220,7 @@ default theme is assigned on account creation
       "errors": {
           "email": "invalid email",
           "nick": "nick must have at least 1 character",
-          "name": "name must have at least 1 character"
+          "password": "password must have at least 1 character",
       }
   }
 #+end_src

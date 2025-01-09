@@ -25,6 +25,12 @@ class CSRFTestClient(FlaskClient):
         """return valid csrf token, requesting it if necessary"""
         if not self._csrf_token:
             response = super().get("/api/csrf-token")
+            if response.status_code != 200:
+                raise ValueError(
+                    f"failed to get CSRF token: {response.status_code}"
+                )
+            if "csrf_token" not in response.json:
+                raise ValueError("no CSRF token in response")
             self._csrf_token = response.json["csrf_token"]
         return self._csrf_token
 
