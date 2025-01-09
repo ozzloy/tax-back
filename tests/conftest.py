@@ -17,7 +17,7 @@ def app():
     with app.app_context():
         db.create_all()
 
-        king = King(nick="bob")
+        king = King(nick="bob", password_hash="asdf")
         db.session.add(king)
         db.session.commit()
 
