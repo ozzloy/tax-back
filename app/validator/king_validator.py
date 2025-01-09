@@ -58,7 +58,7 @@ def validate_king_data(king_data):
     assert isinstance(king_data["current_theme_id"], int)
 
 
-def validate_king_slice(slice):
+def validate_king_slice(king_slice):
     for id_str, king_data in king_slice.items():
         assert "id" in king_data
         assert id_str == str(king_data["id"])
