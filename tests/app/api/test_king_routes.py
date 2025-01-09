@@ -62,3 +62,36 @@ def test_king_create_missing_fields(client):
         assert missing_field in errors
         for key in data:
             assert key not in errors
+
+
+def test_king_create_invalid_fields(client):
+    """test king creation fails with invalid field values"""
+    invalid_data_cases = [
+        {
+            "data": {
+                **factory.make_king_signup_data(),
+                "email": "invalid-email",
+            },
+            "expected_error": "invalid email",
+        },
+        {
+            "data": {**factory.make_king_signup_data(), "nick": ""},
+            "expected_error": "nick must have at least 1 character",
+        },
+        {
+            "data": {
+                **factory.make_king_signup_data(),
+                "password": "",
+            },
+            "expected_error": "password must have at least 1 character",
+        },
+    ]
+
+    for test_case in invalid_data_cases:
+        response = client.post("/api/king/", json=test_case["data"])
+        assert response.status_code == 422
+        assert response.json["message"] == "bad request"
+        assert any(
+            test_case["expected_error"] in error
+            for error in response.json["errors"].values()
+        )
