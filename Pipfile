@@ -5,11 +5,14 @@ name = "pypi"
 
 [packages]
 flask = "*"
+flask-sqlalchemy = "*"
 
 [dev-packages]
 black = "*"
 pre-commit = "*"
 pytest = "*"
+flake8 = "*"
+isort = "*"
 
 [requires]
 python_version = "3.9"

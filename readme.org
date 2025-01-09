@@ -12,20 +12,40 @@ install pipenv and get the dev packages
   pipenv run pre-commit install
 #+end_src
 
-set up pyrightconfig.json by first creating the file using the template
+set up ~pyrightconfig.json~ by first creating the file using the
+template
 
 #+begin_src bash
   cd tax
   cp example.pyrightconfig.json pyrightconfig.json
 #+end_src
 
-then fill in the path parts using the values from these two commands
+then fill in the path parts of the file using the values from these
+two commands
 
 #+begin_src bash
   cd tax
   pipenv --venv | xargs dirname
   pipenv --venv | xargs basename
 #+end_src
+
+then make ~.env~ from ~example.env~
+
+#+begin_src bash
+  cp example.env .env
+#+end_src
+
+and modify it with appropriate values. in particular, uncomment
+~SECRET_KEY~ and set its value to the output of ~openssl rand -base64
+10~ (or some other random value)
+
+example output:
+#+begin_quote
+EUwJH5UzMj0W6Q==
+#+end_quote
+
+don't use that value though, it's the one i'm using and i'd hate for
+there to be a collision.
 
 then run the tests
 
