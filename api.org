@@ -128,6 +128,28 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
+** session.logout
+
+*** session.logout.request
+
+#+begin_src verb
+  delete /api/session/
+#+end_src
+
+*** session.logout.response
+
+**** session.logout.response.success
+
+#+begin_src verb
+  http/1.1 204 No Content
+  Set-Cookie: session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Secure; SameSite=Strict
+#+end_src
+
+**** session.logout.response.failure
+
+unclear how this could fail in such a way that the server could send a
+response indicating that it failed.
+
 * king
 
 ** king.create, aka create an account
