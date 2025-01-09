@@ -31,13 +31,3 @@ def app():
 @pytest.fixture
 def client(app):
     return app.test_client()
-
-
-def test_king_get_all(client):
-    response = client.get("/api/king/")
-    assert response.status_code == 200
-    state = response.json
-    assert "king" in state
-    king_slice = state["king"]
-    for king in king_slice.values():
-        assert "nick" in king
