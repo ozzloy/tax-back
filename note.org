@@ -1,5 +1,78 @@
+* TODO finish off backend
+[2025-01-10 Fri 09:49 -0800]
+** TODO do endpoints
+[2025-01-10 Fri 09:49 -0800]
+*** TODO endpoints for authentication
+[2025-01-10 Fri 10:16 -0800]
+**** TODO login
+[2025-01-10 Fri 10:16 -0800]
+**** TODO logout
+[2025-01-10 Fri 10:16 -0800]
+*** TODO endpoints for king
+[2025-01-10 Fri 09:49 -0800]
+**** DONE create
+OPENED: [2025-01-10 Fri 09:49 -0800]
+CLOSED: [2025-01-10 Fri 09:56 -0800]
+**** TODO read
+[2025-01-10 Fri 09:49 -0800]
+**** TODO update
+[2025-01-10 Fri 09:49 -0800]
+**** TODO delete
+[2025-01-10 Fri 09:49 -0800]
+*** TODO endpoints for session
+[2025-01-10 Fri 09:49 -0800]
+**** TODO create
+[2025-01-10 Fri 09:49 -0800]
+**** TODO read
+[2025-01-10 Fri 09:49 -0800]
+**** TODO update
+[2025-01-10 Fri 09:49 -0800]
+**** TODO delete
+[2025-01-10 Fri 09:49 -0800]
+*** TODO endpoints for theme
+[2025-01-10 Fri 09:49 -0800]
+**** TODO create
+[2025-01-10 Fri 09:49 -0800]
+**** TODO read
+[2025-01-10 Fri 09:49 -0800]
+**** TODO update
+[2025-01-10 Fri 09:49 -0800]
+**** TODO delete
+[2025-01-10 Fri 09:49 -0800]
+*** TODO endpoints for human
+[2025-01-10 Fri 09:49 -0800]
+**** TODO create
+[2025-01-10 Fri 09:49 -0800]
+**** TODO read
+[2025-01-10 Fri 09:49 -0800]
+**** TODO update
+[2025-01-10 Fri 09:49 -0800]
+**** TODO delete
+[2025-01-10 Fri 09:49 -0800]
+*** TODO endpoints for address
+[2025-01-10 Fri 09:49 -0800]
+**** TODO create
+[2025-01-10 Fri 09:49 -0800]
+**** TODO read
+[2025-01-10 Fri 09:49 -0800]
+**** TODO update
+[2025-01-10 Fri 09:49 -0800]
+**** TODO delete
+[2025-01-10 Fri 09:49 -0800]
+*** TODO endpoints for form_1040
+[2025-01-10 Fri 09:49 -0800]
+**** TODO create
+[2025-01-10 Fri 09:49 -0800]
+**** TODO read
+[2025-01-10 Fri 09:49 -0800]
+**** TODO update
+[2025-01-10 Fri 09:49 -0800]
+**** TODO delete
+[2025-01-10 Fri 09:49 -0800]
 
-* TODO move db from app/db to app/model
+* DONE move db from app/db to app/model
+CLOSED: [2025-01-10 Fri 09:13]
+  + decided not to do this
   + put it in app/model/__init__.py
   + update all imports to reflect new location of db
   + see if it's circular still
