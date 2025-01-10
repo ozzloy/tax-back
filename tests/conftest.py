@@ -1,9 +1,10 @@
 from flask.testing import FlaskClient
 import pytest
 
-from app import create_app, init_default_theme
+from app import create_app
 from app.db import db
 from app.model import King, Theme
+from app.seed import seed
 from config import Config
 
 
@@ -62,7 +63,7 @@ def app():
 
     with app.app_context():
         db.create_all()
-        init_default_theme(db, app)
+        seed()
 
     yield app
 

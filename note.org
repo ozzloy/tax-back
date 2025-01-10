@@ -1,0 +1,13 @@
+
+* TODO move db from app/db to app/model
+  + put it in app/model/__init__.py
+  + update all imports to reflect new location of db
+  + see if it's circular still
+
+* DONE default theme
+CLOSED: [2025-01-09 Thu 21:19]
+in order to add default theme,
+  + make default theme seed
+  + use postgresql as db
+  + run seed_db which runs seed_theme
+    + run this instead of init_default_theme
