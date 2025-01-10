@@ -1,14 +1,13 @@
+"""create the flask app for tax backend."""
+
 from flask import Flask
 from flask_cors import CORS
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect, CSRFError
-import json
-import os
 from sqlalchemy import text
 
 from config import Config
 from app.db import db
-from app.model import King, Theme
 from app.seed import seed
 
 
@@ -16,6 +15,7 @@ csrf = CSRFProtect()
 
 
 def create_app(config_class=Config):
+    """Create the flask app for tax."""
     app = Flask(__name__)
     app.config.from_object(config_class)
 

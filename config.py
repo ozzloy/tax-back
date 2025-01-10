@@ -1,3 +1,5 @@
+"""configure the tax app."""
+
 from dotenv import load_dotenv
 from os import environ
 
@@ -6,7 +8,10 @@ load_dotenv()
 
 
 class ConfigMeta(type):
+    """configuration metaclass for tax app."""
+
     def __new__(mcs, name, bases, namespace):
+        """Define required class variables on Config class."""
         cls = super().__new__(mcs, name, bases, namespace)
         for var_name in cls.required_env_vars:
             value = environ.get(var_name)
@@ -40,6 +45,8 @@ class ConfigMeta(type):
 
 
 class Config(metaclass=ConfigMeta):
+    """gather together the settings for the tax flask app."""
+
     required_env_vars = [
         "DB_DIALECT",
         "DB_USER",

@@ -59,7 +59,7 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-    "credential": "email or nick",
+    "email": "bob@example.com",
     "password": "secret password"
   }
 #+end_src
@@ -95,7 +95,7 @@ not have the correct role(s) or permission(s).
   {
       "message": "bad request",
       "errors": {
-          "credential": "credential with nick or email value required",
+          "email": "email is required",
           "password": "password is required"
       }
   }
