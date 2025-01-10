@@ -4,10 +4,12 @@ from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect, CSRFError
 import json
 import os
+from sqlalchemy import text
 
 from config import Config
 from app.db import db
 from app.model import King, Theme
+
 
 csrf = CSRFProtect()
 
@@ -62,6 +64,11 @@ def create_app(config_class=Config):
         return {"message": "missing or invalid CSRF token"}, 400
 
     with app.app_context():
+        ensure_schema_sql = text(
+            "CREATE SCHEMA IF NOT EXISTS " + config_class.DB_SCHEMA
+        )
+        db.session.execute(ensure_schema_sql)
+        db.session.commit()
         db.create_all()
         init_default_theme(db, app)
 

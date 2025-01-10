@@ -54,15 +54,32 @@ there to be a collision.
 ** configure postgres
 
 *** create a user, db, schema, grant permissions
+
+in terminal,
 #+begin_src bash
-  sudo -u psql
+  sudo -u postgres psql
+  # drop into psql shell
 #+end_src
+
+that will drop you into psql
 #+begin_src sql
   CREATE USER tax_user WITH PASSWORD 'tax user password';
+  -- CREATE ROLE
+
   CREATE DATABASE tax_db OWNER tax_user;
+  -- CREATE DATABASE
+
   \c tax_db
+  -- You are now connected to database "tax_db" as user "postgres".
+
   CREATE SCHEMA tax_schema AUTHORIZATION tax_user;
+  -- CREATE SCHEMA
+
   GRANT ALL ON SCHEMA tax_schema TO tax_user;
+  -- GRANT
+
+  \q
+  -- back to bash
 #+end_src
 
 ** run the tests

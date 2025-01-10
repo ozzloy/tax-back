@@ -9,7 +9,6 @@ from config import Config
 
 class TestConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
     CHECK_EMAIL_DELIVERABILITY = False
 
 
