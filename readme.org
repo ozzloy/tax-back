@@ -4,7 +4,7 @@
 
 * developer setup
 
-install pipenv and get the dev packages
+** install pipenv and get the dev packages
 #+begin_src bash
   git clone <repo-url>
   cd tax
@@ -12,6 +12,8 @@ install pipenv and get the dev packages
   pipenv run pre-commit install
 #+end_src
 
+** config files
+*** ~pyrightconfig.json~
 set up ~pyrightconfig.json~ by first creating the file using the
 template
 
@@ -29,7 +31,8 @@ two commands
   pipenv --venv | xargs basename
 #+end_src
 
-then make ~.env~ from ~example.env~
+*** ~.env~
+make ~.env~ from ~example.env~
 
 #+begin_src bash
   cp example.env .env
@@ -40,6 +43,7 @@ and modify it with appropriate values. in particular, uncomment
 10~ (or some other random value)
 
 example output:
+
 #+begin_quote
 EUwJH5UzMj0W6Q==
 #+end_quote
@@ -47,7 +51,21 @@ EUwJH5UzMj0W6Q==
 don't use that value though, it's the one i'm using and i'd hate for
 there to be a collision.
 
-then run the tests
+** configure postgres
+
+*** create a user, db, schema, grant permissions
+#+begin_src bash
+  sudo -u psql
+#+end_src
+#+begin_src sql
+  CREATE USER tax_user WITH PASSWORD 'tax user password';
+  CREATE DATABASE tax_db OWNER tax_user;
+  \c tax_db
+  CREATE SCHEMA tax_schema AUTHORIZATION tax_user;
+  GRANT ALL ON SCHEMA tax_schema TO tax_user;
+#+end_src
+
+** run the tests
 
 #+begin_src bash
   pipenv run pytest
