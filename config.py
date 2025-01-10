@@ -5,56 +5,51 @@ from os import environ
 load_dotenv()
 
 
-class Config:
-    DB_DIALECT = environ.get("DB_DIALECT")
-    if not DB_DIALECT:
-        raise Exception("set DB_DIALECT, for example in .env file")
+class ConfigMeta(type):
+    def __new__(mcs, name, bases, namespace):
+        cls = super().__new__(mcs, name, bases, namespace)
+        for var_name in cls.required_env_vars:
+            value = environ.get(var_name)
+            if not value:
+                raise Exception(
+                    "set " + var_name + ", for example in .env file"
+                )
+            setattr(cls, var_name, value)
 
-    DB_USER = environ.get("DB_USER")
-    if not DB_USER:
-        raise Exception("set DB_USER, for example in .env file")
+        cls.SQLALCHEMY_DATABASE_URI = (
+            cls.DB_DIALECT
+            + "://"
+            + cls.DB_USER
+            + ":"
+            + cls.DB_PASSWORD
+            + "@"
+            + cls.DB_HOST
+            + ":"
+            + cls.DB_PORT
+            + "/"
+            + cls.DB_NAME
+        )
 
-    DB_PASSWORD = environ.get("DB_PASSWORD")
-    if not DB_PASSWORD:
-        raise Exception("set DB_PASSWORD, for example in .env file")
+        SQLALCHEMY_ENGINE_OPTIONS = {
+            "connect_args": {
+                "options": "-csearch_path=" + cls.DB_SCHEMA
+            }
+        }
 
-    DB_HOST = environ.get("DB_HOST")
-    if not DB_HOST:
-        raise Exception("set DB_HOST, for example in .env file")
+        return cls
 
-    DB_PORT = environ.get("DB_PORT")
-    if not DB_PORT:
-        raise Exception("set DB_PORT, for example in .env file")
 
-    DB_NAME = environ.get("DB_NAME")
-    if not DB_NAME:
-        raise Exception("set DB_NAME, for example in .env file")
-
-    DB_SCHEMA = environ.get("DB_SCHEMA")
-    if not DB_SCHEMA:
-        raise Exception("set DB_SCHEMA, for example in .env file")
-
-    SECRET_KEY = environ.get("SECRET_KEY")
-    if not SECRET_KEY:
-        raise Exception("set SECRET_KEY, for example in .env file")
-
-    SQLALCHEMY_DATABASE_URI = (
-        DB_DIALECT
-        + "://"
-        + DB_USER
-        + ":"
-        + DB_PASSWORD
-        + "@"
-        + DB_HOST
-        + ":"
-        + DB_PORT
-        + "/"
-        + DB_NAME
-    )
-
-    SQLALCHEMY_ENGINE_OPTIONS = {
-        "connect_args": {"options": "-csearch_path=" + DB_SCHEMA}
-    }
+class Config(metaclass=ConfigMeta):
+    required_env_vars = [
+        "DB_DIALECT",
+        "DB_USER",
+        "DB_PASSWORD",
+        "DB_HOST",
+        "DB_PORT",
+        "DB_NAME",
+        "DB_SCHEMA",
+        "SECRET_KEY",
+    ]
 
     CHECK_EMAIL_DELIVERABILITY = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
