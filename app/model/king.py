@@ -10,7 +10,7 @@ from datetime import datetime
 
 class King(db.Model, KingMixin):
     id = db.Column(db.Integer, primary_key=True)
-    nick = db.Column(db.String(70), unique=True, nullable=False)
+    nick = db.Column(db.String(255), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     theme_id = db.Column(db.Integer, nullable=True)
