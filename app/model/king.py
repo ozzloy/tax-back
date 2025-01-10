@@ -4,7 +4,7 @@ from werkzeug.security import (
     check_password_hash,
 )
 
-from app import db
+from app.db import db
 from datetime import datetime
 
 
@@ -23,6 +23,8 @@ class King(db.Model, KingMixin):
         onupdate=datetime.utcnow,
         nullable=False,
     )
+
+    themes = db.relationship("Theme", back_populates="king")
 
     @property
     def password(self):
