@@ -35,7 +35,7 @@ class ConfigMeta(type):
             + cls.DB_NAME
         )
 
-        SQLALCHEMY_ENGINE_OPTIONS = {
+        cls.SQLALCHEMY_ENGINE_OPTIONS = {
             "connect_args": {
                 "options": "-csearch_path=" + cls.DB_SCHEMA
             }
