@@ -62,6 +62,7 @@ in terminal,
 #+end_src
 
 that will drop you into psql
+
 #+begin_src sql
   CREATE USER tax_user WITH PASSWORD 'tax user password';
   -- CREATE ROLE
@@ -80,6 +81,35 @@ that will drop you into psql
 
   \q
   -- back to bash
+#+end_src
+
+below are useful psql commands,
+
+#+begin_src sql
+  -- connect to psql,
+  --   for example:
+  --     sudo -u postgres psql
+  --   or
+  --     psql "postgresql://user:pw@host:5432/tax_db?search_path=tax_schema
+
+  -- list all dbs
+  \l
+
+  -- connect to db
+  \c tax_db
+
+  -- list all schemas in current db
+  \dn
+
+  -- set the schema
+  SET search_path TO tax_schema;
+  -- SET
+
+  -- list all tables in current db under current schema
+  \dt
+
+  -- see schema of a table
+  \d king
 #+end_src
 
 ** run the tests
