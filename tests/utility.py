@@ -1,5 +1,4 @@
 import random
-from random import uniform
 from string import ascii_lowercase
 
 

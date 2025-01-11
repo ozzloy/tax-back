@@ -145,7 +145,10 @@ fill form, theme management
 * tech stack
 ** backend
 *** flask
-*** alembic
+*** sqlalchemy
+*** pydantic
+*** pytest
+*** factory boy
 ** frontend
 *** react
 *** redux

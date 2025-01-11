@@ -1,14 +1,16 @@
 from http import HTTPStatus as http
 
 from app.schema import StateSchema
-from tests import factory
+from tests.stub import KingSignupStub
 
 
 def test_king_create_success(client):
     """test successful king create with valid csrf token"""
+    king_signup_data = KingSignupStub().model_dump()
+
     response = client.post(
         "/api/king/",
-        json=factory.make_king_signup_data(),
+        json=king_signup_data,
     )
 
     assert response.status_code == http.CREATED
@@ -22,7 +24,7 @@ def test_king_create_failure_missing_csrf(client):
     """test that king create fails when missing csrf token"""
     response = client.post(
         "/api/king/",
-        json=factory.make_king_signup_data(),
+        json=KingSignupStub().model_dump(),
         headers={"X-CSRF-TOKEN": None},
     )
 
@@ -33,7 +35,7 @@ def test_king_create_failure_invalid_csrf(client):
     """test king create fails when missing csrf token"""
     response = client.post(
         "/api/king/",
-        json=factory.make_king_signup_data(),
+        json=KingSignupStub().model_dump(),
         headers={"X-CSRF-TOKEN": "invalid-csrf-token"},
     )
 
@@ -54,7 +56,7 @@ def test_king_create_missing_fields(client):
 
     # Test missing individual fields
     for missing_field in required_fields:
-        data = factory.make_king_signup_data()
+        data = KingSignupStub().model_dump()
         del data[missing_field]
 
         response = client.post("/api/king/", json=data)
@@ -72,16 +74,19 @@ def test_king_create_invalid_fields(client):
     invalid_data_cases = [
         {
             "data": {
-                **factory.make_king_signup_data(),
+                **KingSignupStub().model_dump(),
                 "email": "invalid-email",
             },
         },
         {
-            "data": {**factory.make_king_signup_data(), "nick": ""},
+            "data": {
+                **KingSignupStub().model_dump(),
+                "nick": "",
+            },
         },
         {
             "data": {
-                **factory.make_king_signup_data(),
+                **KingSignupStub().model_dump(),
                 "password": "",
             },
         },
@@ -96,11 +101,11 @@ def test_king_create_invalid_fields(client):
 def test_king_create_conflict(client):
     """test king creation fails when email or nick is already taken"""
     # create a king
-    first_king_data = factory.make_king_signup_data()
+    first_king_data = KingSignupStub().model_dump()
     client.post("/api/king/", json=first_king_data)
 
     # attempt to create king with same email
-    conflict_email_data = factory.make_king_signup_data()
+    conflict_email_data = KingSignupStub().model_dump()
     conflict_email_data["email"] = first_king_data["email"]
 
     response = client.post("/api/king/", json=conflict_email_data)
@@ -109,7 +114,7 @@ def test_king_create_conflict(client):
     assert "email is taken" in response.json["errors"]["email"]
 
     # attempt to create king with same nick
-    conflict_nick_data = factory.make_king_signup_data()
+    conflict_nick_data = KingSignupStub().model_dump()
     conflict_nick_data["nick"] = first_king_data["nick"]
 
     response = client.post("/api/king/", json=conflict_nick_data)
