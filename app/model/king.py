@@ -1,3 +1,6 @@
+"""king ORM."""
+
+from datetime import datetime
 from flask_login import UserMixin as KingMixin
 from werkzeug.security import (
     generate_password_hash,
@@ -5,15 +8,17 @@ from werkzeug.security import (
 )
 
 from app.db import db
-from datetime import datetime
+from app.schema import KingPublicSchema
 
 
 class King(db.Model, KingMixin):
+    """king ORM."""
+
     id = db.Column(db.Integer, primary_key=True)
     nick = db.Column(db.String(255), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
-    theme_id = db.Column(db.Integer, nullable=True)
+    theme_id = db.Column(db.Integer, nullable=False)
     created = db.Column(
         db.DateTime, default=datetime.utcnow, nullable=False
     )
@@ -28,6 +33,7 @@ class King(db.Model, KingMixin):
 
     @property
     def password(self):
+        """Use the password_hash rather than the password."""
         return self.password_hash
 
     @password.setter
@@ -35,9 +41,11 @@ class King(db.Model, KingMixin):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
+        """Check if password matches stored hash."""
         return check_password_hash(self.password, password)
 
-    def to_dict(self):
+    def to_private_dict(self):
+        """Private data about this king."""
         return {
             "id": self.id,
             "nick": self.nick,
@@ -46,3 +54,7 @@ class King(db.Model, KingMixin):
             "created": self.created.isoformat(),
             "updated": self.created.isoformat(),
         }
+
+    def to_dict(self):
+        """Public data about this king."""
+        return KingPublicSchema.model_validate(self).model_dump()

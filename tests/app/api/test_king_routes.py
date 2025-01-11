@@ -1,4 +1,6 @@
-from app.validator import king_validator
+from http import HTTPStatus as http
+
+from app.schema import StateSchema
 from tests import factory
 
 
@@ -9,12 +11,11 @@ def test_king_create_success(client):
         json=factory.make_king_signup_data(),
     )
 
-    assert response.status_code == 201
+    assert response.status_code == http.CREATED
 
-    partial_state = response.json
-    assert "king" in partial_state
-    king_slice = partial_state["king"]
-    king_validator.validate_king_slice(king_slice)
+    state = response.json
+    assert "king" in state
+    StateSchema(**state)
 
 
 def test_king_create_failure_missing_csrf(client):
@@ -42,10 +43,11 @@ def test_king_create_failure_invalid_csrf(client):
 def test_king_create_missing_fields(client):
     """test king creation fails with missing field"""
     # Test missing all required fields
-    required_fields = ["email", "nick", "password"]
     response = client.post("/api/king/", json={})
-    assert response.status_code == 400
+    assert response.status_code == http.UNPROCESSABLE_ENTITY
     assert "errors" in response.json
+    required_fields = ["email", "nick", "password"]
+    errors = response.json["errors"]
     assert all(
         field in response.json["errors"] for field in required_fields
     )
@@ -56,8 +58,9 @@ def test_king_create_missing_fields(client):
         del data[missing_field]
 
         response = client.post("/api/king/", json=data)
-        assert response.status_code == 400
-        assert response.json["message"] == "field missing"
+
+        assert response.status_code == http.UNPROCESSABLE_ENTITY
+        assert response.json["message"] == "validation error"
         errors = response.json["errors"]
         assert missing_field in errors
         for key in data:
@@ -72,29 +75,22 @@ def test_king_create_invalid_fields(client):
                 **factory.make_king_signup_data(),
                 "email": "invalid-email",
             },
-            "expected_error": "invalid email",
         },
         {
             "data": {**factory.make_king_signup_data(), "nick": ""},
-            "expected_error": "nick must have at least 1 character",
         },
         {
             "data": {
                 **factory.make_king_signup_data(),
                 "password": "",
             },
-            "expected_error": "password must have at least 1 character",
         },
     ]
 
     for test_case in invalid_data_cases:
         response = client.post("/api/king/", json=test_case["data"])
-        assert response.status_code == 422
-        assert response.json["message"] == "bad request"
-        assert any(
-            test_case["expected_error"] in error
-            for error in response.json["errors"].values()
-        )
+        assert response.status_code == http.UNPROCESSABLE_ENTITY
+        assert response.json["message"] == "validation error"
 
 
 def test_king_create_conflict(client):

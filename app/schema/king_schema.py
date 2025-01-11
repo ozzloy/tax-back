@@ -1,18 +1,21 @@
-"""schema for king model"""
+"""schema for king model."""
 
-from pydantic import BaseModel, EmailStr, Field, ConfigDict
+from datetime import datetime
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    EmailStr,
+    Field,
+    field_serializer,
+)
 
 
-class KingCreate(BaseModel):
-    email: EmailStr = Field(
-        ..., description="Email address of the king"
-    )
-    nick: str = Field(
-        ..., min_length=1, description="Nickname of the king"
-    )
-    password: str = Field(
-        ..., min_length=1, description="Password for the account"
-    )
+class KingSignupSchema(BaseModel):
+    """validate signup requests."""
+
+    email: EmailStr
+    nick: str = Field(min_length=1)
+    password: str = Field(min_length=1)
 
     model_config = ConfigDict(
         json_schema_extra={
@@ -25,10 +28,28 @@ class KingCreate(BaseModel):
     )
 
 
-class KingResponse(BaseModel):
+class KingPrivateSchema(BaseModel):
+    """data that a king sees about itself."""
+
     id: int
     email: str
     nick: str
     theme_id: int
+    created: datetime
+    updated: datetime
+
+
+class KingPublicSchema(BaseModel):
+    """data that every king sees about other kings."""
+
+    id: int
+    nick: str
+    created: datetime
+    updated: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+    @field_serializer("created", "updated")
+    def serialize_datetime(self, dt: datetime):
+        """Serialize datetimes for JSON."""
+        return dt.isoformat()

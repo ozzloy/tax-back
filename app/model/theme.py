@@ -1,9 +1,13 @@
+"""theme ORM."""
+
 from datetime import datetime
 
 from app.db import db
 
 
 class Theme(db.Model):
+    """theme ORM."""
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
     text_color = db.Column(db.String(255), nullable=False)
