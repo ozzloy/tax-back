@@ -93,7 +93,7 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "email": "email is required",
           "password": "password is required"
@@ -108,7 +108,7 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "email": "email invalid",
           "password": "password must be at least 1 character"
@@ -203,7 +203,7 @@ default theme is assigned on account creation
   content-type: application/json
 
   {
-      "message": "field missing",
+      "message": "validation error",
       "errors": {
           "email": "email is required",
           "nick": "nick is required",
@@ -219,7 +219,7 @@ default theme is assigned on account creation
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "email": "invalid email",
           "nick": "nick must have at least 1 character",
@@ -339,7 +339,7 @@ default theme is assigned on account creation
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "email": "invalid email",
           "nick": "nick must have at least 1 character",
@@ -444,7 +444,7 @@ and unauthenticated failures described above.
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "first_name": "first_name must have at least 1 character",
           "middle_initial": "middle_initial must have at least 1 character",
@@ -600,7 +600,7 @@ described at the top for all routes.
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "first_name": "first_name must have at least 1 character",
           "middle_initial": "middle_initial must have at least 1 character",
@@ -700,7 +700,7 @@ not own it
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "name": "theme name required",
           "text_color": "text color is required",
@@ -716,7 +716,7 @@ not own it
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "name": "theme name must have at least 1 character",
           "text_color": "text color must have at least 1 character",
@@ -850,7 +850,7 @@ see authentication and authorization failures described above.
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "name": "theme name required",
           "text_color": "text color is required",
@@ -866,7 +866,7 @@ see authentication and authorization failures described above.
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "name": "theme name must have at least 1 character",
           "text_color": "text color must have at least 1 character",
@@ -977,7 +977,7 @@ every field is optional, this allows partial complete saves
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "tax_year": "must be a postive integer",
           "spouse_id": "spouse_id must be id of a human",
@@ -1128,7 +1128,7 @@ filer id comes is current session's king id
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "tax_year": "must be a postive integer",
           "spouse_id": "spouse_id must be id of a human",
@@ -1145,7 +1145,7 @@ filer id comes is current session's king id
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "name": "form_1040 name must have at least 1 character",
           "text_color": "text color must have at least 1 character",
@@ -1243,7 +1243,7 @@ every field is optional, this allows partial complete saves
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "street": "street must have at least 1 character",
           "city": "city must have at least 1 character",
@@ -1384,7 +1384,7 @@ near top
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "street": "street must have at least 1 character",
           "city": "city must have at least 1 character",
@@ -1399,7 +1399,7 @@ near top
   content-type: application/json
 
   {
-      "message": "bad request",
+      "message": "validation error",
       "errors": {
           "name": "address name must have at least 1 character",
           "text_color": "text color must have at least 1 character",

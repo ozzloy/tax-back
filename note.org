@@ -1,3 +1,9 @@
+* TODO switch to pydantic for json validation
+** TODO remove raw dogged validation
+** TODO add schema
+** TODO use schema in king create route
+** TODO get rid of validator.py, use schema for state
+* TODO switch to pydantic for test data generation
 * TODO make sure email column of king is unique
 [2025-01-10 Fri 10:30 -0800]
 * TODO ensure combo of king_id and name is unique for form_1040
