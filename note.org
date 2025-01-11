@@ -14,70 +14,60 @@
 [2025-01-10 Fri 09:49 -0800]
 *** TODO endpoints for authentication
 [2025-01-10 Fri 10:16 -0800]
-**** TODO login
+**** TODO session.login
 [2025-01-10 Fri 10:16 -0800]
-**** TODO logout
+**** TODO session.logout
 [2025-01-10 Fri 10:16 -0800]
 *** TODO endpoints for king
 [2025-01-10 Fri 09:49 -0800]
 **** DONE create
 OPENED: [2025-01-10 Fri 09:49 -0800]
 CLOSED: [2025-01-10 Fri 09:56 -0800]
-**** TODO read
+**** TODO king.read
 [2025-01-10 Fri 09:49 -0800]
-**** TODO update
+**** TODO king.update
 [2025-01-10 Fri 09:49 -0800]
-**** TODO delete
-[2025-01-10 Fri 09:49 -0800]
-*** TODO endpoints for session
-[2025-01-10 Fri 09:49 -0800]
-**** TODO create
-[2025-01-10 Fri 09:49 -0800]
-**** TODO read
-[2025-01-10 Fri 09:49 -0800]
-**** TODO update
-[2025-01-10 Fri 09:49 -0800]
-**** TODO delete
+**** TODO king.delete
 [2025-01-10 Fri 09:49 -0800]
 *** TODO endpoints for theme
 [2025-01-10 Fri 09:49 -0800]
-**** TODO create
+**** TODO theme.create
 [2025-01-10 Fri 09:49 -0800]
-**** TODO read
+**** TODO theme.read
 [2025-01-10 Fri 09:49 -0800]
-**** TODO update
+**** TODO theme.update
 [2025-01-10 Fri 09:49 -0800]
-**** TODO delete
+**** TODO theme.delete
 [2025-01-10 Fri 09:49 -0800]
 *** TODO endpoints for human
 [2025-01-10 Fri 09:49 -0800]
-**** TODO create
+**** TODO human.create
 [2025-01-10 Fri 09:49 -0800]
-**** TODO read
+**** TODO human.read
 [2025-01-10 Fri 09:49 -0800]
-**** TODO update
+**** TODO human.update
 [2025-01-10 Fri 09:49 -0800]
-**** TODO delete
+**** TODO human.delete
 [2025-01-10 Fri 09:49 -0800]
 *** TODO endpoints for address
 [2025-01-10 Fri 09:49 -0800]
-**** TODO create
+**** TODO address.create
 [2025-01-10 Fri 09:49 -0800]
-**** TODO read
+**** TODO address.read
 [2025-01-10 Fri 09:49 -0800]
-**** TODO update
+**** TODO address.update
 [2025-01-10 Fri 09:49 -0800]
-**** TODO delete
+**** TODO address.delete
 [2025-01-10 Fri 09:49 -0800]
 *** TODO endpoints for form_1040
 [2025-01-10 Fri 09:49 -0800]
-**** TODO create
+**** TODO form_1040.create
 [2025-01-10 Fri 09:49 -0800]
-**** TODO read
+**** TODO form_1040.read
 [2025-01-10 Fri 09:49 -0800]
-**** TODO update
+**** TODO form_1040.update
 [2025-01-10 Fri 09:49 -0800]
-**** TODO delete
+**** TODO form_1040.delete
 [2025-01-10 Fri 09:49 -0800]
 
 * DONE move db from app/db to app/model
