@@ -110,13 +110,16 @@ not have the correct role(s) or permission(s).
   {
       "message": "bad request",
       "errors": {
-          "credential": "credential field must be at least 1 character",
-          "password": "must be at least 1 character"
+          "email": "email invalid",
+          "password": "password must be at least 1 character"
       }
   }
 #+end_src
 
 ***** session.login.response.failure.invalid credentials
+
+either email not found in db, or password is incorrect for account
+with that email
 
 #+begin_src verb
   http/1.1 401 unauthorized
@@ -183,9 +186,9 @@ default theme is assigned on account creation
       "king": {
           "1": {
               "id": 1,
-              "email": "bob@example.com",
               "nick": "bob",
-              "theme_id": 1
+              "created": "timestamp",
+              "updated": "timestamp"
           }
       }
   }
