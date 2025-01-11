@@ -10,7 +10,7 @@ def test_king_create_success(client):
 
     response = client.post(
         "/api/king/",
-        json=king_signup_data,
+        json={"nick": "a", "email": "a@a.a", "password": "pw"},
     )
 
     assert response.status_code == http.CREATED

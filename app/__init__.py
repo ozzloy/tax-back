@@ -1,11 +1,13 @@
 """create the flask app for tax backend."""
 
 from flask import Flask
+from flask.json.provider import JSONProvider
 from flask_cors import CORS
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFError, CSRFProtect
 from http import HTTPStatus as http
-from pydantic import ValidationError
+import json
+from pydantic import BaseModel, ValidationError
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 
@@ -17,10 +19,30 @@ from app.seed import seed
 csrf = CSRFProtect()
 
 
+class MyJSONProvider(JSONProvider):
+    """Implicitly call model_dump on pydantic BaseModels."""
+
+    def default(self, obj):
+        """Just use maps."""
+        if isinstance(obj, BaseModel):
+            return obj.model_dump()
+        return super().default(obj)
+
+    def dumps(self, obj, **kwargs):
+        """Please just use maps."""
+        kwargs.setdefault("default", self.default)
+        return json.dumps(obj, **kwargs)
+
+    def loads(self, s, **kwargs):
+        """Deserialize json."""
+        return json.loads(s, **kwargs)
+
+
 def create_app(config_class=Config):
     """Create the flask app for tax."""
     app = Flask(__name__)
     app.config.from_object(config_class)
+    app.json = MyJSONProvider(app)
 
     db.init_app(app)
     csrf.init_app(app)

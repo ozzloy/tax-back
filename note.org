@@ -30,6 +30,8 @@ CLOSED: [2025-01-11 Sat 08:52]
 **** DONE create
 OPENED: [2025-01-10 Fri 09:49 -0800]
 CLOSED: [2025-01-10 Fri 09:56 -0800]
+**** TODO make create route use state schema in return value
+[2025-01-11 Sat 09:12 -0800]
 **** TODO king.read
 [2025-01-10 Fri 09:49 -0800]
 **** TODO king.update

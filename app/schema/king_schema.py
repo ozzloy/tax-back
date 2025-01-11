@@ -10,7 +10,10 @@ from pydantic import (
 )
 
 
-class KingSignupSchema(BaseModel):
+from .base import DictModel
+
+
+class KingSignupSchema(DictModel):
     """validate signup requests."""
 
     email: EmailStr

@@ -5,11 +5,13 @@ from .king_schema import (
     KingPublicSchema,
     KingSignupSchema,
 )
+from .session_schema import SessionLoginSchema
 from .state_schema import StateSchema
 
 __all__ = [
     "KingPrivateSchema",
     "KingPublicSchema",
     "KingSignupSchema",
+    "SessionLoginSchema",
     "StateSchema",
 ]
