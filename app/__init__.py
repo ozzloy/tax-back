@@ -42,6 +42,7 @@ def create_app(config_class=Config):
         ensure_schema_sql = text(
             "CREATE SCHEMA IF NOT EXISTS " + config_class.DB_SCHEMA
         )
+        db.drop_all()
         db.session.execute(ensure_schema_sql)
         db.session.commit()
         db.create_all()
