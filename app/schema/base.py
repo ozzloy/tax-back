@@ -38,3 +38,11 @@ class DictModel(BaseModel):
     def get(self, key: str, default: Any = None) -> Any:
         """Dict-like get method with default value."""
         return self.model_dump().get(key, default)
+
+    def __delitem__(self, key: str) -> None:
+        """Support del statement: del model[key]."""
+        delattr(self, key)
+
+    def __setitem__(self, key, value):
+        """Support set statement: model[key] = value."""
+        setattr(self, key, value)
