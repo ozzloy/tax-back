@@ -3,8 +3,11 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_talisman import Talisman
-from flask_wtf.csrf import CSRFProtect, CSRFError
+from flask_wtf.csrf import CSRFError, CSRFProtect
+from http import HTTPStatus as http
+from pydantic import ValidationError
 from sqlalchemy import text
+from sqlalchemy.exc import IntegrityError
 
 from config import Config
 from app.db import db
@@ -36,7 +39,32 @@ def create_app(config_class=Config):
 
     @app.errorhandler(CSRFError)
     def handle_csrf_error(e):
-        return {"message": "missing or invalid CSRF token"}, 400
+        return {
+            "message": "missing or invalid CSRF token"
+        }, http.FORBIDDEN
+
+    @app.errorhandler(ValidationError)
+    def handle_validation_error(e):
+        return {
+            "message": "validation error",
+            "errors": {
+                err["loc"][0]: err["msg"] for err in e.errors()
+            },
+        }, http.UNPROCESSABLE_ENTITY
+
+    @app.errorhandler(IntegrityError)
+    def handle_db_error(e):
+        db.session.rollback()
+        field = "email" if "email" in str(e.orig) else "nick"
+
+        return {
+            "message": "account conflict",
+            "errors": {field: f"{field} is taken"},
+        }, http.CONFLICT
+
+    @app.errorhandler(Exception)
+    def handle_generic_error(e):
+        return {"error": str(e)}, http.INTERNAL_SERVER_ERROR
 
     with app.app_context():
         ensure_schema_sql = text(

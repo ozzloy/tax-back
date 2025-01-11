@@ -28,7 +28,7 @@ def test_king_create_failure_missing_csrf(client):
         headers={"X-CSRF-TOKEN": None},
     )
 
-    assert response.status_code == 400
+    assert response.status_code == http.FORBIDDEN
 
 
 def test_king_create_failure_invalid_csrf(client):
@@ -39,7 +39,7 @@ def test_king_create_failure_invalid_csrf(client):
         headers={"X-CSRF-TOKEN": "invalid-csrf-token"},
     )
 
-    assert response.status_code == 400
+    assert response.status_code == http.FORBIDDEN
 
 
 def test_king_create_missing_fields(client):
