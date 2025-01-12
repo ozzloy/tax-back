@@ -1,7 +1,10 @@
 """login and logout."""
 
 from flask import Blueprint, request
-from flask_login import login_user as login_king
+from flask_login import (
+    login_user as login_king,
+    logout_user as logout_king,
+)
 from http import HTTPStatus as http
 
 from app.model import King
@@ -35,3 +38,10 @@ def login():
         exclude_none=True
     )
     return state, http.OK
+
+
+@session_blueprint.route("/", methods=["DELETE"])
+def logout():
+    """Log out the current king."""
+    logout_king()
+    return "", http.NO_CONTENT

@@ -148,3 +148,8 @@ def test_king_read_logged_in(client):
 
     for key, value in king_data.items():
         assert current_king[key] == value
+
+
+def test_king_read_anonymous(client):
+    read_response = client.get("/api/king/")
+    assert read_response.status_code == http.UNAUTHORIZED

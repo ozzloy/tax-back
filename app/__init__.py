@@ -9,6 +9,7 @@ from http import HTTPStatus as http
 from pydantic import ValidationError
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
+from werkzeug.exceptions import Unauthorized
 
 from config import Config
 from app.db import db
@@ -84,6 +85,10 @@ def create_app(config_class=Config):
             "message": "account conflict",
             "errors": {field: f"{field} is taken"},
         }, http.CONFLICT
+
+    @app.errorhandler(Unauthorized)
+    def handle_unauthorized_error(e):
+        return str(e), http.UNAUTHORIZED
 
     @app.errorhandler(Exception)
     def handle_generic_error(e):

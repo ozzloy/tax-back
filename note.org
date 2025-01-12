@@ -5,14 +5,11 @@
 [2025-01-10 Fri 09:49 -0800]
 ** TODO do endpoints
 [2025-01-10 Fri 09:49 -0800]
-*** TODO endpoints for authentication
-[2025-01-10 Fri 10:16 -0800]
-**** DONE session.login
-CLOSED: [2025-01-11 Sat]
-[2025-01-10 Fri 10:16 -0800]
-**** TODO session.logout
-[2025-01-10 Fri 10:16 -0800]
 *** TODO endpoints for king
+[2025-01-10 Fri 09:49 -0800]
+**** TODO king.update
+[2025-01-10 Fri 09:49 -0800]
+**** TODO king.delete
 [2025-01-10 Fri 09:49 -0800]
 **** DONE create
 OPENED: [2025-01-10 Fri 09:49 -0800]
@@ -20,17 +17,12 @@ CLOSED: [2025-01-10 Fri 09:56 -0800]
 **** DONE make create route use state schema in return value
 CLOSED: [2025-01-11 Sat]
 [2025-01-11 Sat 09:12 -0800]
-**** TODO king.read
+**** DONE king.read
+CLOSED: [2025-01-12 Sun]
 [2025-01-10 Fri 09:49 -0800]
 ***** DONE king.read.logged in
 CLOSED: [2025-01-11 Sat]
 [2025-01-11 Sat 21:20 -0800]
-***** TODO king.read.anonymous
-[2025-01-11 Sat 21:20 -0800]
-**** TODO king.update
-[2025-01-10 Fri 09:49 -0800]
-**** TODO king.delete
-[2025-01-10 Fri 09:49 -0800]
 *** TODO endpoints for theme
 [2025-01-10 Fri 09:49 -0800]
 **** TODO theme.create
@@ -72,6 +64,15 @@ CLOSED: [2025-01-11 Sat]
 **** TODO form_1040.delete
 [2025-01-10 Fri 09:49 -0800]
 
+*** DONE endpoints for authentication
+CLOSED: [2025-01-12 Sun]
+[2025-01-10 Fri 10:16 -0800]
+**** DONE session.login
+CLOSED: [2025-01-11 Sat]
+[2025-01-10 Fri 10:16 -0800]
+**** DONE session.logout
+CLOSED: [2025-01-12 Sun]
+[2025-01-10 Fri 10:16 -0800]
 * DONE move db from app/db to app/model
 CLOSED: [2025-01-10 Fri 09:13]
   + decided not to do this

@@ -79,3 +79,32 @@ def test_session_create_invalid_login(client):
     )
 
     assert wrong_password_response.status_code == http.UNAUTHORIZED
+
+
+def test_session_delete_success(client):
+    """test successful logout."""
+    # first login
+    king_signup_data = KingSignupStub().model_dump()
+    client.post("/api/king/", json=king_signup_data)
+    session_login_data = SessionLoginSchema(
+        **king_signup_data
+    ).model_dump()
+    client.post("/api/session/", json=session_login_data)
+
+    # then logout
+    response = client.delete("/api/session/")
+
+    # verify response
+    assert response.status_code == http.NO_CONTENT
+    assert not response.data  # Should be empty response body
+
+    # attempt an unauthorized read
+    read_response = client.get("/api/king/")
+    # expect it to fail
+    assert read_response.status_code == http.UNAUTHORIZED
+
+
+def test_session_delete_when_not_logged_in(client):
+    """test logout when no session exists returns successfully."""
+    response = client.delete("/api/session/")
+    assert response.status_code == http.NO_CONTENT
