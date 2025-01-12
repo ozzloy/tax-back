@@ -276,7 +276,7 @@ default theme is assigned on account creation
   content-type: application/json
 
   {
-      "king": null
+      "current_king": null
   }
 #+end_src
 

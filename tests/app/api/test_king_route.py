@@ -1,6 +1,6 @@
 from http import HTTPStatus as http
 
-from app.schema import StateSchema
+from app.schema import SessionLoginSchema, StateSchema
 from tests.stub import KingSignupStub
 
 
@@ -8,10 +8,7 @@ def test_king_create_success(client):
     """test successful king create with valid csrf token"""
     king_signup_data = KingSignupStub().model_dump()
 
-    signup_response = client.post(
-        "/api/king/",
-        json=king_signup_data,
-    )
+    signup_response = client.post("/api/king/", json=king_signup_data)
 
     assert signup_response.status_code == http.CREATED
 
@@ -121,3 +118,31 @@ def test_king_create_conflict(client):
     assert response.status_code == 409
     assert response.json["message"] == "account conflict"
     assert "nick is taken" in response.json["errors"]["nick"]
+
+
+def test_king_read_logged_in(client):
+    king_signup_data = KingSignupStub().model_dump()
+    create_response = client.post("/api/king/", json=king_signup_data)
+    session_login_data = SessionLoginSchema(
+        **king_signup_data
+    ).model_dump()
+    client.post("/api/session/", json=session_login_data)
+
+    king_data = (
+        king_signup_data
+        | list(create_response.json["king"].values())[0]
+    )
+
+    read_response = client.get("/api/king/")
+    state = read_response.json
+    StateSchema(**state)
+
+    current_king = state["current_king"]
+    assert "password" not in current_king
+    del king_data["password"]
+
+    for field in king_data:
+        assert field in current_king
+
+    for key, value in king_data.items():
+        assert current_king[key] == value

@@ -1,6 +1,7 @@
 """endpoints for kings."""
 
 from flask import Blueprint, request
+from flask_login import current_user as current_king, login_required
 from http import HTTPStatus as http
 
 from app import db
@@ -29,3 +30,15 @@ def create():
     )
 
     return state, http.CREATED
+
+
+@king_blueprint.route("/", methods=["GET"])
+@login_required
+def read():
+    """Look up info on currently logged in king."""
+    king = db.session.get(King, current_king.id).to_private_dict()
+
+    state = StateSchema(**{"current_king": king}).model_dump(
+        exclude_none=True
+    )
+    return state, http.OK

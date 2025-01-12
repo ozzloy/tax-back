@@ -13,6 +13,7 @@ from sqlalchemy.exc import IntegrityError
 from config import Config
 from app.db import db
 from app.seed import seed
+from app.model import King
 
 
 csrf = CSRFProtect()
@@ -23,6 +24,11 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     login_manager = LoginManager()
     login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(king_id):
+        return db.session.get(King, int(king_id))
+
     app.config.from_object(config_class)
 
     db.init_app(app)

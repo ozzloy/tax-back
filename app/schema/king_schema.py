@@ -49,12 +49,5 @@ class KingPublicSchema(BaseModel):
 
     id: int
     nick: str
-    created: datetime
-    updated: datetime
 
     model_config = ConfigDict(from_attributes=True)
-
-    @field_serializer("created", "updated")
-    def serialize_datetime(self, dt: datetime):
-        """Serialize datetimes for JSON."""
-        return dt.isoformat()
