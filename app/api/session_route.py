@@ -15,11 +15,9 @@ session_blueprint = Blueprint(
 @session_blueprint.route("/", methods=["POST"])
 def login():
     """Log in a king."""
-    login = SessionLoginSchema.model_validate(
-        request.json
-    ).model_dump()
+    login = SessionLoginSchema.model_validate(request.json)
 
-    king = King.query.filter(King.email == login["email"])
+    king = King.query.filter(King.email == login["email"]).first()
 
     if not king or not king.check_password(login["password"]):
         return {"message": "invalid credentials"}, http.UNAUTHORIZED

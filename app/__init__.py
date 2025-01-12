@@ -3,6 +3,7 @@
 from flask import Flask
 from flask.json.provider import JSONProvider
 from flask_cors import CORS
+from flask_login import LoginManager
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFError, CSRFProtect
 from http import HTTPStatus as http
@@ -41,6 +42,8 @@ class MyJSONProvider(JSONProvider):
 def create_app(config_class=Config):
     """Create the flask app for tax."""
     app = Flask(__name__)
+    login_manager = LoginManager()
+    login_manager.init_app(app)
     app.config.from_object(config_class)
     app.json = MyJSONProvider(app)
 
