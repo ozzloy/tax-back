@@ -13,10 +13,8 @@ king_blueprint = Blueprint("king", __name__, url_prefix="/king")
 
 @king_blueprint.route("/", methods=["POST"])
 def create():
-    """Create a new king, aka account."""
-    king = KingSignupSchema.model_validate(request.json).model_dump(
-        exclude_none=True
-    )
+    """Create a new king, aka create new account, aka signup."""
+    king = KingSignupSchema.model_validate(request.json).model_dump()
     king["theme_id"] = 1
 
     king = King(**king)
@@ -24,10 +22,11 @@ def create():
     db.session.add(king)
     db.session.commit()
 
-    state_data = {"king": {str(king.id): king.to_dict()}}
-    state = StateSchema.model_validate(state_data).model_dump(
-        exclude_none=True
-    )
+    state_data = {
+        "current_king_id": None,
+        "king": {str(king.id): king.to_dict()},
+    }
+    state = StateSchema.model_validate(state_data).model_dump()
 
     return state, http.CREATED
 
@@ -38,7 +37,10 @@ def read():
     """Look up info on currently logged in king."""
     king = db.session.get(King, current_king.id).to_private_dict()
 
-    state = StateSchema(**{"current_king": king}).model_dump(
-        exclude_none=True
-    )
+    king_id = current_king.id
+    state_data = {
+        "current_king_id": king_id,
+        "king": {str(king_id): king},
+    }
+    state = StateSchema(**state_data).model_dump()
     return state, http.OK

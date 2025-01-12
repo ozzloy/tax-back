@@ -1,17 +1,20 @@
 """validate state and its slices."""
 
 from pydantic import BaseModel, field_validator
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
 
 
-from app.schema import KingPrivateSchema, KingPublicSchema
+from .king_schema import (
+    KingPrivateSchema,
+    KingPublicSchema,
+)
 
 
 class StateSchema(BaseModel):
     """schema for application state."""
 
-    current_king: Optional[KingPrivateSchema] = None
-    king: Optional[Dict[str, KingPublicSchema]] = None
+    current_king_id: Optional[int]
+    king: Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
 
     @field_validator("king")
     @classmethod

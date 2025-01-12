@@ -1,6 +1,10 @@
 from http import HTTPStatus as http
 
-from app.schema import SessionLoginSchema, StateSchema
+from app.schema import (
+    KingSignupSchema,
+    SessionLoginSchema,
+    StateSchema,
+)
 from tests.stub import KingSignupStub
 
 
@@ -13,7 +17,6 @@ def test_king_create_success(client):
     assert signup_response.status_code == http.CREATED
 
     state = signup_response.json
-    assert list(state.keys()) == ["king"]
     StateSchema(**state)
 
 
@@ -45,8 +48,8 @@ def test_king_create_missing_fields(client):
     response = client.post("/api/king/", json={})
     assert response.status_code == http.UNPROCESSABLE_ENTITY
     assert "errors" in response.json
-    required_fields = ["email", "nick", "password"]
     errors = response.json["errors"]
+    required_fields = KingSignupSchema.model_fields
     assert all(
         field in response.json["errors"] for field in required_fields
     )
@@ -137,7 +140,8 @@ def test_king_read_logged_in(client):
     state = read_response.json
     StateSchema(**state)
 
-    current_king = state["current_king"]
+    current_king_id = state["current_king_id"]
+    current_king = state["king"][str(current_king_id)]
     assert "password" not in current_king
     del king_data["password"]
 

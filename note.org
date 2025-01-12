@@ -1,3 +1,17 @@
+* TODO test if dict int keys will be transformed into str
+in ~state_schema.py~,
+
+could this
+
+#+begin_src python
+    king: Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
+#+end_src
+
+instead be this
+#+begin_src python
+    king: Dict[int, Union[KingPublicSchema, KingPrivateSchema]]
+#+end_src
+?
 * DONE switch to pydantic for json validation
 CLOSED: [2025-01-11 Sat]
 ** DONE remove raw dogged validation

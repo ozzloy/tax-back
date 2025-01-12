@@ -26,7 +26,11 @@ def login():
 
     login_king(king)
 
-    state = {"current_king": king.to_private_dict()}
+    king_id = str(king.id)
+    state = {
+        "current_king_id": king_id,
+        "king": {king_id: king.to_private_dict()},
+    }
     state = StateSchema.model_validate(state).model_dump(
         exclude_none=True
     )

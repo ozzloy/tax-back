@@ -18,6 +18,8 @@ from app.model import King
 
 csrf = CSRFProtect()
 
+debug = False
+
 
 def create_app(config_class=Config):
     """Create the flask app for tax."""
@@ -54,11 +56,23 @@ def create_app(config_class=Config):
 
     @app.errorhandler(ValidationError)
     def handle_validation_error(e):
+
+        errors = {err["loc"][0]: err["msg"] for err in e.errors()}
+
+        if debug:
+            from pprint import pprint
+            import traceback
+
+            print()
+            print(__file__)
+            print("errors:")
+            pprint(errors)
+
+            print("\ntraceback:")
+            print(traceback.format_exc())
         return {
             "message": "validation error",
-            "errors": {
-                err["loc"][0]: err["msg"] for err in e.errors()
-            },
+            "errors": errors,
         }, http.UNPROCESSABLE_ENTITY
 
     @app.errorhandler(IntegrityError)
@@ -73,6 +87,8 @@ def create_app(config_class=Config):
 
     @app.errorhandler(Exception)
     def handle_generic_error(e):
+        print()
+        print(__file__)
         print(f"error type: {type(e).__name__}")
         print(f"error message: {str(e)}")
 

@@ -16,5 +16,4 @@ def test_session_create_success(client):
     assert login_response.status_code == http.OK
 
     state = login_response.json
-    assert list(state.keys()) == ["current_king"]
     StateSchema(**state)

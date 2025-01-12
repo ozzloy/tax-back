@@ -73,7 +73,9 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-      "current_king": {
+      "current_king_id": 1,
+      "king": {
+          "1": {
               "id": 1,
               "email": "john.smith@example.com",
               "nick": "johnsmith",
@@ -175,16 +177,22 @@ response indicating that it failed.
 
 **** king.create.response.success
 
-default theme is assigned on account creation
+default theme is assigned on account creation.
+
+since login still needs to happen, the response is what an anonymous
+user will see
 
 #+begin_src verb
   http/1.1 201 created
   content-type: application/json
 
   {
-      "current_king": {
-          "id": 1,
-          "nick": "bob"
+      "current_king": null,
+      "king": {
+          "1": {
+              "id": 1,
+              "nick": "bob"
+          }
       }
   }
 #+end_src
@@ -260,11 +268,14 @@ default theme is assigned on account creation
   content-type: application/json
 
   {
-      "current_king": {
-            "id": 1,
-            "email": "john.smith@example.com",
-            "nick": "johnsmith",
-            "theme_id": 1
+      "current_king_id": 1,
+      "king": {
+          "1": {
+              "id": 1,
+              "email": "john.smith@example.com",
+              "nick": "johnsmith",
+              "theme_id": 1
+          }
       }
   }
 #+end_src
@@ -276,7 +287,7 @@ default theme is assigned on account creation
   content-type: application/json
 
   {
-      "current_king": null
+      "current_king_id": null
   }
 #+end_src
 
@@ -311,12 +322,15 @@ default theme is assigned on account creation
   content-type: application/json
 
   {
-      "current_king": {
-          "id": 1
-          "email": "bob2@example.com",
-          "nick": "bob2",
-          "password": "secret password2",
-          "theme_id": 1
+      "current_king_id": 1,
+      "king": {
+          "1": {
+              "id": 1
+              "email": "bob2@example.com",
+              "nick": "bob2",
+              "password": "secret password2",
+              "theme_id": 1
+          }
       }
   }
 #+end_src
@@ -374,7 +388,7 @@ default theme is assigned on account creation
   http/1.1 200 ok
 
   {
-      "current_king": null
+      "current_king_id": null
   }
 #+end_src
 
