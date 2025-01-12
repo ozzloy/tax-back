@@ -38,6 +38,11 @@ class KingPrivateSchema(BaseModel):
     created: datetime
     updated: datetime
 
+    @field_serializer("created", "updated")
+    def serialize_datetime(self, dt: datetime):
+        """Serialize datetimes for JSON."""
+        return dt.isoformat()
+
 
 class KingPublicSchema(BaseModel):
     """data that every king sees about other kings."""

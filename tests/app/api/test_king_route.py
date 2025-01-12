@@ -8,15 +8,15 @@ def test_king_create_success(client):
     """test successful king create with valid csrf token"""
     king_signup_data = KingSignupStub().model_dump()
 
-    response = client.post(
+    signup_response = client.post(
         "/api/king/",
         json=king_signup_data,
     )
 
-    assert response.status_code == http.CREATED
+    assert signup_response.status_code == http.CREATED
 
-    state = response.json
-    assert "king" in state
+    state = signup_response.json
+    assert list(state.keys()) == ["king"]
     StateSchema(**state)
 
 

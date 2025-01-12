@@ -27,5 +27,7 @@ def login():
     login_king(king)
 
     state = {"current_king": king.to_private_dict()}
-    state = StateSchema.model_validate(state).model_dump()
+    state = StateSchema.model_validate(state).model_dump(
+        exclude_none=True
+    )
     return state, http.OK

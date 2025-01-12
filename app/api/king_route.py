@@ -13,7 +13,9 @@ king_blueprint = Blueprint("king", __name__, url_prefix="/king")
 @king_blueprint.route("/", methods=["POST"])
 def create():
     """Create a new king, aka account."""
-    king = KingSignupSchema.model_validate(request.json).model_dump()
+    king = KingSignupSchema.model_validate(request.json).model_dump(
+        exclude_none=True
+    )
     king["theme_id"] = 1
 
     king = King(**king)
@@ -21,7 +23,9 @@ def create():
     db.session.add(king)
     db.session.commit()
 
-    state = StateSchema.model_validate(
-        {"king": {str(king.id): king.to_dict()}}
+    state_data = {"king": {str(king.id): king.to_dict()}}
+    state = StateSchema.model_validate(state_data).model_dump(
+        exclude_none=True
     )
-    return state.model_dump(), http.CREATED
+
+    return state, http.CREATED
