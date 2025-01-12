@@ -5,7 +5,7 @@ from http import HTTPStatus as http
 
 from app import db
 from app.model import King
-from app.schema import KingSignupSchema
+from app.schema import KingPublicSchema, KingSignupSchema
 
 king_blueprint = Blueprint("king", __name__, url_prefix="/king")
 
@@ -18,4 +18,5 @@ def create():
     king = King(**king)
     db.session.add(king)
     db.session.commit()
-    return {"king": {str(king.id): king.to_dict()}}, http.CREATED
+    king = KingPublicSchema.model_validate(king)
+    return {"king": {str(king.id): king}}, http.CREATED
