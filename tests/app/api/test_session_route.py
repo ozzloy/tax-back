@@ -42,3 +42,17 @@ def test_session_create_missing_fields(client):
         assert missing_field in errors
         for key in data:
             assert key not in errors
+
+
+def test_session_create_validation_error(client):
+    """test login validation failure."""
+    invalid_data = {
+        "email": "invalid-email",
+        "password": "",
+    }
+
+    response = client.post("/api/session/", json=invalid_data)
+    assert response.status_code == http.UNPROCESSABLE_ENTITY
+    assert response.json["message"] == "validation error"
+    assert "email" in response.json["errors"]
+    assert "password" in response.json["errors"]
