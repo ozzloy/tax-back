@@ -73,6 +73,17 @@ CLOSED: [2025-01-11 Sat]
 **** DONE session.logout
 CLOSED: [2025-01-12 Sun]
 [2025-01-10 Fri 10:16 -0800]
+** TODO think more about how to handle theme_id
+for now, you can only use your own themes
+you can delete your own themes
+
+later: make it so you can use someone else's theme
+
+if king deletes a theme, then it becomes a system theme by setting
+creator_id to null
+
+if no one is using it, then the record gets deleted
+
 * DONE move db from app/db to app/model
 CLOSED: [2025-01-10 Fri 09:13]
   + decided not to do this

@@ -1,11 +1,7 @@
 from http import HTTPStatus as http
 
-from app.schema import (
-    KingSignupSchema,
-    SessionLoginSchema,
-    StateSchema,
-)
-from tests.stub import KingSignupStub
+from app.schema import KingSignupSchema, StateSchema
+from tests.stub import KingSignupStub, KingUpdateStub
 
 
 def test_king_create_success(client):
@@ -143,3 +139,117 @@ def test_king_read_logged_in(logged_in_king):
 def test_king_read_anonymous(client):
     read_response = client.get("/api/king/")
     assert read_response.status_code == http.UNAUTHORIZED
+
+
+def test_king_update_all_fields(logged_in_king):
+    """Test successful king update with all fields."""
+    client, original_king_data = logged_in_king
+    update_data = KingUpdateStub().model_dump()
+    old_password = original_king_data["password"]
+    new_password = update_data["password"]
+
+    update_response = client.put("/api/king/", json=update_data)
+    assert update_response.status_code == http.OK
+
+    # Validate response structure
+    state = update_response.json
+    StateSchema(**state)
+
+    # Verify updated fields
+    current_king_id = state["current_king_id"]
+    updated_king = state["king"][str(current_king_id)]
+
+    # Password should not be returned
+    assert "password" not in updated_king
+
+    # Check that fields were updated
+    del update_data["password"]
+    for key, value in update_data.items():
+        assert updated_king[key] == value
+
+    # log out
+    client.delete("/api/session/")
+    # try to log in with old password
+    login_old_password_data = {
+        "email": update_data["email"],
+        "password": old_password,
+    }
+    old_password_response = client.post(
+        "/api/session/", json=login_old_password_data
+    )
+    # assert that it fails
+    assert old_password_response.status_code == http.UNAUTHORIZED
+    # try to log in with new password
+    login_new_password_data = {
+        "email": update_data["email"],
+        "password": new_password,
+    }
+    new_password_response = client.post(
+        "/api/session/", json=login_new_password_data
+    )
+    # assert that it succeeds
+    assert new_password_response.status_code == http.OK
+
+
+def test_king_update_partial(logged_in_king):
+    """Test successful king update with only some fields."""
+
+    client, original_king_data = logged_in_king
+    update_data = {"email": "newemail@example.com"}
+
+    update_response = client.put("/api/king/", json=update_data)
+    assert update_response.status_code == http.OK
+
+    state = update_response.json
+    current_king_id = state["current_king_id"]
+    updated_king = state["king"][str(current_king_id)]
+
+    # Check that specified field was updated
+    assert updated_king["email"] == update_data["email"]
+
+    # Check that unspecified fields remain unchanged
+    assert updated_king["nick"] == original_king_data["nick"]
+
+
+def test_king_update_invalid_email(logged_in_king):
+    """Test king update with invalid email format."""
+    client, _ = logged_in_king
+    update_data = {"email": "invalid-email"}
+
+    response = client.put("/api/king/", json=update_data)
+    assert response.status_code == http.UNPROCESSABLE_ENTITY
+
+
+def test_king_update_short_password(logged_in_king):
+    """Test king update with password that's too short."""
+    client, _ = logged_in_king
+    update_data = {"password": "short"}
+
+    response = client.put("/api/king/", json=update_data)
+    assert response.status_code == http.UNPROCESSABLE_ENTITY
+
+
+def test_king_update_unauthenticated(client):
+    """Test king update without authentication."""
+    update_data = KingUpdateStub().model_dump()
+
+    response = client.put("/api/king/", json=update_data)
+    assert response.status_code == http.UNAUTHORIZED
+
+
+def test_king_update_empty_nick(logged_in_king):
+    """Test king update with empty nickname."""
+    client, _ = logged_in_king
+    update_data = {"nick": ""}
+
+    response = client.put("/api/king/", json=update_data)
+    assert response.status_code == http.UNPROCESSABLE_ENTITY
+
+
+def test_king_update_invalid_theme(logged_in_king):
+    """Test king update with invalid theme_id."""
+    client, _ = logged_in_king
+    update_data = {"theme_id": -1}
+
+    response = client.put("/api/king/", json=update_data)
+    assert response.status_code == http.UNPROCESSABLE_ENTITY

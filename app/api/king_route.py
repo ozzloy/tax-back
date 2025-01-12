@@ -6,7 +6,7 @@ from http import HTTPStatus as http
 
 from app import db
 from app.model import King
-from app.schema import KingSignupSchema, StateSchema
+from app.schema import KingSignupSchema, KingUpdateSchema, StateSchema
 
 king_blueprint = Blueprint("king", __name__, url_prefix="/king")
 
@@ -43,4 +43,31 @@ def read():
         "king": {str(king_id): king},
     }
     state = StateSchema(**state_data).model_dump()
+    return state, http.OK
+
+
+@king_blueprint.route("/", methods=["PUT"])
+@login_required
+def update():
+    """Update current king's account details."""
+    update_data = KingUpdateSchema.model_validate(
+        request.json
+    ).model_dump(exclude_none=True)
+
+    # Get current king from database
+    king = db.session.get(King, current_king.id)
+
+    # Update each provided field
+    for field, value in update_data.items():
+        setattr(king, field, value)
+
+    db.session.commit()
+
+    # Prepare response
+    state_data = {
+        "current_king_id": current_king.id,
+        "king": {str(king.id): king.to_private_dict()},
+    }
+    state = StateSchema.model_validate(state_data).model_dump()
+
     return state, http.OK

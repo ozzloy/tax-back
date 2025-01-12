@@ -8,6 +8,7 @@ from pydantic import (
     Field,
     field_serializer,
 )
+from typing import Optional
 
 
 class KingSignupSchema(BaseModel):
@@ -26,6 +27,15 @@ class KingSignupSchema(BaseModel):
             }
         }
     )
+
+
+class KingUpdateSchema(BaseModel):
+    """validate signup requests."""
+
+    email: Optional[EmailStr] = None
+    nick: Optional[str] = Field(default=None, min_length=1)
+    password: Optional[str] = Field(default=None, min_length=6)
+    theme_id: Optional[int] = Field(default=None, gt=0)
 
 
 class KingPrivateSchema(BaseModel):
