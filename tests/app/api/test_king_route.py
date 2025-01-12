@@ -44,17 +44,15 @@ def test_king_create_failure_invalid_csrf(client):
 
 def test_king_create_missing_fields(client):
     """test king creation fails with missing field"""
-    # Test missing all required fields
+    # test missing all required fields
     response = client.post("/api/king/", json={})
     assert response.status_code == http.UNPROCESSABLE_ENTITY
     assert "errors" in response.json
     errors = response.json["errors"]
     required_fields = KingSignupSchema.model_fields
-    assert all(
-        field in response.json["errors"] for field in required_fields
-    )
+    assert all(field in errors for field in required_fields)
 
-    # Test missing individual fields
+    # test missing individual fields
     for missing_field in required_fields:
         data = KingSignupStub().model_dump()
         del data[missing_field]

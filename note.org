@@ -1,32 +1,3 @@
-* TODO test if dict int keys will be transformed into str
-in ~state_schema.py~,
-
-could this
-
-#+begin_src python
-    king: Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
-#+end_src
-
-instead be this
-#+begin_src python
-    king: Dict[int, Union[KingPublicSchema, KingPrivateSchema]]
-#+end_src
-?
-* DONE switch to pydantic for json validation
-CLOSED: [2025-01-11 Sat]
-** DONE remove raw dogged validation
-CLOSED: [2025-01-11 Sat 08:20]
-** DONE add schema
-CLOSED: [2025-01-11 Sat 08:20]
-** DONE use schema in king create route
-CLOSED: [2025-01-11 Sat 08:51]
-** DONE get rid of validator.py, use schema for state
-CLOSED: [2025-01-11 Sat 08:51]
-* DONE switch to pydantic for test data generation
-CLOSED: [2025-01-11 Sat 08:52]
-  + actually switched to factory boy for generation
-* DONE make sure email column of king is unique
-CLOSED: [2025-01-11 Sat 08:52]
 [2025-01-10 Fri 10:30 -0800]
 * TODO ensure combo of king_id and name is unique for form_1040
 [2025-01-10 Fri 10:30 -0800]
@@ -115,3 +86,39 @@ in order to add default theme,
   + use postgresql as db
   + run seed_db which runs seed_theme
     + run this instead of init_default_theme
+* DONE test if dict int keys will be transformed into str
+CLOSED: [2025-01-12 Sun]
+in ~state_schema.py~,
+
+could this
+
+#+begin_src python
+    king: Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
+#+end_src
+
+instead be this
+#+begin_src python
+    king: Dict[int, Union[KingPublicSchema, KingPrivateSchema]]
+#+end_src
+?
+** answer: not high enough priority
+would require custom JSON encoder to make use of it.
+
+when routes send out a dict, they implicitly jsonify it. if the dict
+has an int for a key, the default json encoder won't convert it
+automatically.  this is left as a future upgrade
+* DONE switch to pydantic for json validation
+CLOSED: [2025-01-11 Sat]
+** DONE remove raw dogged validation
+CLOSED: [2025-01-11 Sat 08:20]
+** DONE add schema
+CLOSED: [2025-01-11 Sat 08:20]
+** DONE use schema in king create route
+CLOSED: [2025-01-11 Sat 08:51]
+** DONE get rid of validator.py, use schema for state
+CLOSED: [2025-01-11 Sat 08:51]
+* DONE switch to pydantic for test data generation
+CLOSED: [2025-01-11 Sat 08:52]
+  + actually switched to factory boy for generation
+* DONE make sure email column of king is unique
+CLOSED: [2025-01-11 Sat 08:52]
