@@ -1,6 +1,6 @@
 """utility functionality for schemas."""
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Any, Iterator
 
 
@@ -46,3 +46,5 @@ class DictModel(BaseModel):
     def __setitem__(self, key, value):
         """Support set statement: model[key] = value."""
         setattr(self, key, value)
+
+    model_config = ConfigDict(extra="allow")

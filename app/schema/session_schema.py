@@ -1,9 +1,12 @@
 """verify session (login, logout) data structures."""
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
+from pydantic import ConfigDict, EmailStr, Field
 
 
-class SessionLoginSchema(BaseModel):
+from .base import DictModel
+
+
+class SessionLoginSchema(DictModel):
     """schema for login data.
 
     example login data structure
