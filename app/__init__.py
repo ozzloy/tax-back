@@ -86,6 +86,14 @@ def create_app(config_class=Config):
 
     @app.errorhandler(Exception)
     def handle_generic_error(e):
+        print(f"error type: {type(e).__name__}")
+        print(f"error message: {str(e)}")
+
+        import traceback
+
+        print("\ntraceback:")
+        print(traceback.format_exc())
+
         return {"error": str(e)}, http.INTERNAL_SERVER_ERROR
 
     with app.app_context():
