@@ -5,8 +5,10 @@ import pytest
 
 from app import create_app
 from app.db import db
+from app.schema import SessionLoginSchema
 from app.seed import seed
 from config import Config
+from tests.stub import KingSignupStub
 
 
 class TestConfig(Config):
@@ -83,3 +85,28 @@ def app():
 def client(app):
     """Get test client."""
     return app.test_client()
+
+
+@pytest.fixture
+def logged_in_king(client):
+    """Create a king and log it in.
+
+    Returns:
+        tuple: (client, king_data)
+    """
+    # create king signup data
+    king_signup_data = KingSignupStub().model_dump()
+
+    # request backend make the king
+    create_response = client.post("/api/king/", json=king_signup_data)
+    # log in as the king
+    session_login_data = SessionLoginSchema(
+        **king_signup_data
+    ).model_dump()
+    client.post("/api/session/", json=session_login_data)
+    # get the new info, like id, created, updated, and retain password
+    king_data = (
+        king_signup_data
+        | list(create_response.json["king"].values())[0]
+    )
+    return client, king_data

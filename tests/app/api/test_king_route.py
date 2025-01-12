@@ -121,18 +121,8 @@ def test_king_create_conflict(client):
     assert "nick is taken" in response.json["errors"]["nick"]
 
 
-def test_king_read_logged_in(client):
-    king_signup_data = KingSignupStub().model_dump()
-    create_response = client.post("/api/king/", json=king_signup_data)
-    session_login_data = SessionLoginSchema(
-        **king_signup_data
-    ).model_dump()
-    client.post("/api/session/", json=session_login_data)
-
-    king_data = (
-        king_signup_data
-        | list(create_response.json["king"].values())[0]
-    )
+def test_king_read_logged_in(logged_in_king):
+    client, king_data = logged_in_king
 
     read_response = client.get("/api/king/")
     state = read_response.json
