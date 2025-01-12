@@ -18,4 +18,4 @@ class KingSignupStub(factory.Factory):
 
     email = factory.LazyFunction(lambda: fake.email())
     nick = factory.LazyFunction(lambda: fake.user_name())
-    password = factory.LazyFunction(lambda: fake.password(length=12))
+    password = factory.LazyFunction(lambda: fake.password(length=6))

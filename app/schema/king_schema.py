@@ -10,15 +10,12 @@ from pydantic import (
 )
 
 
-from .base import DictModel
-
-
-class KingSignupSchema(DictModel):
+class KingSignupSchema(BaseModel):
     """validate signup requests."""
 
     email: EmailStr
     nick: str = Field(min_length=1)
-    password: str = Field(min_length=1)
+    password: str = Field(min_length=6)
 
     model_config = ConfigDict(
         json_schema_extra={
