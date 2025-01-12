@@ -56,3 +56,26 @@ def test_session_create_validation_error(client):
     assert response.json["message"] == "validation error"
     assert "email" in response.json["errors"]
     assert "password" in response.json["errors"]
+
+
+def test_session_create_invalid_login(client):
+    """test failures occuring from invalid credentials"""
+    # test completely new user
+    nonextant_login = {
+        "email": "nonextant@example.org",
+        "password": "at least 6 characters",
+    }
+    response = client.post("/api/session/", json=nonextant_login)
+    assert response.status_code == http.UNAUTHORIZED
+    assert response.json["message"] == "invalid credentials"
+
+    king_signup_data = KingSignupStub().model_dump()
+    client.post("/api/king/", json=king_signup_data)
+    login_data = SessionLoginSchema(**king_signup_data).model_dump()
+    wrong_password = login_data["password"] + "a"
+    login_wrong_password = login_data | {"password": wrong_password}
+    wrong_password_response = client.post(
+        "/api/session/", json=login_wrong_password
+    )
+
+    assert wrong_password_response.status_code == http.UNAUTHORIZED
