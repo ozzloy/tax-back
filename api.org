@@ -73,8 +73,7 @@ not have the correct role(s) or permission(s).
   content-type: application/json
 
   {
-      "king": {
-          "1": {
+      "current_king": {
               "id": 1,
               "email": "john.smith@example.com",
               "nick": "johnsmith",
@@ -183,13 +182,9 @@ default theme is assigned on account creation
   content-type: application/json
 
   {
-      "king": {
-          "1": {
-              "id": 1,
-              "nick": "bob",
-              "created": "timestamp",
-              "updated": "timestamp"
-          }
+      "current_king": {
+          "id": 1,
+          "nick": "bob"
       }
   }
 #+end_src
@@ -265,13 +260,11 @@ default theme is assigned on account creation
   content-type: application/json
 
   {
-      "king": {
-          "1": {
-              "id": 1,
-              "email": "john.smith@example.com",
-              "nick": "johnsmith",
-              "theme_id": 1
-          }
+      "current_king": {
+            "id": 1,
+            "email": "john.smith@example.com",
+            "nick": "johnsmith",
+            "theme_id": 1
       }
   }
 #+end_src
@@ -318,14 +311,12 @@ default theme is assigned on account creation
   content-type: application/json
 
   {
-      "king": {
-          "1": {
-              "id": 1
-              "email": "bob2@example.com",
-              "nick": "bob2",
-              "password": "secret password2",
-              "theme_id": 1
-          }
+      "current_king": {
+          "id": 1
+          "email": "bob2@example.com",
+          "nick": "bob2",
+          "password": "secret password2",
+          "theme_id": 1
       }
   }
 #+end_src
@@ -383,9 +374,7 @@ default theme is assigned on account creation
   http/1.1 200 ok
 
   {
-      "king": {
-          "1": null
-      }
+      "current_king": null
   }
 #+end_src
 

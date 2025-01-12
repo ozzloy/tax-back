@@ -1,4 +1,5 @@
-* TODO switch to pydantic for json validation
+* DONE switch to pydantic for json validation
+CLOSED: [2025-01-11 Sat]
 ** DONE remove raw dogged validation
 CLOSED: [2025-01-11 Sat 08:20]
 ** DONE add schema
@@ -21,7 +22,8 @@ CLOSED: [2025-01-11 Sat 08:52]
 [2025-01-10 Fri 09:49 -0800]
 *** TODO endpoints for authentication
 [2025-01-10 Fri 10:16 -0800]
-**** TODO session.login
+**** DONE session.login
+CLOSED: [2025-01-11 Sat]
 [2025-01-10 Fri 10:16 -0800]
 **** TODO session.logout
 [2025-01-10 Fri 10:16 -0800]
@@ -30,10 +32,16 @@ CLOSED: [2025-01-11 Sat 08:52]
 **** DONE create
 OPENED: [2025-01-10 Fri 09:49 -0800]
 CLOSED: [2025-01-10 Fri 09:56 -0800]
-**** TODO make create route use state schema in return value
+**** DONE make create route use state schema in return value
+CLOSED: [2025-01-11 Sat]
 [2025-01-11 Sat 09:12 -0800]
 **** TODO king.read
 [2025-01-10 Fri 09:49 -0800]
+***** DONE king.read.logged in
+CLOSED: [2025-01-11 Sat]
+[2025-01-11 Sat 21:20 -0800]
+***** TODO king.read.anonymous
+[2025-01-11 Sat 21:20 -0800]
 **** TODO king.update
 [2025-01-10 Fri 09:49 -0800]
 **** TODO king.delete
