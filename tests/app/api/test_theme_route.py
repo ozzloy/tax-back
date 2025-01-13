@@ -97,3 +97,17 @@ def test_theme_read_all(logged_in_king):
         len(response_post.json["theme"])
         == len(response_prior.json["theme"]) + 1
     )
+
+
+def test_theme_read(logged_in_king):
+    """test successful read of all themes"""
+    # make a request to read
+    client, king = logged_in_king
+    theme_data = ThemeCreateStub().model_dump()
+    create_response = client.post("/api/theme/", json=theme_data)
+
+    theme_id = next(iter(create_response.json["theme"].keys()))
+
+    read_response = client.get(f"/api/theme/{theme_id}")
+    assert read_response.status_code == http.OK
+    assert create_response.json == read_response.json

@@ -1,6 +1,6 @@
 """endpoints for themes."""
 
-from flask import Blueprint, request
+from flask import abort, Blueprint, request
 from flask_login import current_user as current_king, login_required
 from http import HTTPStatus as http
 
@@ -50,10 +50,15 @@ def read_all():
 
 @theme_blueprint.route("/<int:theme_id>", methods=["GET"])
 @login_required
-def read():
+def read(theme_id):
     """Read a theme."""
-    print("TODO: theme read")
-    exit(-1)
+    # get theme with matching id
+    theme = db.session.get(Theme, theme_id) or abort(http.NOT_FOUND)
+    slice = {"theme": {str(theme.id): theme.to_dict()}}
+    partial_state = StatePartialSchema(**slice).model_dump(
+        exclude_none=True
+    )
+    return partial_state, http.OK
 
 
 @theme_blueprint.route("/<int:theme_id>", methods=["PUT"])
