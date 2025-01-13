@@ -1,3 +1,5 @@
+"""make initial themes."""
+
 from sqlalchemy import and_
 
 from app.db import db
@@ -7,7 +9,7 @@ theme_seeds = [
     {
         "name": "night",
         "text_color": "chartreuse",
-        "background_color": "#111",
+        "background_color": "black",
         "king_id": None,
     },
     {
@@ -20,6 +22,7 @@ theme_seeds = [
 
 
 def seed_theme():
+    """Insert themes into db."""
     for theme_data in theme_seeds:
         theme = Theme.query.filter(
             and_(
@@ -38,4 +41,5 @@ def seed_theme():
 
 
 def undo_theme():
-    undo_table()
+    """Remove themes from db."""
+    pass

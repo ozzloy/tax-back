@@ -65,19 +65,21 @@ def update():
         request.json
     ).model_dump(exclude_none=True)
 
-    # Get current king from database
     king = db.session.get(King, current_king.id)
 
-    # Update each provided field
+    # update each provided field
     for field, value in update_data.items():
         setattr(king, field, value)
 
     db.session.commit()
 
-    # Prepare response
+    themes = db.session.query(Theme).all()
+
+    # prepare response
     state_data = {
         "current_king_id": current_king.id,
         "king": {str(king.id): king.to_private_dict()},
+        "theme": {str(theme.id): theme.to_dict() for theme in themes},
     }
     state = StateSchema.model_validate(state_data).model_dump()
 

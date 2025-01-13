@@ -3,6 +3,7 @@
 from datetime import datetime
 
 from app.db import db
+from app.schema import ThemeResponseSchema
 
 
 class Theme(db.Model):
@@ -32,3 +33,7 @@ class Theme(db.Model):
             "king_id", "name", name="unique_king_theme"
         ),
     )
+
+    def to_dict(self):
+        """Public info about this theme."""
+        return ThemeResponseSchema.model_validate(self).model_dump()
