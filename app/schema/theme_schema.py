@@ -61,7 +61,7 @@ class ThemeUpdateSchema(BaseModel):
         return color
 
 
-class ThemeResponseSchema(BaseModel):
+class ThemeDictSchema(BaseModel):
     """Theme data returned in responses."""
 
     id: int

@@ -1,7 +1,12 @@
 """endpoints for themes."""
 
-from flask import Blueprint
-from flask_login import login_required
+from flask import Blueprint, request
+from flask_login import current_user as current_king, login_required
+from http import HTTPStatus as http
+
+from app import db
+from app.model import Theme
+from app.schema import StateSchema, ThemeCreateSchema
 
 theme_blueprint = Blueprint("theme", __name__, url_prefix="theme")
 
@@ -10,8 +15,26 @@ theme_blueprint = Blueprint("theme", __name__, url_prefix="theme")
 @login_required
 def create():
     """Create a new theme."""
-    print("TODO: theme create")
-    exit(-1)
+    theme_data = ThemeCreateSchema.model_validate(
+        request.json
+    ).model_dump()
+    theme_data["king_id"] = current_king.id
+
+    theme = Theme(**theme_data)
+
+    db.session.add(theme)
+    db.session.commit()
+
+    themes = db.session.query(Theme).all()
+
+    state_data = {
+        "current_king_id": current_king.id,
+        "king": {str(current_king.id): current_king.to_dict()},
+        "theme": {str(theme.id): theme.to_dict() for theme in themes},
+    }
+
+    state = StateSchema(**state_data).model_dump()
+    return state, http.OK
 
 
 @theme_blueprint.route("/", methods=["POST"])

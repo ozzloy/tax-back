@@ -11,7 +11,7 @@ from .state_schema import StateSchema
 from .theme_schema import (
     ThemeCreateSchema,
     ThemeUpdateSchema,
-    ThemeResponseSchema,
+    ThemeDictSchema,
 )
 
 __all__ = [
@@ -23,5 +23,5 @@ __all__ = [
     "StateSchema",
     "ThemeCreateSchema",
     "ThemeUpdateSchema",
-    "ThemeResponseSchema",
+    "ThemeDictSchema",
 ]
