@@ -9,7 +9,7 @@ from flask_login import (
 from http import HTTPStatus as http
 
 from app import db
-from app.model import King
+from app.model import King, Theme
 from app.schema import KingSignupSchema, KingUpdateSchema, StateSchema
 
 king_blueprint = Blueprint("king", __name__, url_prefix="/king")
@@ -19,7 +19,14 @@ king_blueprint = Blueprint("king", __name__, url_prefix="/king")
 def create():
     """Create a new king, aka create new account, aka signup."""
     king = KingSignupSchema.model_validate(request.json).model_dump()
-    king["theme_id"] = 1
+    # get all themes where king_id is null. these are system themes
+    earliest_system_theme = (
+        db.session.query(Theme)
+        .filter(Theme.king_id.is_(None))
+        .order_by(Theme.created)
+        .first()
+    )
+    king["theme_id"] = earliest_system_theme.id
 
     king = King(**king)
 
