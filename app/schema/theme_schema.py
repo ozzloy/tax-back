@@ -68,7 +68,7 @@ class ThemeDictSchema(BaseModel):
     name: str = Field(min_length=1)
     text_color: str
     background_color: str
-    king_id: int
+    king_id: Optional[int] = None
     created: datetime
     updated: datetime
 

@@ -33,12 +33,19 @@ def create():
     return partial_state, http.CREATED
 
 
-@theme_blueprint.route("/", methods=["POST"])
+@theme_blueprint.route("/", methods=["GET"])
 @login_required
 def read_all():
     """Read all themes."""
-    print("TODO: theme read all")
-    exit(-1)
+    themes = db.session.query(Theme).all()
+
+    slice = {
+        "theme": {str(theme.id): theme.to_dict() for theme in themes}
+    }
+    partial_state = StatePartialSchema(**slice).model_dump(
+        exclude_none=True
+    )
+    return partial_state, http.OK
 
 
 @theme_blueprint.route("/<int:theme_id>", methods=["GET"])

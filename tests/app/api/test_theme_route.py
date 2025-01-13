@@ -3,6 +3,10 @@ from http import HTTPStatus as http
 from app.schema import StatePartialSchema
 from tests.stub import ThemeCreateStub
 
+######################################################################
+# create
+######################################################################
+
 
 def test_theme_create_success(logged_in_king):
     """Test successful creation of a theme for a king"""
@@ -59,3 +63,37 @@ def test_theme_create_invalid_fields(logged_in_king):
         valid_fields = list(data.keys())
         valid_fields.remove(invalid_field)
         assert all(field not in errors for field in valid_fields)
+
+
+######################################################################
+# read
+######################################################################
+
+
+def test_theme_read_all(logged_in_king):
+    """test successful read of all themes"""
+    # make a request to read
+    client, king = logged_in_king
+    response_prior = client.get("/api/theme/")
+    theme_data = ThemeCreateStub().model_dump()
+    create_response = client.post("/api/theme/", json=theme_data)
+    response_post = client.get("/api/theme/")
+
+    # assert that response_post contains everything from response_prior
+    for theme_id, theme_data in response_prior.json["theme"].items():
+        assert theme_id in response_post.json["theme"]
+        assert response_post.json["theme"][theme_id] == theme_data
+
+    # assert that response_post contains the newly created theme
+    new_theme_id = list(create_response.json["theme"].keys())[0]
+    assert new_theme_id in response_post.json["theme"]
+    assert (
+        response_post.json["theme"][new_theme_id]
+        == create_response.json["theme"][new_theme_id]
+    )
+
+    # verify the total number of themes is correct
+    assert (
+        len(response_post.json["theme"])
+        == len(response_prior.json["theme"]) + 1
+    )
