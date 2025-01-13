@@ -7,6 +7,11 @@
 [2025-01-10 Fri 09:49 -0800]
 *** TODO endpoints for theme
 [2025-01-10 Fri 09:49 -0800]
+**** TODO setup work
+***** DONE create model
+CLOSED: [2025-01-12 Sun]
+***** TODO create schema
+[2025-01-12 Sun 16:30 -0800]
 **** TODO theme.create
 [2025-01-10 Fri 09:49 -0800]
 **** TODO theme.read
@@ -76,13 +81,6 @@ CLOSED: [2025-01-11 Sat]
 **** DONE session.logout
 CLOSED: [2025-01-12 Sun]
 [2025-01-10 Fri 10:16 -0800]
-** TODO be more efficient with db
-[2025-01-12 Sun 16:05 -0800]
-
-right now every single test creates all the tables and seeds them from
-scratch.
-
-instead, each test could do its actions, then roll them back.
 ** TODO think more about how to handle theme_id
 [2025-01-12 Sun 16:05 -0800]
 for now, you can only use your own themes
@@ -95,6 +93,17 @@ creator_id to null
 
 if no one is using it, then the record gets deleted
 
+** DONE be more efficient with db
+[2025-01-12 Sun 16:24 -0800]
+turns out this did not speed things up at all
+
+CLOSED: [2025-01-12 Sun]
+[2025-01-12 Sun 16:05 -0800]
+
+right now every single test creates all the tables and seeds them from
+scratch.
+
+instead, each test could do its actions, then roll them back.
 * DONE move db from app/db to app/model
 CLOSED: [2025-01-10 Fri 09:13]
   + decided not to do this

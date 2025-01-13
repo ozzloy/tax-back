@@ -654,7 +654,7 @@ not own it
 ** theme.create
 
   + require authentication: true
-  + require authorization: false
+  + require authorization: true
 
 *** theme.create.request
 

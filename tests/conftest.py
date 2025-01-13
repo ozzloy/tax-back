@@ -91,24 +91,29 @@ def client(app):
 def logged_in_king(client):
     """Create a king and log it in.
 
-    Returns:
+    returns:
         tuple: (client, king_data)
     """
     # create king signup data
     king_signup_data = KingSignupStub().model_dump()
 
     # request backend make the king
-    create_response = client.post("/api/king/", json=king_signup_data)
+    client.post("/api/king/", json=king_signup_data)
+
     # log in as the king
     session_login_data = SessionLoginSchema(
         **king_signup_data
     ).model_dump()
-    client.post("/api/session/", json=session_login_data)
-    # get the new info, like id, created, updated, and retain password
-    king_data = (
-        king_signup_data
-        | list(create_response.json["king"].values())[0]
+    signin_response = client.post(
+        "/api/session/", json=session_login_data
     )
+
+    # get the new info, like id, created, updated, and retain password
+    state = signin_response.json
+    king_id = state["current_king_id"]
+    returned_king = state["king"][str(king_id)]
+    # include password from signup data in returned king_data
+    king_data = king_signup_data | returned_king
     return client, king_data
 
 
