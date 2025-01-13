@@ -65,9 +65,10 @@ class ThemeDictSchema(BaseModel):
     """Theme data returned in responses."""
 
     id: int
-    name: str
+    name: str = Field(min_length=1)
     text_color: str
     background_color: str
+    king_id: int
     created: datetime
     updated: datetime
 
