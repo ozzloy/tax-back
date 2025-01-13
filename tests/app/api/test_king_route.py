@@ -1,7 +1,7 @@
 from http import HTTPStatus as http
 
 from app.model import King
-from app.schema import KingSignupSchema, StateSchema
+from app.schema import KingSignupSchema, StatePartialSchema
 from tests.stub import KingSignupStub, KingUpdateStub
 
 ######################################################################
@@ -18,7 +18,7 @@ def test_king_create_success(client):
     assert signup_response.status_code == http.CREATED
 
     state = signup_response.json
-    StateSchema(**state)
+    StatePartialSchema(**state)
 
 
 def test_king_create_failure_missing_csrf(client):
@@ -132,7 +132,7 @@ def test_king_read_logged_in(logged_in_king):
 
     read_response = client.get("/api/king/")
     state = read_response.json
-    StateSchema(**state)
+    StatePartialSchema(**state)
 
     current_king_id = state["current_king_id"]
     current_king = state["king"][str(current_king_id)]
@@ -168,7 +168,7 @@ def test_king_update_all_fields(logged_in_king):
 
     # validate response structure
     state = update_response.json
-    StateSchema(**state)
+    StatePartialSchema(**state)
 
     # verify updated fields
     current_king_id = state["current_king_id"]

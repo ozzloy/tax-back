@@ -8,6 +8,7 @@ from .king_schema import (
     KingPrivateSchema,
     KingPublicSchema,
 )
+from .theme_schema import ThemeDictSchema
 
 
 class StateSchema(BaseModel):
@@ -15,18 +16,44 @@ class StateSchema(BaseModel):
 
     current_king_id: Optional[int]
     king: Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
+    theme: Dict[str, ThemeDictSchema]
 
-    @field_validator("king")
+    @field_validator("king", "theme")
     @classmethod
-    def validate_king_ids(cls, king_slice):
-        """Make sure slice id for king matches inner king's id."""
-        if king_slice:
-            for king_id_str, king in king_slice.items():
-                if str(king.id) != king_id_str:
+    def validate_king_ids(cls, state_slice):
+        """Make sure slice id for item matches inner item's id."""
+        if state_slice:
+            for item_id_str, item in state_slice.items():
+                if str(item.id) != item_id_str:
                     raise ValueError(
-                        "King ID mismatch: slice key"
-                        + king_id_str
-                        + "does not match king.id "
-                        + str(king.id)
+                        "slice ID mismatch: slice key"
+                        + item_id_str
+                        + "does not match item.id "
+                        + str(item.id)
                     )
-        return king_slice
+        return state_slice
+
+
+class StatePartialSchema(BaseModel):
+    """schema for application state."""
+
+    current_king_id: Optional[int] = None
+    king: Optional[
+        Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
+    ] = None
+    theme: Optional[Dict[str, ThemeDictSchema]] = None
+
+    @field_validator("king", "theme")
+    @classmethod
+    def validate_king_ids(cls, state_slice):
+        """Make sure slice id for item matches inner item's id."""
+        if state_slice:
+            for item_id_str, item in state_slice.items():
+                if str(item.id) != item_id_str:
+                    raise ValueError(
+                        "slice ID mismatch: slice key"
+                        + item_id_str
+                        + "does not match item.id "
+                        + str(item.id)
+                    )
+        return state_slice

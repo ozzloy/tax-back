@@ -6,7 +6,7 @@ from http import HTTPStatus as http
 
 from app import db
 from app.model import Theme
-from app.schema import StateSchema, ThemeCreateSchema
+from app.schema import StatePartialSchema, ThemeCreateSchema
 
 theme_blueprint = Blueprint("theme", __name__, url_prefix="theme")
 
@@ -25,16 +25,12 @@ def create():
     db.session.add(theme)
     db.session.commit()
 
-    themes = db.session.query(Theme).all()
+    state_data = {"theme": {str(theme.id): theme.to_dict()}}
 
-    state_data = {
-        "current_king_id": current_king.id,
-        "king": {str(current_king.id): current_king.to_dict()},
-        "theme": {str(theme.id): theme.to_dict() for theme in themes},
-    }
-
-    state = StateSchema(**state_data).model_dump()
-    return state, http.OK
+    partial_state = StatePartialSchema(**state_data).model_dump(
+        exclude_none=True
+    )
+    return partial_state, http.OK
 
 
 @theme_blueprint.route("/", methods=["POST"])

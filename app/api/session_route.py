@@ -8,7 +8,7 @@ from flask_login import (
 from http import HTTPStatus as http
 
 from app.model import King
-from app.schema import SessionLoginSchema, StateSchema
+from app.schema import SessionLoginSchema, StatePartialSchema
 
 session_blueprint = Blueprint(
     "session", __name__, url_prefix="/session"
@@ -34,7 +34,9 @@ def login():
         "current_king_id": king_id,
         "king": {king_id: king.to_private_dict()},
     }
-    state = StateSchema.model_validate(state).model_dump()
+    state = StatePartialSchema.model_validate(state).model_dump(
+        exclude_none=True
+    )
     return state, http.OK
 
 

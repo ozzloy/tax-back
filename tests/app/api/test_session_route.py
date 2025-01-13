@@ -1,6 +1,6 @@
 from http import HTTPStatus as http
 
-from app.schema import SessionLoginSchema, StateSchema
+from app.schema import SessionLoginSchema, StatePartialSchema
 from tests.stub import KingSignupStub, SessionLoginStub
 
 
@@ -16,7 +16,7 @@ def test_session_create_success(client):
     assert login_response.status_code == http.OK
 
     state = login_response.json
-    StateSchema(**state)
+    StatePartialSchema(**state)
 
 
 def test_session_create_missing_fields(client):

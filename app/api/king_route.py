@@ -10,7 +10,11 @@ from http import HTTPStatus as http
 
 from app import db
 from app.model import King, Theme
-from app.schema import KingSignupSchema, KingUpdateSchema, StateSchema
+from app.schema import (
+    KingSignupSchema,
+    KingUpdateSchema,
+    StatePartialSchema,
+)
 
 king_blueprint = Blueprint("king", __name__, url_prefix="/king")
 
@@ -37,9 +41,11 @@ def create():
         "current_king_id": None,
         "king": {str(king.id): king.to_dict()},
     }
-    state = StateSchema.model_validate(state_data).model_dump()
+    partial_state = StatePartialSchema.model_validate(
+        state_data
+    ).model_dump(exclude_none=True)
 
-    return state, http.CREATED
+    return partial_state, http.CREATED
 
 
 @king_blueprint.route("/", methods=["GET"])
@@ -53,8 +59,10 @@ def read():
         "current_king_id": king_id,
         "king": {str(king_id): king},
     }
-    state = StateSchema(**state_data).model_dump()
-    return state, http.OK
+    partial_state = StatePartialSchema(**state_data).model_dump(
+        exclude_none=True
+    )
+    return partial_state, http.OK
 
 
 @king_blueprint.route("/", methods=["PUT"])
@@ -73,17 +81,16 @@ def update():
 
     db.session.commit()
 
-    themes = db.session.query(Theme).all()
-
     # prepare response
     state_data = {
         "current_king_id": current_king.id,
         "king": {str(king.id): king.to_private_dict()},
-        "theme": {str(theme.id): theme.to_dict() for theme in themes},
     }
-    state = StateSchema.model_validate(state_data).model_dump()
+    partial_state = StatePartialSchema.model_validate(
+        state_data
+    ).model_dump(exclude_none=True)
 
-    return state, http.OK
+    return partial_state, http.OK
 
 
 @king_blueprint.route("/", methods=["DELETE"])

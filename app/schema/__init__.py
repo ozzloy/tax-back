@@ -7,7 +7,7 @@ from .king_schema import (
     KingUpdateSchema,
 )
 from .session_schema import SessionLoginSchema
-from .state_schema import StateSchema
+from .state_schema import StatePartialSchema, StateSchema
 from .theme_schema import (
     ThemeCreateSchema,
     ThemeUpdateSchema,
@@ -21,6 +21,7 @@ __all__ = [
     "KingUpdateSchema",
     "SessionLoginSchema",
     "StateSchema",
+    "StatePartialSchema",
     "ThemeCreateSchema",
     "ThemeUpdateSchema",
     "ThemeDictSchema",
