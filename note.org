@@ -1,4 +1,11 @@
-[2025-01-10 Fri 10:30 -0800]
+* TODO allow more colors
+[2025-01-12 Sun 17:30 -0800]
+
+currently the selected color must be one of the colors in webcolors.names
+
+it would be cool if instead anything that could be used as a color
+could be used. for example, #123, or rgb(a,b,c)
+
 * TODO ensure combo of king_id and name is unique for form_1040
 [2025-01-10 Fri 10:30 -0800]
 * TODO finish off backend
@@ -7,11 +14,6 @@
 [2025-01-10 Fri 09:49 -0800]
 *** TODO endpoints for theme
 [2025-01-10 Fri 09:49 -0800]
-**** TODO setup work
-***** DONE create model
-CLOSED: [2025-01-12 Sun]
-***** TODO create schema
-[2025-01-12 Sun 16:30 -0800]
 **** TODO theme.create
 [2025-01-10 Fri 09:49 -0800]
 **** TODO theme.read
@@ -20,6 +22,13 @@ CLOSED: [2025-01-12 Sun]
 [2025-01-10 Fri 09:49 -0800]
 **** TODO theme.delete
 [2025-01-10 Fri 09:49 -0800]
+**** DONE setup work
+CLOSED: [2025-01-12 Sun]
+***** DONE create model
+CLOSED: [2025-01-12 Sun]
+***** DONE create schema
+CLOSED: [2025-01-12 Sun]
+[2025-01-12 Sun 16:30 -0800]
 *** TODO endpoints for human
 [2025-01-10 Fri 09:49 -0800]
 **** TODO human.create
