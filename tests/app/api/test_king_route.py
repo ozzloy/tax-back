@@ -1,7 +1,12 @@
 from http import HTTPStatus as http
 
+from app.model import King
 from app.schema import KingSignupSchema, StateSchema
 from tests.stub import KingSignupStub, KingUpdateStub
+
+######################################################################
+# create
+######################################################################
 
 
 def test_king_create_success(client):
@@ -117,6 +122,11 @@ def test_king_create_conflict(client):
     assert "nick is taken" in response.json["errors"]["nick"]
 
 
+######################################################################
+# read
+######################################################################
+
+
 def test_king_read_logged_in(logged_in_king):
     client, king_data = logged_in_king
 
@@ -141,6 +151,11 @@ def test_king_read_anonymous(client):
     assert read_response.status_code == http.UNAUTHORIZED
 
 
+######################################################################
+# update
+######################################################################
+
+
 def test_king_update_all_fields(logged_in_king):
     """Test successful king update with all fields."""
     client, original_king_data = logged_in_king
@@ -151,18 +166,18 @@ def test_king_update_all_fields(logged_in_king):
     update_response = client.put("/api/king/", json=update_data)
     assert update_response.status_code == http.OK
 
-    # Validate response structure
+    # validate response structure
     state = update_response.json
     StateSchema(**state)
 
-    # Verify updated fields
+    # verify updated fields
     current_king_id = state["current_king_id"]
     updated_king = state["king"][str(current_king_id)]
 
-    # Password should not be returned
+    # password should not be returned
     assert "password" not in updated_king
 
-    # Check that fields were updated
+    # check that fields were updated
     del update_data["password"]
     for key, value in update_data.items():
         assert updated_king[key] == value
@@ -187,12 +202,12 @@ def test_king_update_all_fields(logged_in_king):
     new_password_response = client.post(
         "/api/session/", json=login_new_password_data
     )
-    # assert that it succeeds
+    # assert login with new password succeeds
     assert new_password_response.status_code == http.OK
 
 
 def test_king_update_partial(logged_in_king):
-    """Test successful king update with only some fields."""
+    """test successful king update with only some fields."""
 
     client, original_king_data = logged_in_king
     update_data = {"email": "newemail@example.com"}
@@ -204,15 +219,15 @@ def test_king_update_partial(logged_in_king):
     current_king_id = state["current_king_id"]
     updated_king = state["king"][str(current_king_id)]
 
-    # Check that specified field was updated
+    # check that specified field was updated
     assert updated_king["email"] == update_data["email"]
 
-    # Check that unspecified fields remain unchanged
+    # check that unspecified fields remain unchanged
     assert updated_king["nick"] == original_king_data["nick"]
 
 
 def test_king_update_invalid_email(logged_in_king):
-    """Test king update with invalid email format."""
+    """test king update with invalid email format."""
     client, _ = logged_in_king
     update_data = {"email": "invalid-email"}
 
@@ -221,7 +236,7 @@ def test_king_update_invalid_email(logged_in_king):
 
 
 def test_king_update_short_password(logged_in_king):
-    """Test king update with password that's too short."""
+    """test king update with password that's too short."""
     client, _ = logged_in_king
     update_data = {"password": "short"}
 
@@ -230,7 +245,7 @@ def test_king_update_short_password(logged_in_king):
 
 
 def test_king_update_unauthenticated(client):
-    """Test king update without authentication."""
+    """test king update without authentication."""
     update_data = KingUpdateStub().model_dump()
 
     response = client.put("/api/king/", json=update_data)
@@ -238,7 +253,7 @@ def test_king_update_unauthenticated(client):
 
 
 def test_king_update_empty_nick(logged_in_king):
-    """Test king update with empty nickname."""
+    """test king update with empty nickname."""
     client, _ = logged_in_king
     update_data = {"nick": ""}
 
@@ -247,9 +262,64 @@ def test_king_update_empty_nick(logged_in_king):
 
 
 def test_king_update_invalid_theme(logged_in_king):
-    """Test king update with invalid theme_id."""
+    """test king update with invalid theme_id."""
     client, _ = logged_in_king
     update_data = {"theme_id": -1}
 
     response = client.put("/api/king/", json=update_data)
     assert response.status_code == http.UNPROCESSABLE_ENTITY
+
+
+######################################################################
+# update
+######################################################################
+
+
+def test_king_delete_requires_auth(client):
+    """test that king deletion requires authentication."""
+    response = client.delete("/api/king/")
+    assert response.status_code == http.UNAUTHORIZED
+
+
+def test_king_delete_success(logged_in_king):
+    """test successful king account deletion."""
+    client, king_data = logged_in_king
+
+    # first verify we can access the account
+    get_response = client.get("/api/king/")
+    assert get_response.status_code == http.OK
+
+    # Delete the account
+    delete_response = client.delete("/api/king/")
+    assert delete_response.status_code == http.OK
+
+    # verify response structure
+    state = delete_response.json
+    assert state == {"current_king_id": None}
+
+    # verify we can no longer access the account
+    get_response_after = client.get("/api/king/")
+    assert get_response_after.status_code == http.UNAUTHORIZED
+
+    # Verify we can't log in with the old credentials
+    login_data = {
+        "email": king_data["email"],
+        "password": king_data["password"],
+    }
+    login_response = client.post("/api/session/", json=login_data)
+    assert login_response.status_code == http.UNAUTHORIZED
+
+
+def test_king_delete_removes_from_db(logged_in_king, test_db):
+    """test that king deletion really deletes record from database."""
+
+    client, king_data = logged_in_king
+    king_id = king_data["id"]
+
+    # delete the account
+    delete_response = client.delete("/api/king/")
+    assert delete_response.status_code == http.OK
+
+    # verify king no longer exists in database
+    deleted_king = test_db.session.get(King, king_id)
+    assert deleted_king is None

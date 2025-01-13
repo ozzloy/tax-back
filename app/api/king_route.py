@@ -1,7 +1,11 @@
 """endpoints for kings."""
 
 from flask import Blueprint, request
-from flask_login import current_user as current_king, login_required
+from flask_login import (
+    current_user as current_king,
+    logout_user as logout_king,
+    login_required,
+)
 from http import HTTPStatus as http
 
 from app import db
@@ -71,3 +75,18 @@ def update():
     state = StateSchema.model_validate(state_data).model_dump()
 
     return state, http.OK
+
+
+@king_blueprint.route("/", methods=["DELETE"])
+@login_required
+def delete():
+    """Delete the currently logged in king's account."""
+    # get current king from database
+    king = db.session.get(King, current_king.id)
+
+    # delete the king
+    db.session.delete(king)
+    db.session.commit()
+
+    logout_king()
+    return {"current_king_id": None}, http.OK

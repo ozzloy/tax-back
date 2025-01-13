@@ -5,24 +5,6 @@
 [2025-01-10 Fri 09:49 -0800]
 ** TODO do endpoints
 [2025-01-10 Fri 09:49 -0800]
-*** TODO endpoints for king
-[2025-01-10 Fri 09:49 -0800]
-**** TODO king.update
-[2025-01-10 Fri 09:49 -0800]
-**** TODO king.delete
-[2025-01-10 Fri 09:49 -0800]
-**** DONE create
-OPENED: [2025-01-10 Fri 09:49 -0800]
-CLOSED: [2025-01-10 Fri 09:56 -0800]
-**** DONE make create route use state schema in return value
-CLOSED: [2025-01-11 Sat]
-[2025-01-11 Sat 09:12 -0800]
-**** DONE king.read
-CLOSED: [2025-01-12 Sun]
-[2025-01-10 Fri 09:49 -0800]
-***** DONE king.read.logged in
-CLOSED: [2025-01-11 Sat]
-[2025-01-11 Sat 21:20 -0800]
 *** TODO endpoints for theme
 [2025-01-10 Fri 09:49 -0800]
 **** TODO theme.create
@@ -64,6 +46,27 @@ CLOSED: [2025-01-11 Sat]
 **** TODO form_1040.delete
 [2025-01-10 Fri 09:49 -0800]
 
+*** DONE endpoints for king
+CLOSED: [2025-01-12 Sun]
+[2025-01-10 Fri 09:49 -0800]
+**** DONE create
+OPENED: [2025-01-10 Fri 09:49 -0800]
+CLOSED: [2025-01-10 Fri 09:56 -0800]
+**** DONE make create route use state schema in return value
+CLOSED: [2025-01-11 Sat]
+[2025-01-11 Sat 09:12 -0800]
+**** DONE king.read
+CLOSED: [2025-01-12 Sun]
+[2025-01-10 Fri 09:49 -0800]
+***** DONE king.read.logged in
+CLOSED: [2025-01-11 Sat]
+[2025-01-11 Sat 21:20 -0800]
+**** DONE king.update
+**** DONE king.delete
+CLOSED: [2025-01-12 Sun]
+[2025-01-10 Fri 09:49 -0800]
+CLOSED: [2025-01-12 Sun]
+[2025-01-10 Fri 09:49 -0800]
 *** DONE endpoints for authentication
 CLOSED: [2025-01-12 Sun]
 [2025-01-10 Fri 10:16 -0800]
@@ -73,7 +76,15 @@ CLOSED: [2025-01-11 Sat]
 **** DONE session.logout
 CLOSED: [2025-01-12 Sun]
 [2025-01-10 Fri 10:16 -0800]
+** TODO be more efficient with db
+[2025-01-12 Sun 16:05 -0800]
+
+right now every single test creates all the tables and seeds them from
+scratch.
+
+instead, each test could do its actions, then roll them back.
 ** TODO think more about how to handle theme_id
+[2025-01-12 Sun 16:05 -0800]
 for now, you can only use your own themes
 you can delete your own themes
 

@@ -110,3 +110,11 @@ def logged_in_king(client):
         | list(create_response.json["king"].values())[0]
     )
     return client, king_data
+
+
+@pytest.fixture
+def test_db(app):
+    """Give access to db during test to query it directly."""
+    with app.app_context():
+        yield db
+        db.session.rollback()
