@@ -8,6 +8,7 @@ from pydantic import (
     field_serializer,
     field_validator,
 )
+from typing import Optional
 from webcolors import names as get_webcolor_names
 
 
@@ -44,9 +45,11 @@ class ThemeCreateSchema(BaseModel):
 class ThemeUpdateSchema(BaseModel):
     """Validate theme update requests."""
 
-    name: str | None = Field(default=None, min_length=1)
-    text_color: str | None = Field(default=None, min_length=1)
-    background_color: str | None = Field(default=None, min_length=1)
+    name: Optional[str] = Field(default=None, min_length=1)
+    text_color: Optional[str] = Field(default=None, min_length=1)
+    background_color: Optional[str] = Field(
+        default=None, min_length=1
+    )
 
     @field_validator("text_color", "background_color")
     @classmethod

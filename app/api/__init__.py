@@ -5,6 +5,7 @@ from flask_wtf.csrf import generate_csrf
 
 from .king_route import king_blueprint
 from .session_route import session_blueprint
+from .theme_route import theme_blueprint
 
 api_blueprint = Blueprint("api", __name__, url_prefix="/api")
 
@@ -17,3 +18,4 @@ def get_csrf_token():
 
 api_blueprint.register_blueprint(king_blueprint)
 api_blueprint.register_blueprint(session_blueprint)
+api_blueprint.register_blueprint(theme_blueprint)
