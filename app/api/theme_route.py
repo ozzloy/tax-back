@@ -30,7 +30,7 @@ def create():
     partial_state = StatePartialSchema(**state_data).model_dump(
         exclude_none=True
     )
-    return partial_state, http.OK
+    return partial_state, http.CREATED
 
 
 @theme_blueprint.route("/", methods=["POST"])

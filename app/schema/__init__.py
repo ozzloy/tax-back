@@ -12,6 +12,7 @@ from .theme_schema import (
     ThemeCreateSchema,
     ThemeUpdateSchema,
     ThemeDictSchema,
+    valid_colors,
 )
 
 __all__ = [
@@ -25,4 +26,5 @@ __all__ = [
     "ThemeCreateSchema",
     "ThemeUpdateSchema",
     "ThemeDictSchema",
+    "valid_colors",
 ]

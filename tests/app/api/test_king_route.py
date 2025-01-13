@@ -17,8 +17,8 @@ def test_king_create_success(client):
 
     assert signup_response.status_code == http.CREATED
 
-    state = signup_response.json
-    StatePartialSchema(**state)
+    partial_state = signup_response.json
+    StatePartialSchema(**partial_state)
 
 
 def test_king_create_failure_missing_csrf(client):
