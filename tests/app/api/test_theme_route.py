@@ -120,5 +120,35 @@ def test_theme_read(logged_in_king):
 
 def test_theme_update_all_fields(logged_in_king):
     """test successful theme update with all fields."""
-    client, king_data = logged_in_king
-    update_data = ThemeStub().model_dump()
+    client, king = logged_in_king
+    original_data = ThemeStub().model_dump()
+
+    create_response = client.post("/api/theme/", json=original_data)
+    state = create_response.json
+    theme_slice = state["theme"]
+    theme_id = next(iter(theme_slice.keys()))
+    theme = theme_slice[str(theme_id)]
+
+    updated_data = ThemeStub().model_dump()
+    updated_response = client.put(
+        f"/api/theme/{theme_id}", json=updated_data
+    )
+    updated_state = updated_response.json
+    updated_theme_slice = updated_state["theme"]
+    updated_theme_id = next(iter(updated_theme_slice.keys()))
+    updated_theme = updated_theme_slice[str(updated_theme_id)]
+
+    # make sure unchangeable fields did not change
+    assert updated_theme["id"] == theme["id"]
+    assert updated_theme["created"] == theme["created"]
+    assert updated_theme["king_id"] == theme["king_id"]
+
+    # make sure changed fields have new values
+    assert updated_theme["name"] == updated_data["name"]
+    assert (
+        updated_theme["background_color"]
+        == updated_data["background_color"]
+    )
+    assert updated_theme["text_color"] == updated_data["text_color"]
+
+    assert theme["updated"] < updated_theme["updated"]
