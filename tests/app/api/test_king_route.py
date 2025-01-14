@@ -2,7 +2,7 @@ from http import HTTPStatus as http
 
 from app.model import King
 from app.schema import KingSignupSchema, StatePartialSchema
-from tests.stub import KingSignupStub, KingUpdateStub
+from tests.stub import KingStub
 
 ######################################################################
 # create
@@ -11,7 +11,7 @@ from tests.stub import KingSignupStub, KingUpdateStub
 
 def test_king_create_success(client):
     """test successful king create with valid csrf token"""
-    king_signup_data = KingSignupStub().model_dump()
+    king_signup_data = KingStub().model_dump()
 
     signup_response = client.post("/api/king/", json=king_signup_data)
 
@@ -25,7 +25,7 @@ def test_king_create_failure_missing_csrf(client):
     """test that king create fails when missing csrf token"""
     response = client.post(
         "/api/king/",
-        json=KingSignupStub().model_dump(),
+        json=KingStub().model_dump(),
         headers={"X-CSRF-TOKEN": None},
     )
 
@@ -36,7 +36,7 @@ def test_king_create_failure_invalid_csrf(client):
     """test king create fails when missing csrf token"""
     response = client.post(
         "/api/king/",
-        json=KingSignupStub().model_dump(),
+        json=KingStub().model_dump(),
         headers={"X-CSRF-TOKEN": "invalid-csrf-token"},
     )
 
@@ -55,7 +55,7 @@ def test_king_create_missing_fields(client):
 
     # test missing individual fields
     for missing_field in required_fields:
-        data = KingSignupStub().model_dump()
+        data = KingStub().model_dump()
         del data[missing_field]
 
         response = client.post("/api/king/", json=data)
@@ -73,19 +73,19 @@ def test_king_create_invalid_fields(client):
     invalid_data_cases = [
         {
             "data": {
-                **KingSignupStub().model_dump(),
+                **KingStub().model_dump(),
                 "email": "invalid-email",
             },
         },
         {
             "data": {
-                **KingSignupStub().model_dump(),
+                **KingStub().model_dump(),
                 "nick": "",
             },
         },
         {
             "data": {
-                **KingSignupStub().model_dump(),
+                **KingStub().model_dump(),
                 "password": "",
             },
         },
@@ -100,11 +100,11 @@ def test_king_create_invalid_fields(client):
 def test_king_create_conflict(client):
     """test king creation fails when email or nick is already taken"""
     # create a king
-    first_king_data = KingSignupStub().model_dump()
+    first_king_data = KingStub().model_dump()
     client.post("/api/king/", json=first_king_data)
 
     # attempt to create king with same email
-    conflict_email_data = KingSignupStub().model_dump()
+    conflict_email_data = KingStub().model_dump()
     conflict_email_data["email"] = first_king_data["email"]
 
     response = client.post("/api/king/", json=conflict_email_data)
@@ -113,7 +113,7 @@ def test_king_create_conflict(client):
     assert "email is taken" in response.json["errors"]["email"]
 
     # attempt to create king with same nick
-    conflict_nick_data = KingSignupStub().model_dump()
+    conflict_nick_data = KingStub().model_dump()
     conflict_nick_data["nick"] = first_king_data["nick"]
 
     response = client.post("/api/king/", json=conflict_nick_data)
@@ -157,9 +157,9 @@ def test_king_read_anonymous(client):
 
 
 def test_king_update_all_fields(logged_in_king):
-    """Test successful king update with all fields."""
+    """test successful king update with all fields."""
     client, original_king_data = logged_in_king
-    update_data = KingUpdateStub().model_dump()
+    update_data = KingStub().model_dump()
     old_password = original_king_data["password"]
     new_password = update_data["password"]
 
@@ -246,7 +246,7 @@ def test_king_update_short_password(logged_in_king):
 
 def test_king_update_unauthenticated(client):
     """test king update without authentication."""
-    update_data = KingUpdateStub().model_dump()
+    update_data = KingStub().model_dump()
 
     response = client.put("/api/king/", json=update_data)
     assert response.status_code == http.UNAUTHORIZED

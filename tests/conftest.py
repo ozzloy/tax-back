@@ -8,7 +8,7 @@ from app.db import db
 from app.schema import SessionLoginSchema
 from app.seed import seed
 from config import Config
-from tests.stub import KingSignupStub
+from tests.stub import KingStub
 
 
 class TestConfig(Config):
@@ -95,7 +95,7 @@ def logged_in_king(client):
         tuple: (client, king_data)
     """
     # create king signup data
-    king_signup_data = KingSignupStub().model_dump()
+    king_signup_data = KingStub().model_dump()
 
     # request backend make the king
     client.post("/api/king/", json=king_signup_data)
