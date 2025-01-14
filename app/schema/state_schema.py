@@ -1,14 +1,12 @@
 """validate state and its slices."""
 
-from pydantic import BaseModel, field_validator
 from typing import Dict, Optional, Union
 
+from pydantic import BaseModel, field_validator
 
+from .address_schema import AddressSchema
 from .human_schema import HumanSchema
-from .king_schema import (
-    KingPrivateSchema,
-    KingPublicSchema,
-)
+from .king_schema import KingPrivateSchema, KingPublicSchema
 from .theme_schema import ThemeSchema
 
 
@@ -19,6 +17,7 @@ class StateSchema(BaseModel):
     king: Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
     theme: Dict[str, ThemeSchema]
     human: Dict[str, HumanSchema]
+    address: Dict[str, AddressSchema]
 
     @field_validator("king", "theme", "human")
     @classmethod
@@ -45,6 +44,7 @@ class StatePartialSchema(BaseModel):
     ] = None
     theme: Optional[Dict[str, Optional[ThemeSchema]]] = None
     human: Optional[Dict[str, Optional[HumanSchema]]] = None
+    address: Optional[Dict[str, Optional[AddressSchema]]] = None
 
     @field_validator("king", "theme", "human")
     @classmethod

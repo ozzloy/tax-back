@@ -1,11 +1,5 @@
 """endpoints for kings."""
 
-from flask import Blueprint, request
-from flask_login import (
-    current_user as current_king,
-    logout_user as logout_king,
-    login_required,
-)
 from http import HTTPStatus as http
 
 from app import db
@@ -15,6 +9,10 @@ from app.schema import (
     KingUpdateSchema,
     StatePartialSchema,
 )
+from flask import Blueprint, abort, request
+from flask_login import current_user as current_king
+from flask_login import login_required
+from flask_login import logout_user as logout_king
 
 king_blueprint = Blueprint("king", __name__, url_prefix="/king")
 
@@ -74,6 +72,9 @@ def update():
     ).model_dump(exclude_none=True)
 
     king = db.session.get(King, current_king.id)
+
+    if king.id != current_king.id:
+        abort(http.NOT_FOUND)
 
     # update each provided field
     for field, value in update_data.items():

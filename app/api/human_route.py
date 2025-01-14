@@ -75,6 +75,9 @@ def update(human_id):
 
     human = db.session.get(Human, human_id) or abort(http.NOT_FOUND)
 
+    if human.king_id != current_king.id:
+        abort(http.NOT_FOUND)
+
     for field, value in update_data.items():
         setattr(human, field, value)
 

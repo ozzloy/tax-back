@@ -75,6 +75,9 @@ def update(theme_id):
 
     theme = db.session.get(Theme, theme_id) or abort(http.NOT_FOUND)
 
+    if theme.king_id != current_king.id:
+        abort(http.NOT_FOUND)
+
     for field, value in update_data.items():
         setattr(theme, field, value)
 

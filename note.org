@@ -1,3 +1,7 @@
+* TODO add test that update fails on things created by someone else
+[2025-01-14 Tue 12:37 -0800]
+* TODO make HumanSchema fields optional for partially filled forms
+[2025-01-14 Tue 12:37 -0800]
 * TODO allow more colors
 [2025-01-12 Sun 17:30 -0800]
 
@@ -6,6 +10,8 @@ currently the selected color must be one of the colors in webcolors.names
 it would be cool if instead anything that could be used as a color
 could be used. for example, #123, or rgb(a,b,c)
 
+** TODO allow #123 at least
+[2025-01-14 Tue 12:12 -0800]
 * TODO ensure combo of king_id and name is unique for form_1040
 [2025-01-10 Fri 10:30 -0800]
 * TODO finish off backend
@@ -21,7 +27,8 @@ CLOSED: [2025-01-14 Tue]
 ***** DONE create stub
 CLOSED: [2025-01-14 Tue]
 [2025-01-14 Tue 06:17 -0800]
-***** TODO create model
+***** DONE create model
+CLOSED: [2025-01-14 Tue]
 [2025-01-14 Tue 06:17 -0800]
 **** TODO address.create
 [2025-01-10 Fri 09:49 -0800]

@@ -40,20 +40,20 @@ class AddressModifiedStub(AddressStub):
         unique_fake = Faker()
 
         unique_fake.unique.exclude_street_addresses = {
-            original_data.street
+            original_data["street"]
         }
         different_street = unique_fake.unique.street_address()
 
-        unique_fake.unique.exclude_cities = {original_data.city}
+        unique_fake.unique.exclude_cities = {original_data["city"]}
         different_city = unique_fake.unique.city()
 
         different_state = random.choice(state_abbreviations)
-        while different_state == original_data.state:
+        while different_state == original_data["state"]:
             different_state = random.choice(state_abbreviations)
 
-        unique_fake.unique.exclude_zipcodes = {original_data.zip}
+        unique_fake.unique.exclude_zipcodes = {original_data["zip"]}
         unique_fake.unique.exclude_zipcodes_plus4 = {
-            original_data.zip
+            original_data["zip"]
         }
         different_zip = random.choice(
             [

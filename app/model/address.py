@@ -4,8 +4,7 @@ from datetime import datetime
 from typing import Optional
 
 from app.db import db
-
-from .address_schema import AddressSchema
+from app.schema import AddressSchema
 
 
 class Address(db.Model):

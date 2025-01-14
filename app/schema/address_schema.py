@@ -9,8 +9,8 @@ from pydantic import (
     ConfigDict,
     Field,
     field_serializer,
+    field_validator,
     model_validator,
-    validator,
 )
 
 # Get all state abbreviations
@@ -25,14 +25,12 @@ class AddressInputSchema(BaseModel):
         min_length=1,
         max_length=255,
         pattern=r"^[\w\s\-'#,\./]+$",
-        strip_whitespace=True,
     )
     city: Optional[str] = Field(
         default=None,
         min_length=1,
         max_length=255,
         pattern=r"^[a-zA-Z\s\-'\.]+$",
-        strip_whitespace=True,
     )
     state: Optional[str] = Field(
         default=None,
@@ -47,7 +45,7 @@ class AddressInputSchema(BaseModel):
         pattern=r"^\d{5}(?:-\d{4})?$",
     )
 
-    @validator("state")
+    @field_validator("state")
     def validate_state(cls, state: str) -> str:
         """Ensure state code is valid."""
         if state and state not in state_abbreviations:
@@ -62,7 +60,8 @@ class AddressInputSchema(BaseModel):
                 "state": "CA",
                 "zip": "90210",
             }
-        }
+        },
+        str_strip_whitespace=True,
     )
 
     @model_validator(mode="before")
@@ -86,14 +85,12 @@ class AddressSchema(BaseModel):
         min_length=1,
         max_length=255,
         pattern=r"^[ 0-9A-Za-z\s\-'#,\.]+$",
-        strip_whitespace=True,
     )
     city: Optional[str] = Field(
         default=None,
         min_length=1,
         max_length=255,
         pattern=r"^[ a-zA-Z\-]+$",
-        strip_whitespace=True,
     )
     state: Optional[str] = Field(
         default=None,
@@ -130,4 +127,5 @@ class AddressSchema(BaseModel):
                 "updated": "2024-01-13T12:00:00Z",
             }
         },
+        str_strip_whitespace=True,
     )
