@@ -1,5 +1,6 @@
 """provide schema for all json objects."""
 
+from .address_schema import AddressInputSchema, AddressSchema
 from .human_schema import (
     HumanCreateSchema,
     HumanUpdateSchema,
@@ -21,6 +22,8 @@ from .theme_schema import (
 )
 
 __all__ = [
+    "AddressInputSchema",
+    "AddressSchema",
     "HumanCreateSchema",
     "HumanUpdateSchema",
     "HumanSchema",

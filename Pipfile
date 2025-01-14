@@ -12,6 +12,7 @@ flask-login = "*"
 pydantic = "*"
 pytest-factoryboy = "*"
 webcolors = "*"
+us = "*"
 
 [dev-packages]
 black = "*"
