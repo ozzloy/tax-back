@@ -3,6 +3,7 @@
 from flask import Blueprint
 from flask_wtf.csrf import generate_csrf
 
+from .human_route import human_blueprint
 from .king_route import king_blueprint
 from .session_route import session_blueprint
 from .theme_route import theme_blueprint
@@ -16,6 +17,7 @@ def get_csrf_token():
     return {"csrf_token": generate_csrf()}
 
 
+api_blueprint.register_blueprint(human_blueprint)
 api_blueprint.register_blueprint(king_blueprint)
 api_blueprint.register_blueprint(session_blueprint)
 api_blueprint.register_blueprint(theme_blueprint)

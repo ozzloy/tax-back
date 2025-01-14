@@ -1,5 +1,10 @@
 """provide schema for all json objects."""
 
+from .human_schema import (
+    HumanCreateSchema,
+    HumanUpdateSchema,
+    HumanSchema,
+)
 from .king_schema import (
     KingPrivateSchema,
     KingPublicSchema,
@@ -16,6 +21,9 @@ from .theme_schema import (
 )
 
 __all__ = [
+    "HumanCreateSchema",
+    "HumanUpdateSchema",
+    "HumanSchema",
     "KingPrivateSchema",
     "KingPublicSchema",
     "KingSignupSchema",
@@ -25,6 +33,6 @@ __all__ = [
     "StatePartialSchema",
     "ThemeCreateSchema",
     "ThemeUpdateSchema",
-    "ThemeDictSchema",
+    "ThemeSchema",
     "valid_colors",
 ]

@@ -37,14 +37,14 @@ TABLE(theme) {
     name: STRING
     text_color: STRING
     background_color: STRING
-    FOREIGN_KEY(creator_id): INT
+    FOREIGN_KEY(king_id): INT
 }
 
 TABLE(human) {
     first_name: STRING
     middle_initial: STRING
     last_name: STRING
-    FOREIGN_KEY(creator_id): INT
+    FOREIGN_KEY(king_id): INT
 }
 
 TABLE(address) {
@@ -52,7 +52,7 @@ TABLE(address) {
     city: STRING
     state: STRING
     zip: STRING
-    FOREIGN_KEY(creator_id): INT
+    FOREIGN_KEY(king_id): INT
 }
 
 TABLE(form_1040) {
@@ -64,7 +64,7 @@ TABLE(form_1040) {
     wages: DECIMAL
     withholdings: DECIMAL
     filing_status: STRING
-    FOREIGN_KEY(creator_id): INT
+    FOREIGN_KEY(king_id): INT
 }
 
 king ONE -- MANY theme : CREATES

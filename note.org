@@ -12,24 +12,6 @@ could be used. for example, #123, or rgb(a,b,c)
 [2025-01-10 Fri 09:49 -0800]
 ** TODO do endpoints
 [2025-01-10 Fri 09:49 -0800]
-*** TODO endpoints for human
-[2025-01-10 Fri 09:49 -0800]
-**** TODO setup human
-[2025-01-13 Mon 17:49 -0800]
-***** TODO create schema
-[2025-01-13 Mon 17:49 -0800]
-***** TODO create stub
-[2025-01-13 Mon 17:49 -0800]
-***** TODO create model
-[2025-01-13 Mon 17:49 -0800]
-**** TODO human.create
-[2025-01-10 Fri 09:49 -0800]
-**** TODO human.read
-[2025-01-10 Fri 09:49 -0800]
-**** TODO human.update
-[2025-01-10 Fri 09:49 -0800]
-**** TODO human.delete
-[2025-01-10 Fri 09:49 -0800]
 *** TODO endpoints for address
 [2025-01-10 Fri 09:49 -0800]
 **** TODO address.create
@@ -51,6 +33,33 @@ could be used. for example, #123, or rgb(a,b,c)
 **** TODO form_1040.delete
 [2025-01-10 Fri 09:49 -0800]
 
+*** DONE endpoints for human
+CLOSED: [2025-01-13 Mon]
+[2025-01-10 Fri 09:49 -0800]
+**** DONE setup human
+CLOSED: [2025-01-13 Mon]
+[2025-01-13 Mon 17:49 -0800]
+***** DONE create schema
+CLOSED: [2025-01-13 Mon]
+[2025-01-13 Mon 17:49 -0800]
+***** DONE create stub
+CLOSED: [2025-01-13 Mon]
+[2025-01-13 Mon 17:49 -0800]
+***** DONE create model
+CLOSED: [2025-01-13 Mon]
+[2025-01-13 Mon 17:49 -0800]
+**** DONE human.create
+CLOSED: [2025-01-13 Mon]
+[2025-01-10 Fri 09:49 -0800]
+**** DONE human.read
+CLOSED: [2025-01-13 Mon]
+[2025-01-10 Fri 09:49 -0800]
+**** DONE human.update
+CLOSED: [2025-01-13 Mon]
+[2025-01-10 Fri 09:49 -0800]
+**** DONE human.delete
+CLOSED: [2025-01-13 Mon]
+[2025-01-10 Fri 09:49 -0800]
 *** DONE endpoints for king
 CLOSED: [2025-01-12 Sun]
 [2025-01-10 Fri 09:49 -0800]

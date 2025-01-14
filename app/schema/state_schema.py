@@ -4,6 +4,7 @@ from pydantic import BaseModel, field_validator
 from typing import Dict, Optional, Union
 
 
+from .human_schema import HumanSchema
 from .king_schema import (
     KingPrivateSchema,
     KingPublicSchema,
@@ -17,8 +18,9 @@ class StateSchema(BaseModel):
     current_king_id: Optional[int]
     king: Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
     theme: Dict[str, ThemeSchema]
+    human: Dict[str, HumanSchema]
 
-    @field_validator("king", "theme")
+    @field_validator("king", "theme", "human")
     @classmethod
     def validate_king_ids(cls, state_slice):
         """Make sure slice id for item matches inner item's id."""
@@ -42,8 +44,9 @@ class StatePartialSchema(BaseModel):
         Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
     ] = None
     theme: Optional[Dict[str, Optional[ThemeSchema]]] = None
+    human: Optional[Dict[str, Optional[HumanSchema]]] = None
 
-    @field_validator("king", "theme")
+    @field_validator("king", "theme", "human")
     @classmethod
     def validate_king_ids(cls, state_slice):
         """Make sure slice id for item matches inner item's id."""
