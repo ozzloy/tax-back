@@ -31,6 +31,7 @@ class King(db.Model, KingMixin):
 
     themes = db.relationship("Theme", back_populates="king")
     humans = db.relationship("Human", back_populates="king")
+    addresses = db.relationship("Address", back_populates="king")
 
     @property
     def password(self):
