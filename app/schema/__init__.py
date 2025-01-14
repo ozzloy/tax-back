@@ -11,7 +11,7 @@ from .state_schema import StatePartialSchema, StateSchema
 from .theme_schema import (
     ThemeCreateSchema,
     ThemeUpdateSchema,
-    ThemeDictSchema,
+    ThemeSchema,
     valid_colors,
 )
 

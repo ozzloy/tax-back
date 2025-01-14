@@ -8,7 +8,7 @@ from .king_schema import (
     KingPrivateSchema,
     KingPublicSchema,
 )
-from .theme_schema import ThemeDictSchema
+from .theme_schema import ThemeSchema
 
 
 class StateSchema(BaseModel):
@@ -16,7 +16,7 @@ class StateSchema(BaseModel):
 
     current_king_id: Optional[int]
     king: Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
-    theme: Dict[str, ThemeDictSchema]
+    theme: Dict[str, ThemeSchema]
 
     @field_validator("king", "theme")
     @classmethod
@@ -41,7 +41,7 @@ class StatePartialSchema(BaseModel):
     king: Optional[
         Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
     ] = None
-    theme: Optional[Dict[str, Optional[ThemeDictSchema]]] = None
+    theme: Optional[Dict[str, Optional[ThemeSchema]]] = None
 
     @field_validator("king", "theme")
     @classmethod
