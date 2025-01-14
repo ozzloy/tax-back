@@ -1,7 +1,7 @@
 from http import HTTPStatus as http
 
 from app.schema import StatePartialSchema
-from tests.stub import ThemeCreateStub
+from app.stub import ThemeStub
 
 ######################################################################
 # create
@@ -11,7 +11,7 @@ from tests.stub import ThemeCreateStub
 def test_theme_create_success(logged_in_king):
     """Test successful creation of a theme for a king"""
     client, king = logged_in_king
-    theme_data = ThemeCreateStub().model_dump()
+    theme_data = ThemeStub().model_dump()
     create_response = client.post("/api/theme/", json=theme_data)
 
     assert create_response.status_code == http.CREATED
@@ -32,17 +32,17 @@ def test_theme_create_invalid_fields(logged_in_king):
 
     invalid_data_cases = [
         {
-            "data": ThemeCreateStub().model_dump(),
+            "data": ThemeStub().model_dump(),
             "invalid_field": "name",
             "invalid_value": "",
         },
         {
-            "data": ThemeCreateStub().model_dump(),
+            "data": ThemeStub().model_dump(),
             "invalid_field": "text_color",
             "invalid_value": "not a web color",
         },
         {
-            "data": ThemeCreateStub().model_dump(),
+            "data": ThemeStub().model_dump(),
             "invalid_field": "background_color",
             "invalid_value": "still not a web color",
         },
@@ -75,7 +75,7 @@ def test_theme_read_all(logged_in_king):
     # make a request to read
     client, king = logged_in_king
     response_prior = client.get("/api/theme/")
-    theme_data = ThemeCreateStub().model_dump()
+    theme_data = ThemeStub().model_dump()
     create_response = client.post("/api/theme/", json=theme_data)
     response_post = client.get("/api/theme/")
 
@@ -103,7 +103,7 @@ def test_theme_read(logged_in_king):
     """test successful read of all themes"""
     # make a request to read
     client, king = logged_in_king
-    theme_data = ThemeCreateStub().model_dump()
+    theme_data = ThemeStub().model_dump()
     create_response = client.post("/api/theme/", json=theme_data)
 
     theme_id = next(iter(create_response.json["theme"].keys()))
@@ -111,3 +111,14 @@ def test_theme_read(logged_in_king):
     read_response = client.get(f"/api/theme/{theme_id}")
     assert read_response.status_code == http.OK
     assert create_response.json == read_response.json
+
+
+######################################################################
+# update
+######################################################################
+
+
+def test_theme_update_all_fields(logged_in_king):
+    """test successful theme update with all fields."""
+    client, king_data = logged_in_king
+    update_data = ThemeStub().model_dump()

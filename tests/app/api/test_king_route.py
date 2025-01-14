@@ -2,7 +2,7 @@ from http import HTTPStatus as http
 
 from app.model import King
 from app.schema import KingSignupSchema, StatePartialSchema
-from tests.stub import KingStub
+from app.stub import KingStub
 
 ######################################################################
 # create

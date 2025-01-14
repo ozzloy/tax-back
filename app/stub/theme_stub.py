@@ -8,7 +8,7 @@ from app.schema import ThemeCreateSchema, valid_colors
 fake = Faker()
 
 
-class ThemeCreateStub(factory.Factory):
+class ThemeStub(factory.Factory):
     """Generate theme creation data."""
 
     class Meta:

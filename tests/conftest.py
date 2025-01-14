@@ -8,7 +8,7 @@ from app.db import db
 from app.schema import SessionLoginSchema
 from app.seed import seed
 from config import Config
-from tests.stub import KingStub
+from app.stub import KingStub
 
 
 class TestConfig(Config):

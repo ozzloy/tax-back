@@ -6,7 +6,11 @@ from http import HTTPStatus as http
 
 from app import db
 from app.model import Theme
-from app.schema import StatePartialSchema, ThemeCreateSchema
+from app.schema import (
+    StatePartialSchema,
+    ThemeCreateSchema,
+    ThemeUpdateSchema,
+)
 
 theme_blueprint = Blueprint("theme", __name__, url_prefix="theme")
 
@@ -63,10 +67,25 @@ def read(theme_id):
 
 @theme_blueprint.route("/<int:theme_id>", methods=["PUT"])
 @login_required
-def update():
+def update(theme_id):
     """Update a theme."""
-    print("TODO: theme update")
-    exit(-1)
+    update_data = ThemeUpdateSchema.model_validate(
+        request.json
+    ).model_dump(exclude_none=True)
+
+    theme = db.session.get(Theme, theme_id) or abort(http.NOT_FOUND)
+
+    for field, value in update_data.items():
+        setattr(theme, field, value)
+
+    db.session.commit()
+
+    partial_state_data = {"theme": {str(theme.id): theme.to_dict()}}
+    partial_state = StatePartialSchema.model_validate(
+        partial_state_data
+    ).model_dump(exclude_none=True)
+
+    return partial_state, http.OK
 
 
 @theme_blueprint.route("/", methods=["DELETE"])

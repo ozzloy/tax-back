@@ -1,11 +1,11 @@
 from http import HTTPStatus as http
 
 from app.schema import SessionLoginSchema, StatePartialSchema
-from tests.stub import KingSignupStub, SessionLoginStub
+from app.stub import KingStub, SessionLoginStub
 
 
 def test_session_create_success(client):
-    king_signup_data = KingSignupStub().model_dump()
+    king_signup_data = KingStub().model_dump()
     client.post("/api/king/", json=king_signup_data)
     session_login_data = SessionLoginSchema(
         **king_signup_data
@@ -69,7 +69,7 @@ def test_session_create_invalid_login(client):
     assert response.status_code == http.UNAUTHORIZED
     assert response.json["message"] == "invalid credentials"
 
-    king_signup_data = KingSignupStub().model_dump()
+    king_signup_data = KingStub().model_dump()
     client.post("/api/king/", json=king_signup_data)
     login_data = SessionLoginSchema(**king_signup_data).model_dump()
     wrong_password = login_data["password"] + "a"
@@ -84,7 +84,7 @@ def test_session_create_invalid_login(client):
 def test_session_delete_success(client):
     """test successful logout."""
     # first login
-    king_signup_data = KingSignupStub().model_dump()
+    king_signup_data = KingStub().model_dump()
     client.post("/api/king/", json=king_signup_data)
     session_login_data = SessionLoginSchema(
         **king_signup_data
