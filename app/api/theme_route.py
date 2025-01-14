@@ -88,9 +88,19 @@ def update(theme_id):
     return partial_state, http.OK
 
 
-@theme_blueprint.route("/", methods=["DELETE"])
+@theme_blueprint.route("/<int:theme_id>", methods=["DELETE"])
 @login_required
-def delete():
+def delete(theme_id):
     """Delete a theme."""
-    print("TODO: theme delete")
-    exit(-1)
+    theme = db.session.get(Theme, theme_id) or abort(http.NOT_FOUND)
+    theme_id = theme.id
+
+    db.session.delete(theme)
+    db.session.commit()
+
+    partial_state_data = {"theme": {str(theme_id): None}}
+    partial_state = StatePartialSchema.model_validate(
+        partial_state_data
+    ).model_dump(exclude_none=True)
+
+    return partial_state, http.OK

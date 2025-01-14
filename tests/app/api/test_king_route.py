@@ -310,6 +310,11 @@ def test_king_delete_success(logged_in_king):
     assert login_response.status_code == http.UNAUTHORIZED
 
 
+######################################################################
+# delete
+######################################################################
+
+
 def test_king_delete_removes_from_db(logged_in_king, test_db):
     """test that king deletion really deletes record from database."""
 

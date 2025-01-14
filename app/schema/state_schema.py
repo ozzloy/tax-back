@@ -41,7 +41,7 @@ class StatePartialSchema(BaseModel):
     king: Optional[
         Dict[str, Union[KingPublicSchema, KingPrivateSchema]]
     ] = None
-    theme: Optional[Dict[str, ThemeDictSchema]] = None
+    theme: Optional[Dict[str, Optional[ThemeDictSchema]]] = None
 
     @field_validator("king", "theme")
     @classmethod
@@ -49,7 +49,7 @@ class StatePartialSchema(BaseModel):
         """Make sure slice id for item matches inner item's id."""
         if state_slice:
             for item_id_str, item in state_slice.items():
-                if str(item.id) != item_id_str:
+                if item and str(item.id) != item_id_str:
                     raise ValueError(
                         "slice ID mismatch: slice key"
                         + item_id_str

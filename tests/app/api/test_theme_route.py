@@ -1,5 +1,6 @@
 from http import HTTPStatus as http
 
+from app.model import Theme
 from app.schema import StatePartialSchema
 from app.stub import ThemeStub
 
@@ -152,3 +153,40 @@ def test_theme_update_all_fields(logged_in_king):
     assert updated_theme["text_color"] == updated_data["text_color"]
 
     assert theme["updated"] < updated_theme["updated"]
+
+
+######################################################################
+# delete
+######################################################################
+
+
+def test_theme_delete_removes_from_db(logged_in_king, test_db):
+    """test that theme deletion really deletes record from database."""
+    import app
+
+    app.debug = True
+
+    client, king_data = logged_in_king
+    theme_data = ThemeStub().model_dump()
+
+    create_response = client.post("/api/theme/", json=theme_data)
+    state = create_response.json
+    theme_slice = state["theme"]
+    theme_id = next(iter(theme_slice.keys()))
+    # create_theme = theme_slice[str(theme_id)]
+
+    # check the db to see if table "theme" has the record
+    db_theme = test_db.session.get(Theme, theme_id)
+    assert db_theme
+
+    delete_response = client.delete(f"/api/theme/{theme_id}")
+    delete_state = delete_response.json
+    delete_theme_slice = delete_state["theme"]
+    delete_theme_id = next(iter(delete_theme_slice.keys()))
+    delete_theme = delete_theme_slice[str(delete_theme_id)]
+
+    assert delete_theme is None
+    assert delete_theme_id == theme_id
+
+    deleted_theme = test_db.session.get(Theme, theme_id)
+    assert deleted_theme is None
