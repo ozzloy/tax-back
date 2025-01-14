@@ -18,8 +18,32 @@ could be used. for example, #123, or rgb(a,b,c)
 [2025-01-10 Fri 09:49 -0800]
 ** TODO do endpoints
 [2025-01-10 Fri 09:49 -0800]
-*** TODO endpoints for address
-**** TODO setup address
+*** TODO endpoints for form_1040
+[2025-01-10 Fri 09:49 -0800]
+**** TODO setup form_1040
+[2025-01-14 Tue 13:07 -0800]
+***** DONE create schema
+CLOSED: [2025-01-14 Tue]
+[2025-01-14 Tue 13:07 -0800]
+***** TODO create stub
+[2025-01-14 Tue 13:07 -0800]
+***** TODO create model
+[2025-01-14 Tue 13:07 -0800]
+***** TODO add slice to state
+[2025-01-14 Tue 14:42 -0800]
+**** TODO form_1040.create
+[2025-01-10 Fri 09:49 -0800]
+**** TODO form_1040.read
+[2025-01-10 Fri 09:49 -0800]
+**** TODO form_1040.update
+[2025-01-10 Fri 09:49 -0800]
+**** TODO form_1040.delete
+[2025-01-10 Fri 09:49 -0800]
+
+*** DONE endpoints for address
+CLOSED: [2025-01-14 Tue]
+**** DONE setup address
+CLOSED: [2025-01-14 Tue]
 [2025-01-14 Tue 06:17 -0800]
 ***** DONE create schema
 CLOSED: [2025-01-14 Tue]
@@ -30,25 +54,18 @@ CLOSED: [2025-01-14 Tue]
 ***** DONE create model
 CLOSED: [2025-01-14 Tue]
 [2025-01-14 Tue 06:17 -0800]
-**** TODO address.create
+**** DONE address.create
+CLOSED: [2025-01-14 Tue]
 [2025-01-10 Fri 09:49 -0800]
-**** TODO address.read
+**** DONE address.read
+CLOSED: [2025-01-14 Tue]
 [2025-01-10 Fri 09:49 -0800]
-**** TODO address.update
+**** DONE address.update
+CLOSED: [2025-01-14 Tue]
 [2025-01-10 Fri 09:49 -0800]
-**** TODO address.delete
+**** DONE address.delete
+CLOSED: [2025-01-14 Tue]
 [2025-01-10 Fri 09:49 -0800]
-*** TODO endpoints for form_1040
-[2025-01-10 Fri 09:49 -0800]
-**** TODO form_1040.create
-[2025-01-10 Fri 09:49 -0800]
-**** TODO form_1040.read
-[2025-01-10 Fri 09:49 -0800]
-**** TODO form_1040.update
-[2025-01-10 Fri 09:49 -0800]
-**** TODO form_1040.delete
-[2025-01-10 Fri 09:49 -0800]
-
 *** DONE endpoints for human
 CLOSED: [2025-01-13 Mon]
 [2025-01-10 Fri 09:49 -0800]
