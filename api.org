@@ -30,15 +30,16 @@ template http://localhost:8081/api/csrf-token
   get
 #+end_src
 
+result
 #+RESULTS:
-#+begin_src verb
+#+begin_verbatim
 HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
   "csrf_token": "IjdhZTA1ZjNkNDhkZTg5OWU0M2E1YTI4NDQxMmUxMjlmN2VkYzlmNGMi.Z4fu9Q.EY89wBTmtUXnJrrzZMj2lPYk-X4"
 }
-#+end_src
+#+end_verbatim
 
 ** all endpoints without valid CSRF token
 
@@ -73,15 +74,16 @@ template http://localhost:8081/api/
   get /csrf-token
 #+end_src
 
+result
 #+RESULTS:
-#+begin_src verb
+#+begin_verbatim
 HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
   "csrf_token": "ImFjN2M2YzhkYjAwMTFkMjI1OGM3NTE5YmI4ZDg0ZTdjMGVkZWE1NmQi.Z4gSew.OKdoznmuaKe2LW6t2Uzm0PpLjw4"
 }
-#+end_src
+#+end_verbatim
 
 ** session.login
 
@@ -194,8 +196,9 @@ response indicating that it failed.
   get http://localhost:8081/api/csrf-token
 #+end_src
 
+result
 #+RESULTS:
-#+begin_example
+#+begin_verbatim
 HTTP/1.1 200 OK
 Server: Werkzeug/3.1.3 Python/3.9.6
 Date: Wed, 15 Jan 2025 19:47:48 GMT
@@ -213,7 +216,7 @@ Connection: close
 {
   "csrf_token": "ImFjN2M2YzhkYjAwMTFkMjI1OGM3NTE5YmI4ZDg0ZTdjMGVkZWE1NmQi.Z4gQ5A.yWJM9bFwrAeDQOcdrbZORuEtWSM"
 }
-#+end_example
+#+end_verbatim
 
 *** king.create.request
 
@@ -232,8 +235,9 @@ Connection: close
   }
 #+end_src
 
+result
 #+RESULTS:
-#+begin_example
+#+begin_verbatim
 HTTP/1.1 201 CREATED
 Content-Type: application/json
 
@@ -245,7 +249,7 @@ Content-Type: application/json
     }
   }
 }
-#+end_example
+#+end_verbatim
 
 *** king.create.response
 
@@ -284,8 +288,9 @@ user will see
   }
 #+end_src
 
+result
 #+RESULTS:
-#+begin_example
+#+begin_verbatim
 HTTP/1.1 422 UNPROCESSABLE ENTITY
 Content-Type: application/json
 
@@ -297,7 +302,7 @@ Content-Type: application/json
   },
   "message": "validation error"
 }
-#+end_example
+#+end_verbatim
 
 ***** king.create.response.failure.validation
 
