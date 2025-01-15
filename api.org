@@ -31,7 +31,7 @@ template http://localhost:8081/api/csrf-token
 #+end_src
 
 #+RESULTS:
-#+begin_quote
+#+begin_verbatim
 HTTP/1.1 200 OK
 ...
 Content-Type: application/json
@@ -40,7 +40,7 @@ Content-Type: application/json
 {
   "csrf_token": "IjdhZTA1ZjNkNDhkZTg5OWU0M2E1YTI4NDQxMmUxMjlmN2VkYzlmNGMi.Z4fu9Q.EY89wBTmtUXnJrrzZMj2lPYk-X4"
 }
-#+end_quote
+#+end_verbatim
 
 ** all endpoints without valid CSRF token
 
