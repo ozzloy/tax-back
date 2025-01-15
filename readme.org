@@ -9,10 +9,9 @@
 this is on a debian derived system, like ubuntu, or debian
 
 #+begin_src bash
-  sudo apt install -y pipenv
+  sudo apt install -y pipenv libpq-dev python3-dev
   # if you need pyenv,
   # wget -O - https://pyenv.run | bash
-  sudo apt-get install libpq-dev python3-dev
   git clone <repo-url>
   cd tax
   pipenv install --dev
@@ -154,7 +153,7 @@ instructions above
 #+begin_src bash
   git clone https://gitea.com/ozzloy/tax.git
   cd tax
-  pipenv run flask run
+  pipenv run gunicorn wsgi:app -b '[::]:8082'
 #+end_src
 
 * schema
