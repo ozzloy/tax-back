@@ -1,29 +1,30 @@
 [[source]]
+name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-name = "pypi"
 
 [packages]
+email-validator = "*"
 flask = "*"
-flask-sqlalchemy = "*"
-flask-talisman = "*"
 flask-cors = "*"
 flask-login = "*"
+flask-sqlalchemy = "*"
+flask-talisman = "*"
+flask-wtf = "*"
+psycopg2 = "*"
 pydantic = "*"
 pytest-factoryboy = "*"
-webcolors = "*"
-us = "*"
-flask-wtf = "*"
 python-dotenv = "*"
-email-validator = "*"
+us = "*"
+webcolors = "*"
 
 [dev-packages]
 black = "*"
-pre-commit = "*"
-pytest = "*"
 flake8 = "*"
 isort = "*"
+pre-commit = "*"
+pytest = "*"
 
 [requires]
-python_version = "3.9"
 python_full_version = "3.9.6"
+python_version = "3.9"

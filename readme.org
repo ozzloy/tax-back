@@ -12,6 +12,7 @@ this is on a debian derived system, like ubuntu, or debian
   sudo apt install -y pipenv
   # if you need pyenv,
   # wget -O - https://pyenv.run | bash
+  sudo apt-get install libpq-dev python3-dev
   git clone <repo-url>
   cd tax
   pipenv install --dev
