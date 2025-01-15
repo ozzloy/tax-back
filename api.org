@@ -1,5 +1,6 @@
 #+title: tax api documentation
 
+
 * general format of all successful responses
 
 #+begin_src json
@@ -20,10 +21,28 @@
 this project is generating sql with libraries, it uses "king" to avoid
 having to generate sql with quotes in it.
 
-* king authentication/authorization
+* king authentication/authorization :verb:
+template http://localhost:8081/api/csrf-token
+
+** how to get a session
+
+#+begin_src verb
+  get
+#+end_src
+
+#+RESULTS:
+#+begin_example
+HTTP/1.1 200 OK
+...
+Content-Type: application/json
+...
+
+{
+  "csrf_token": "IjdhZTA1ZjNkNDhkZTg5OWU0M2E1YTI4NDQxMmUxMjlmN2VkYzlmNGMi.Z4fu9Q.EY89wBTmtUXnJrrzZMj2lPYk-X4"
+}
+#+end_example
 
 ** all endpoints without valid CSRF token
-
 
 #+begin_src verb
   http/1.1 400 bad request
@@ -48,14 +67,40 @@ not have the correct role(s) or permission(s).
   }
 #+end_src
 
-* session
+* session :verb:
+template http://localhost:8081/api/
+
+** first get csrf-token
+#+begin_src verb
+  get /csrf-token
+#+end_src
+
+#+RESULTS:
+#+begin_example
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.3 Python/3.9.6
+Date: Wed, 15 Jan 2025 19:54:35 GMT
+Content-Type: application/json
+Content-Length: 114
+Permissions-Policy: browsing-topics=()
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Content-Security-Policy: default-src 'self'; object-src 'none'
+Referrer-Policy: strict-origin-when-cross-origin
+Vary: Cookie
+Connection: close
+
+{
+  "csrf_token": "ImFjN2M2YzhkYjAwMTFkMjI1OGM3NTE5YmI4ZDg0ZTdjMGVkZWE1NmQi.Z4gSew.OKdoznmuaKe2LW6t2Uzm0PpLjw4"
+}
+#+end_example
 
 ** session.login
 
-*** session.login.request
+*** session.login.request :verb:
 
 #+begin_src verb
-  post /api/session/
+  post
   content-type: application/json
 
   {
@@ -63,6 +108,25 @@ not have the correct role(s) or permission(s).
     "password": "secret password"
   }
 #+end_src
+
+#+RESULTS:
+#+begin_example
+HTTP/1.1 403 FORBIDDEN
+Server: Werkzeug/3.1.3 Python/3.9.6
+Date: Wed, 15 Jan 2025 17:19:38 GMT
+Content-Type: application/json
+Content-Length: 49
+Permissions-Policy: browsing-topics=()
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Content-Security-Policy: default-src 'self'; object-src 'none'
+Referrer-Policy: strict-origin-when-cross-origin
+Connection: close
+
+{
+  "message": "missing or invalid CSRF token"
+}
+#+end_example
 
 *** session.login.response
 
@@ -157,21 +221,62 @@ response indicating that it failed.
 
 ** king.create, aka create an account
 
+#+begin_src verb
+  get http://localhost:8081/api/csrf-token
+#+end_src
+
+#+RESULTS:
+#+begin_example
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.3 Python/3.9.6
+Date: Wed, 15 Jan 2025 19:47:48 GMT
+Content-Type: application/json
+Content-Length: 114
+Permissions-Policy: browsing-topics=()
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Content-Security-Policy: default-src 'self'; object-src 'none'
+Referrer-Policy: strict-origin-when-cross-origin
+Vary: Cookie
+Set-Cookie: session=eyJjc3JmX3Rva2VuIjoiYWM3YzZjOGRiMDAxMWQyMjU4Yzc1MTliYjhkODRlN2MwZWRlYTU2ZCJ9.Z4gQ5A.5wCfI65etPy2blUDjUpAHtWIQVk; HttpOnly; Path=/; SameSite=Lax
+Connection: close
+
+{
+  "csrf_token": "ImFjN2M2YzhkYjAwMTFkMjI1OGM3NTE5YmI4ZDg0ZTdjMGVkZWE1NmQi.Z4gQ5A.yWJM9bFwrAeDQOcdrbZORuEtWSM"
+}
+#+end_example
+
 *** king.create.request
 
   + require authentication: true
   + require authorization: false
 
 #+begin_src verb
-  post /api/king
+  post http://localhost:8081/api/king
+  X-CSRF-TOKEN: IjdhZTA1ZjNkNDhkZTg5OWU0M2E1YTI4NDQxMmUxMjlmN2VkYzlmNGMi.Z4fwPA.Q1NeRvFikMoKRs9h3e1UiTgz2_s
   content-type: application/json
 
   {
       "email": "bob@example.com",
       "nick": "bob",
-      "password": "secret password",
+      "password": "secret password"
   }
 #+end_src
+
+#+RESULTS:
+#+begin_example
+HTTP/1.1 201 CREATED
+Content-Type: application/json
+
+{
+  "king": {
+    "1": {
+      "id": 1,
+      "nick": "bob"
+    }
+  }
+}
+#+end_example
 
 *** king.create.response
 
@@ -202,18 +307,28 @@ user will see
 ***** king.create.response.failure.field missing
 
 #+begin_src verb
-  http/1.1 400 bad request
+  post http://localhost:8081/api/king
+  X-CSRF-TOKEN: ImFjN2M2YzhkYjAwMTFkMjI1OGM3NTE5YmI4ZDg0ZTdjMGVkZWE1NmQi.Z4gQ5A.yWJM9bFwrAeDQOcdrbZORuEtWSM
   content-type: application/json
 
   {
-      "message": "validation error",
-      "errors": {
-          "email": "email is required",
-          "nick": "nick is required",
-          "password": "password is required"
-      }
   }
 #+end_src
+
+#+RESULTS:
+#+begin_example
+HTTP/1.1 422 UNPROCESSABLE ENTITY
+Content-Type: application/json
+
+{
+  "errors": {
+    "email": "Field required",
+    "nick": "Field required",
+    "password": "Field required"
+  },
+  "message": "validation error"
+}
+#+end_example
 
 ***** king.create.response.failure.validation
 
