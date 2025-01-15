@@ -1,3 +1,9 @@
+* TODO make form 1040 stub generate wages and withholdings better
+do something more sophisticated to generate wages and withholdings so
+that withholdings <= wages. as of this writing, this constraint is
+ensured by generating wages starting at 1000 and generating
+withholdings below 1000
+
 * TODO add test that update fails on things created by someone else
 [2025-01-14 Tue 12:37 -0800]
 * TODO make HumanSchema fields optional for partially filled forms

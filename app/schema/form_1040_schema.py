@@ -24,6 +24,9 @@ class FilingStatus(Enum):
     QUALIFYING_WIDOW = "Qualifying Widow(er)"
 
 
+filing_statuses = [status.value for status in FilingStatus]
+
+
 class Form1040InputSchema(BaseModel):
     """Validate form_1040 create/edit requests."""
 
@@ -34,7 +37,9 @@ class Form1040InputSchema(BaseModel):
         pattern=r"^[\w\s\-'#,\./]+$",
         description="name for king to remember this form by",
     )
-    tax_year: Optional[int] = Field(default=None, gt=1912)
+    tax_year: Optional[int] = Field(
+        default=None, gt=1912, le=datetime.now().year + 1
+    )
     filer_id: Optional[int] = Field(
         default=None,
         gt=0,
@@ -52,26 +57,56 @@ class Form1040InputSchema(BaseModel):
     )
     wages: Optional[float] = Field(
         default=None,
-        gt=0,
         description="form w2, box 1",
     )
     withholdings: Optional[float] = Field(
         default=None,
-        gt=0,
         description="form w2, box 2",
     )
     filing_status: Optional[str] = Field(default=None)
 
+    @field_validator("wages")
+    def wages_must_exceed_withholdings(cls, v, values):
+        """Wages must be greater than or equal to withholdings."""
+        withholdings = values.data.get("withholdings")
+        if v is not None and withholdings is not None:
+            if v < withholdings:
+                raise ValueError(
+                    "wages must be greater than or equal to withholdings"
+                )
+        return v
+
+    @field_validator("withholdings")
+    def withholdings_must_not_exceed_wages(cls, v, values):
+        """Withholdings must be less than or equal to wages."""
+        wages = values.data.get("wages")
+        if v is not None and wages is not None:
+            if v > wages:
+                raise ValueError(
+                    "withholdings must be less than or equal to wages"
+                )
+        return v
+
     @field_validator("filing_status")
     def validate_filing_status(cls, filing_status: str) -> str:
         """Ensure state code is valid."""
-        valid_statuses = [status.value for status in FilingStatus]
-        if filing_status and filing_status not in valid_statuses:
+        if filing_status and filing_status not in filing_statuses:
             raise ValueError(
                 f"invalid filing status: {filing_status}. "
-                f"must be one of: {valid_statuses}"
+                f"must be one of: {filing_statuses}"
             )
         return filing_status
+
+    @model_validator(mode="before")
+    def convert_empty_strings_to_none(cls, values):
+        """Convert empty strings to None for optional fields."""
+        for field in values:
+            if (
+                isinstance(values[field], str)
+                and not values[field].strip()
+            ):
+                values[field] = None
+        return values
 
     model_config = ConfigDict(
         json_schema_extra={
@@ -88,17 +123,6 @@ class Form1040InputSchema(BaseModel):
         },
         str_strip_whitespace=True,
     )
-
-    @model_validator(mode="before")
-    def convert_empty_strings_to_none(cls, values):
-        """Convert empty strings to None for optional fields."""
-        for field in values:
-            if (
-                isinstance(values[field], str)
-                and not values[field].strip()
-            ):
-                values[field] = None
-        return values
 
 
 class Form1040Schema(BaseModel):
@@ -178,6 +202,28 @@ class Form1040Schema(BaseModel):
         },
         str_strip_whitespace=True,
     )
+
+    @field_validator("wages")
+    def wages_must_exceed_withholdings(cls, v, values):
+        """Wages must be greater than or equal to withholdings."""
+        withholdings = values.get("withholdings")
+        if v is not None and withholdings is not None:
+            if v < withholdings:
+                raise ValueError(
+                    "wages must be greater than or equal to withholdings"
+                )
+        return v
+
+    @field_validator("withholdings")
+    def withholdings_must_not_exceed_wages(cls, v, values):
+        """Withholdings must be less than or equal to wages."""
+        wages = values.get("wages")
+        if v is not None and wages is not None:
+            if v > wages:
+                raise ValueError(
+                    "withholdings must be less than or equal to wages"
+                )
+        return v
 
     @model_validator(mode="before")
     def convert_empty_strings_to_none(cls, values):
