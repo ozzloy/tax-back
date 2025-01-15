@@ -193,8 +193,18 @@ response indicating that it failed.
 ** king.create, aka create an account
 
 #+begin_src verb
-  get http://localhost:8081/api/csrf-token
+  get http://localhost:8082/api/csrf-token
 #+end_src
+
+#+RESULTS:
+#+begin_example
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "csrf_token": "IjgwZGZiM2Q5MmFkYTgyZGI3Mjc3MzM4NWE2NDRiMWFiNDE3ZTE0MDYi.Z4g3Lg.Drq1O5aWPPpjkznp5gM-er4ZvyI"
+}
+#+end_example
 
 result
 #+RESULTS:
@@ -224,32 +234,31 @@ Connection: close
   + require authorization: false
 
 #+begin_src verb
-  post http://localhost:8081/api/king
-  X-CSRF-TOKEN: IjdhZTA1ZjNkNDhkZTg5OWU0M2E1YTI4NDQxMmUxMjlmN2VkYzlmNGMi.Z4fwPA.Q1NeRvFikMoKRs9h3e1UiTgz2_s
+  post http://localhost:8082/api/king
+  X-CSRF-TOKEN: IjgwZGZiM2Q5MmFkYTgyZGI3Mjc3MzM4NWE2NDRiMWFiNDE3ZTE0MDYi.Z4g3Lg.Drq1O5aWPPpjkznp5gM-er4ZvyI
   content-type: application/json
 
   {
-      "email": "bob@example.com",
-      "nick": "bob",
+      "email": "bob2@example.com",
+      "nick": "bob2",
       "password": "secret password"
   }
 #+end_src
 
-result
 #+RESULTS:
-#+begin_verbatim
+#+begin_example
 HTTP/1.1 201 CREATED
 Content-Type: application/json
 
 {
   "king": {
-    "1": {
-      "id": 1,
-      "nick": "bob"
+    "4": {
+      "id": 4,
+      "nick": "bob2"
     }
   }
 }
-#+end_verbatim
+#+end_example
 
 *** king.create.response
 

@@ -150,9 +150,11 @@ if cloning from github,
 
 on the server, first configure the environment, as per the
 instructions above
+
 #+begin_src bash
   git clone https://gitea.com/ozzloy/tax.git
   cd tax
+  # configure environment, see development directions
   pipenv run gunicorn wsgi:app -b '[::]:8082'
 #+end_src
 
