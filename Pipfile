@@ -13,6 +13,7 @@ pydantic = "*"
 pytest-factoryboy = "*"
 webcolors = "*"
 us = "*"
+flask-wtf = "*"
 
 [dev-packages]
 black = "*"
