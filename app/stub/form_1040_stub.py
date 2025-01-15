@@ -48,27 +48,25 @@ class Form1040ModifiedStub(Form1040Stub):
         """Create form_1040 ensuring all fields have new values."""
         unique_fake = Faker()
 
-        unique_fake.unique.exclude_bs = {original_data.name}
+        unique_fake.unique.exclude_bs = {original_data["name"]}
         different_name = unique_fake.unique.bs()
 
         different_year = random.randint(1913, datetime.now().year + 1)
-        while different_year == original_data.tax_year:
+        while different_year == original_data["tax_year"]:
             different_year = random.randint(
                 1913, datetime.now().year + 1
             )
 
         different_wages = random.uniform(1000, 24_000_000_000)
-        while different_wages == original_data.wages:
+        while different_wages == original_data["wages"]:
             different_wages = random.uniform(1000, 24_000_000_000)
 
-        different_withholdings = random.uniform(1000, 24_000_000_000)
-        while different_withholdings == original_data.wages:
-            different_withholdings = random.uniform(
-                1000, 24_000_000_000
-            )
+        different_withholdings = random.uniform(0, 1000)
+        while different_withholdings == original_data["withholdings"]:
+            different_withholdings = random.uniform(0, 1000)
 
         different_status = random.choice(filing_statuses)
-        while different_status == original_data.filing_status:
+        while different_status == original_data["filing_status"]:
             different_status = random.choice(filing_statuses)
 
         return Form1040InputSchema(

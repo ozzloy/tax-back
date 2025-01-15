@@ -57,20 +57,27 @@ def create_app(config_class=Config):
 
     @app.errorhandler(ValidationError)
     def handle_validation_error(e):
+        if debug:
+            import traceback
+
+            print()
+            print(__file__)
+            print("e")
+            print(e)
+            print("\ntraceback:")
+            print(traceback.format_exc())
+            exit(-1)
 
         errors = {err["loc"][0]: err["msg"] for err in e.errors()}
 
         if debug:
             from pprint import pprint
-            import traceback
 
             print()
             print(__file__)
             print("errors:")
             pprint(errors)
 
-            print("\ntraceback:")
-            print(traceback.format_exc())
         return {
             "message": "validation error",
             "errors": errors,

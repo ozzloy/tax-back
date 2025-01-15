@@ -29,7 +29,10 @@ class Address(db.Model):
     )
 
     king = db.relationship("King", back_populates="addresses")
+    form_1040s = db.relationship(
+        "Form1040", back_populates="addresses"
+    )
 
     def to_dict(self):
-        """Public info about this human."""
+        """Public info about this address."""
         return AddressSchema.model_validate(self).model_dump()

@@ -57,10 +57,12 @@ class Form1040InputSchema(BaseModel):
     )
     wages: Optional[float] = Field(
         default=None,
+        ge=0,
         description="form w2, box 1",
     )
     withholdings: Optional[float] = Field(
         default=None,
+        ge=0,
         description="form w2, box 2",
     )
     filing_status: Optional[str] = Field(default=None)
@@ -186,6 +188,7 @@ class Form1040Schema(BaseModel):
         return dt.isoformat()
 
     model_config = ConfigDict(
+        from_attributes=True,
         json_schema_extra={
             "example": {
                 "id": 1,
@@ -202,36 +205,3 @@ class Form1040Schema(BaseModel):
         },
         str_strip_whitespace=True,
     )
-
-    @field_validator("wages")
-    def wages_must_exceed_withholdings(cls, v, values):
-        """Wages must be greater than or equal to withholdings."""
-        withholdings = values.get("withholdings")
-        if v is not None and withholdings is not None:
-            if v < withholdings:
-                raise ValueError(
-                    "wages must be greater than or equal to withholdings"
-                )
-        return v
-
-    @field_validator("withholdings")
-    def withholdings_must_not_exceed_wages(cls, v, values):
-        """Withholdings must be less than or equal to wages."""
-        wages = values.get("wages")
-        if v is not None and wages is not None:
-            if v > wages:
-                raise ValueError(
-                    "withholdings must be less than or equal to wages"
-                )
-        return v
-
-    @model_validator(mode="before")
-    def convert_empty_strings_to_none(cls, values):
-        """Convert empty strings to None for optional fields."""
-        for field in values:
-            if (
-                isinstance(values[field], str)
-                and not values[field].strip()
-            ):
-                values[field] = None
-        return values

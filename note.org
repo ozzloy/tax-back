@@ -31,11 +31,14 @@ could be used. for example, #123, or rgb(a,b,c)
 ***** DONE create schema
 CLOSED: [2025-01-14 Tue]
 [2025-01-14 Tue 13:07 -0800]
-***** TODO create stub
+***** DONE create stub
+CLOSED: [2025-01-14 Tue]
 [2025-01-14 Tue 13:07 -0800]
-***** TODO create model
+***** DONE create model
+CLOSED: [2025-01-14 Tue]
 [2025-01-14 Tue 13:07 -0800]
-***** TODO add slice to state
+***** DONE add slice to state
+CLOSED: [2025-01-14 Tue]
 [2025-01-14 Tue 14:42 -0800]
 **** TODO form_1040.create
 [2025-01-10 Fri 09:49 -0800]

@@ -34,6 +34,16 @@ class Human(db.Model):
     )
 
     king = db.relationship("King", back_populates="humans")
+    form_1040s = db.relationship(
+        "Form1040",
+        back_populates="filer",
+        foreign_keys="Form1040.filer_id",
+    )
+    spouse_form_1040s = db.relationship(
+        "Form1040",
+        back_populates="spouse",
+        foreign_keys="Form1040.spouse_id",
+    )
 
     def to_dict(self):
         """Public info about this human."""
