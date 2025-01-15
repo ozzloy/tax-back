@@ -2,7 +2,12 @@ from http import HTTPStatus as http
 
 from app.model import Form1040
 from app.schema import StatePartialSchema
-from app.stub import Form1040ModifiedStub, Form1040Stub
+from app.stub import (
+    AddressStub,
+    Form1040ModifiedStub,
+    Form1040Stub,
+    HumanStub,
+)
 
 ######################################################################
 # create
@@ -172,13 +177,6 @@ def test_form_1040_update_all_fields(logged_in_king):
         str(updated_form_1040_id)
     ]
 
-    # TODO ensure filer, spouse, address are all None before
-
-    # TODO create filer, spouse, address and fill and check their ids
-
-    # TODO create updated filer, spouse, address and fill and check
-    # their ids
-
     # make sure unchangeable fields did not change
     assert updated_form_1040["id"] == form_1040["id"]
     assert updated_form_1040["created"] == form_1040["created"]
@@ -198,6 +196,69 @@ def test_form_1040_update_all_fields(logged_in_king):
 
     assert form_1040["updated"] < updated_form_1040["updated"]
 
+    # TODO ensure filer, spouse, address are all None before
+    assert "filer" not in updated_form_1040
+    assert "spouse" not in updated_form_1040
+    assert "address" not in updated_form_1040
+
+    # TODO create filer, spouse, address and fill and check their ids
+    filer_data = HumanStub().model_dump()
+    spouse_data = HumanStub().model_dump()
+    address_data = AddressStub().model_dump()
+    response = client.post("/api/human/", json=filer_data)
+    filer = next(iter(response.json["human"].values()))
+    response = client.post("/api/human/", json=spouse_data)
+    spouse = next(iter(response.json["human"].values()))
+    response = client.post("/api/address/", json=address_data)
+    address = next(iter(response.json["address"].values()))
+
+    form_1040["filer_id"] = filer["id"]
+    form_1040["spouse_id"] = spouse["id"]
+    form_1040["address_id"] = address["id"]
+
+    response = client.put(
+        f"/api/form_1040/{form_1040['id']}", json=form_1040
+    )
+    updated0_form_1040 = list(response.json["form_1040"].values())[0]
+
+    assert updated0_form_1040["filer_id"] == filer["id"]
+    assert updated0_form_1040["spouse_id"] == spouse["id"]
+    assert updated0_form_1040["address_id"] == address["id"]
+
+    assert (
+        updated_form_1040["updated"] < updated0_form_1040["updated"]
+    )
+
+    # TODO create updated filer, spouse, address and fill and check
+    # their ids
+    filer_data = HumanStub().model_dump()
+    spouse_data = HumanStub().model_dump()
+    address_data = AddressStub().model_dump()
+    response = client.post("/api/human/", json=filer_data)
+    new_filer = next(iter(response.json["human"].values()))
+    response = client.post("/api/human/", json=spouse_data)
+    new_spouse = next(iter(response.json["human"].values()))
+    response = client.post("/api/address/", json=address_data)
+    new_address = next(iter(response.json["address"].values()))
+
+    form_1040["filer_id"] = new_filer["id"]
+    form_1040["spouse_id"] = new_spouse["id"]
+    form_1040["address_id"] = new_address["id"]
+
+    response = client.put(
+        f"/api/form_1040/{form_1040['id']}", json=form_1040
+    )
+    updated1_form_1040 = list(response.json["form_1040"].values())[0]
+
+    assert updated1_form_1040["filer_id"] == new_filer["id"]
+    assert updated1_form_1040["spouse_id"] == new_spouse["id"]
+    assert updated1_form_1040["address_id"] == new_address["id"]
+
+    assert (
+        updated0_form_1040["updated"] < updated1_form_1040["updated"]
+    )
+    #
+
 
 ######################################################################
 # delete
@@ -205,7 +266,7 @@ def test_form_1040_update_all_fields(logged_in_king):
 
 
 def test_form_1040_delete_removes_from_db(logged_in_king, test_db):
-    """test that form_1040 deletion really deletes record from database."""
+    """test that form_1040 deletion really deletes record from db."""
 
     client, king_data = logged_in_king
     form_1040_data = Form1040Stub().model_dump()
