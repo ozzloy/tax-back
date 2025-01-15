@@ -5,7 +5,13 @@
 * developer setup
 
 ** install pipenv and get the dev packages
+
+this is on a debian derived system, like ubuntu, or debian
+
 #+begin_src bash
+  sudo apt install -y pipenv
+  # if you need pyenv,
+  # wget -O - https://pyenv.run | bash
   git clone <repo-url>
   cd tax
   pipenv install --dev
@@ -139,6 +145,16 @@ Press CTRL+C to quit
 #+end_src
 
 * deploy
+
+if cloning from github,
+
+on the server, first configure the environment, as per the
+instructions above
+#+begin_src bash
+  git clone https://gitea.com/ozzloy/tax.git
+  cd tax
+  pipenv run flask run
+#+end_src
 
 * schema
 
