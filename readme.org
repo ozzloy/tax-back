@@ -151,12 +151,44 @@ if cloning from github,
 on the server, first configure the environment, as per the
 instructions above
 
+** backend
 #+begin_src bash
   git clone https://gitea.com/ozzloy/tax.git
   cd tax
   # configure environment, see development directions
+#+end_src
+
+*** apache2
+
+use the file ~etc/apache2/sites-available/tax.each.do-api.conf~
+for routing https traffic to the backend.
+
+then
+
+#+begin_src bash
+  sudo a2ensite tax.each.do-api
+  sudo systemctl restart apache2
   pipenv run gunicorn wsgi:app -b '[::]:8082'
 #+end_src
+
+then gets to https://tax.each.do/api will go to unicorn
+
+what follows is a block showing the request, then another block
+showing the important parts of the response.
+
+#+begin_src verb
+  get https://tax.each.do/api/csrf-token
+#+end_src
+
+#+RESULTS:
+#+begin_example
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "csrf_token": "IjIwMjdmODZhM2Y1ZDkwZDY2OWNiZWM5YjM2YWIzNGU4NjNhYjNiMGMi.Z4hGRQ.bN54gtNc5wf6WI0_NkrJ54AiIw0"
+}
+#+end_example
 
 * schema
 

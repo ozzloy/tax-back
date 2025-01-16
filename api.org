@@ -26,20 +26,23 @@ template http://localhost:8081/api/csrf-token
 
 ** how to get a session
 
+what follows is a block showing the http request to the template url,
+followed by another block showing the important parts of the response.
+
 #+begin_src verb
   get
 #+end_src
 
-result
 #+RESULTS:
-#+begin_verbatim
+#+begin_example
 HTTP/1.1 200 OK
 Content-Type: application/json
+Set-Cookie: session=eyJjc3JmX3Rva2VuIjoiMjAyN2Y4NmEzZjVkOTBkNjY5Y2JlYzliMzZhYjM0ZTg2M2FiM2IwYyJ9.Z4hEHg.gSsqM4nQqzE0m0zlX3uD6vH_ZgI; Secure; HttpOnly; Path=/; SameSite=Lax
 
 {
-  "csrf_token": "IjdhZTA1ZjNkNDhkZTg5OWU0M2E1YTI4NDQxMmUxMjlmN2VkYzlmNGMi.Z4fu9Q.EY89wBTmtUXnJrrzZMj2lPYk-X4"
+  "csrf_token": "IjIwMjdmODZhM2Y1ZDkwZDY2OWNiZWM5YjM2YWIzNGU4NjNhYjNiMGMi.Z4hEHg.OKjYrXDJ9cHOQh5g2-8rFCU4P2c"
 }
-#+end_verbatim
+#+end_example
 
 ** all endpoints without valid CSRF token
 
@@ -205,28 +208,6 @@ Content-Type: application/json
   "csrf_token": "IjgwZGZiM2Q5MmFkYTgyZGI3Mjc3MzM4NWE2NDRiMWFiNDE3ZTE0MDYi.Z4g3Lg.Drq1O5aWPPpjkznp5gM-er4ZvyI"
 }
 #+end_example
-
-result
-#+RESULTS:
-#+begin_verbatim
-HTTP/1.1 200 OK
-Server: Werkzeug/3.1.3 Python/3.9.6
-Date: Wed, 15 Jan 2025 19:47:48 GMT
-Content-Type: application/json
-Content-Length: 114
-Permissions-Policy: browsing-topics=()
-X-Frame-Options: SAMEORIGIN
-X-Content-Type-Options: nosniff
-Content-Security-Policy: default-src 'self'; object-src 'none'
-Referrer-Policy: strict-origin-when-cross-origin
-Vary: Cookie
-Set-Cookie: session=eyJjc3JmX3Rva2VuIjoiYWM3YzZjOGRiMDAxMWQyMjU4Yzc1MTliYjhkODRlN2MwZWRlYTU2ZCJ9.Z4gQ5A.5wCfI65etPy2blUDjUpAHtWIQVk; HttpOnly; Path=/; SameSite=Lax
-Connection: close
-
-{
-  "csrf_token": "ImFjN2M2YzhkYjAwMTFkMjI1OGM3NTE5YmI4ZDg0ZTdjMGVkZWE1NmQi.Z4gQ5A.yWJM9bFwrAeDQOcdrbZORuEtWSM"
-}
-#+end_verbatim
 
 *** king.create.request
 
