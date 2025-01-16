@@ -19,7 +19,7 @@ from .theme_schema import (
     ThemeCreateSchema,
     ThemeUpdateSchema,
     ThemeSchema,
-    valid_colors,
+    web_colors,
 )
 
 __all__ = [
@@ -40,5 +40,5 @@ __all__ = [
     "ThemeCreateSchema",
     "ThemeUpdateSchema",
     "ThemeSchema",
-    "valid_colors",
+    "web_colors",
 ]

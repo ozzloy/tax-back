@@ -1,6 +1,9 @@
 """Schema for theme model."""
 
+import re
 from datetime import datetime
+from typing import Optional
+
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -8,11 +11,18 @@ from pydantic import (
     field_serializer,
     field_validator,
 )
-from typing import Optional
 from webcolors import names as get_webcolor_names
 
+web_colors = get_webcolor_names()
 
-valid_colors = get_webcolor_names()
+
+def is_hex_color(color):
+    hex_regex = r"^#[\da-f]{3}(?:[\da-f]{3})?$"
+    return bool(re.match(hex_regex, color))
+
+
+def is_web_color(color):
+    return color in web_colors
 
 
 class ThemeCreateSchema(BaseModel):
@@ -24,11 +34,12 @@ class ThemeCreateSchema(BaseModel):
 
     @field_validator("text_color", "background_color")
     @classmethod
-    def calidate_color(cls, value: str) -> str:
+    def validate_color(cls, value: str) -> str:
         """Ensure that color comes from web color names."""
         color = value.lower()
-        if color not in valid_colors:
-            raise ValueError("color must be html colorname")
+        if not (is_web_color(color) or is_hex_color(color)):
+            message = "color must be html colorname or hex code"
+            raise ValueError(message)
         return color
 
     model_config = ConfigDict(
@@ -53,11 +64,12 @@ class ThemeUpdateSchema(BaseModel):
 
     @field_validator("text_color", "background_color")
     @classmethod
-    def calidate_color(cls, value: str) -> str:
+    def validate_color(cls, value: str) -> str:
         """Ensure that color comes from web color names."""
         color = value.lower()
-        if color not in valid_colors:
-            raise ValueError("color must be html colorname")
+        if not (is_web_color(color) or is_hex_color(color)):
+            message = "color must be html colorname or hex code"
+            raise ValueError(message)
         return color
 
 
@@ -76,11 +88,12 @@ class ThemeSchema(BaseModel):
 
     @field_validator("text_color", "background_color")
     @classmethod
-    def calidate_color(cls, value: str) -> str:
+    def validate_color(cls, value: str) -> str:
         """Ensure that color comes from web color names."""
         color = value.lower()
-        if color not in valid_colors:
-            raise ValueError("color must be html colorname")
+        if not (is_web_color(color) or is_hex_color(color)):
+            message = "color must be html colorname or hex code"
+            raise ValueError(message)
         return color
 
     @field_serializer("created", "updated")

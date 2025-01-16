@@ -4,17 +4,18 @@ from sqlalchemy import and_
 
 from app.db import db
 from app.model import Theme
+from app.schema import ThemeCreateSchema
 
 theme_seeds = [
     {
         "name": "night",
         "text_color": "chartreuse",
-        "background_color": "black",
+        "background_color": "#111",
         "king_id": None,
     },
     {
         "name": "light",
-        "text_color": "white",
+        "text_color": "#111111",
         "background_color": "black",
         "king_id": None,
     },
@@ -24,10 +25,14 @@ theme_seeds = [
 def seed_theme():
     """Insert themes into db."""
     for theme_data in theme_seeds:
+        king_id = theme_data["king_id"]
+        name = theme_data["name"]
+        theme_data = ThemeCreateSchema(**theme_data).model_dump()
+        theme_data["king_id"] = king_id
         theme = Theme.query.filter(
             and_(
-                Theme.king_id == theme_data["king_id"],
-                Theme.name == theme_data["name"],
+                Theme.king_id == king_id,
+                Theme.name == name,
             )
         ).first()
         if theme:

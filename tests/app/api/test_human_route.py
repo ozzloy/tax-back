@@ -40,7 +40,7 @@ def test_human_create_invalid_fields(logged_in_king):
         {
             "data": HumanStub().model_dump(),
             "invalid_field": "middle_initial",
-            "invalid_value": "not a web color",
+            "invalid_value": "not an initial",
         },
         {
             "data": HumanStub().model_dump(),

@@ -1,11 +1,29 @@
 """generate themes."""
 
+import random
+import string
+
 import factory
+from app.schema import ThemeCreateSchema, web_colors
 from faker import Faker
 
-from app.schema import ThemeCreateSchema, valid_colors
-
 fake = Faker()
+
+
+def get_hex_color():
+    """Generate random hex color string."""
+    hex_chars = string.hexdigits[:16].lower()
+    k = 3 if random.choice([True, False]) else 6
+    return "#" + "".join(random.choices(hex_chars, k=k))
+
+
+def get_random_color():
+    return random.choice(
+        [
+            fake.word(ext_word_list=web_colors),
+            get_hex_color(),
+        ]
+    )
 
 
 class ThemeStub(factory.Factory):
@@ -20,9 +38,5 @@ class ThemeStub(factory.Factory):
     name = factory.LazyAttribute(
         lambda obj: f"{fake.bs()} {obj._counter}"
     )
-    text_color = factory.LazyFunction(
-        lambda: fake.word(ext_word_list=valid_colors)
-    )
-    background_color = factory.LazyFunction(
-        lambda: fake.word(ext_word_list=valid_colors)
-    )
+    text_color = factory.LazyFunction(get_random_color)
+    background_color = factory.LazyFunction(get_random_color)
