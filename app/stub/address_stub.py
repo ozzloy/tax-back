@@ -70,9 +70,11 @@ class AddressModifiedStub(AddressStub):
         )
 
 
-# Test script
-if __name__ == "__main__":
+# test script
+def main():
     """
+    Generate and display random addresses.
+
     run from tax directory like this:
     $ PYTHONPATH="." pipenv run python app/stub/address_stub.py
     """
@@ -95,6 +97,12 @@ if __name__ == "__main__":
     print("Original:")
     pprint(original.__dict__)
 
-    modified = AddressModifiedStub.create_different(original)
+    modified = AddressModifiedStub.create_different(
+        original.model_dump()
+    )
     print("Modified:")
     pprint(modified.__dict__)
+
+
+if __name__ == "__main__":
+    main()

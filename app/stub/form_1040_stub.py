@@ -103,6 +103,8 @@ if __name__ == "__main__":
     print("Original:")
     pprint(original.__dict__)
 
-    modified = Form1040ModifiedStub.create_different(original)
+    modified = Form1040ModifiedStub.create_different(
+        original.model_dump()
+    )
     print("Modified:")
     pprint(modified.__dict__)

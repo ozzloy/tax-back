@@ -53,6 +53,7 @@ class AddressInputSchema(BaseModel):
         return state
 
     model_config = ConfigDict(
+        from_attributes=True,
         json_schema_extra={
             "example": {
                 "street": "1600 Pennsylvania Ave.",

@@ -40,3 +40,22 @@ class ThemeStub(factory.Factory):
     )
     text_color = factory.LazyFunction(get_random_color)
     background_color = factory.LazyFunction(get_random_color)
+
+
+def main():
+    """Generate and display sample themes.
+
+    run from tax directory like this:
+    $ PYTHONPATH="." pipenv run python app/stub/theme_stub.py
+    """
+    print("\nGenerated Theme Examples:\n")
+    from pprint import pprint
+
+    for _ in range(5):  # Generate 5 sample themes
+        theme = ThemeStub().model_dump()
+        pprint(theme)
+        print("-" * 50)
+
+
+if __name__ == "__main__":
+    main()
