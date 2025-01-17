@@ -1,6 +1,6 @@
 """create the flask app for tax backend."""
 
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 from flask_login import LoginManager
 from flask_talisman import Talisman
@@ -25,14 +25,16 @@ debug = False
 def create_app(config_class=Config):
     """Create the flask app for tax."""
     app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    CORS(
+        app,
+        supports_credentials=True,
+        expose_headers=["X-CSRF-TOKEN"],
+    )
+
     login_manager = LoginManager()
     login_manager.init_app(app)
-
-    @login_manager.user_loader
-    def load_user(king_id):
-        return db.session.get(King, int(king_id))
-
-    app.config.from_object(config_class)
 
     db.init_app(app)
     csrf.init_app(app)
@@ -43,14 +45,26 @@ def create_app(config_class=Config):
         force_https_permanent=True,
     )
 
+    @login_manager.user_loader
+    def load_user(king_id):
+        return db.session.get(King, int(king_id))
+
     from app.api import api_blueprint
 
     app.register_blueprint(api_blueprint)
 
-    CORS(app, supports_credentials=True)
-
     @app.errorhandler(CSRFError)
     def handle_csrf_error(e):
+        print(__file__)
+        print(f"403 error on {request.url}")
+        print(f"request body: {request.get_data().decode('utf-8')}")
+        print(f"headers: {dict(request.headers)}")
+        import traceback
+
+        print()
+        print("e")
+        print("\ntraceback:")
+        print(traceback.format_exc())
         return {
             "message": "missing or invalid CSRF token"
         }, http.FORBIDDEN
