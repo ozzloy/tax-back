@@ -22,7 +22,8 @@ this project is generating sql with libraries, it uses "king" to avoid
 having to generate sql with quotes in it.
 
 * king authentication/authorization :verb:
-template http://localhost:8081/api/csrf-token
+
+template http://tax.example.com
 
 ** how to get a session
 
@@ -30,17 +31,17 @@ what follows is a block showing the http request to the template url,
 followed by another block showing the important parts of the response.
 
 #+begin_src verb
-  get
+  get /api/csrf-token
 #+end_src
 
 #+RESULTS:
 #+begin_example
 HTTP/1.1 200 OK
 Content-Type: application/json
-Set-Cookie: session=eyJjc3JmX3Rva2VuIjoiMjAyN2Y4NmEzZjVkOTBkNjY5Y2JlYzliMzZhYjM0ZTg2M2FiM2IwYyJ9.Z4hEHg.gSsqM4nQqzE0m0zlX3uD6vH_ZgI; Secure; HttpOnly; Path=/; SameSite=Lax
+Set-Cookie: session=eyJjc3JmX3Rva2VuIjoiOWZiMzMxMmNmNjBiNjNhMWNiNWMzZGI1NzdhMjg3M2Q3ODg3ZmFjYSJ9.Z4nXEg.oUpoyZfvyqxYd5qOqrz-y24y5XI; Secure; HttpOnly; Path=/; SameSite=Lax
 
 {
-  "csrf_token": "IjIwMjdmODZhM2Y1ZDkwZDY2OWNiZWM5YjM2YWIzNGU4NjNhYjNiMGMi.Z4hEHg.OKjYrXDJ9cHOQh5g2-8rFCU4P2c"
+  "csrf_token": "IjlmYjMzMTJjZjYwYjYzYTFjYjVjM2RiNTc3YTI4NzNkNzg4N2ZhY2Ei.Z4nXEg.A9NwLORS4-WKZPB04iCy0qrapxE"
 }
 #+end_example
 
@@ -70,37 +71,42 @@ not have the correct role(s) or permission(s).
 #+end_src
 
 * session :verb:
-template http://localhost:8081/api/
-
-** first get csrf-token
-#+begin_src verb
-  get /csrf-token
-#+end_src
-
-result
-#+RESULTS:
-#+begin_verbatim
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-  "csrf_token": "ImFjN2M2YzhkYjAwMTFkMjI1OGM3NTE5YmI4ZDg0ZTdjMGVkZWE1NmQi.Z4gSew.OKdoznmuaKe2LW6t2Uzm0PpLjw4"
-}
-#+end_verbatim
+template http://tax.example.com
 
 ** session.login
 
 *** session.login.request :verb:
 
 #+begin_src verb
-  post /session/
+  post /api/session/
   content-type: application/json
+  X-CSRF-TOKEN: IjQ0NjEzYTg0OTNhNzU2NDFmYTAzMTYyM2Q1MTRlNDE2ZDRkZDhiNDgi.Z4pzww.0Zq0l9Z-rXVf0zGqoN-qoibmB1w
 
   {
     "email": "bob@example.com",
     "password": "secret password"
   }
 #+end_src
+
+#+RESULTS:
+#+begin_example
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "current_king_id": 1,
+  "king": {
+    "1": {
+      "created": "2025-01-17T15:14:46.930159",
+      "email": "bob@example.com",
+      "id": 1,
+      "nick": "bob",
+      "theme_id": 1,
+      "updated": "2025-01-17T15:14:46.930159"
+    }
+  }
+}
+#+end_example
 
 *** session.login.response
 
@@ -115,8 +121,8 @@ Content-Type: application/json
       "king": {
           "1": {
               "id": 1,
-              "email": "john.smith@example.com",
-              "nick": "johnsmith",
+              "email": "bob@example.com",
+              "nick": "bob",
               "theme_id": 1
           }
       }
@@ -191,55 +197,58 @@ with that email
 unclear how this could fail in such a way that the server could send a
 response indicating that it failed.
 
-* king
+* king :verb:
+
 
 ** king.create, aka create an account
-
-#+begin_src verb
-  get http://localhost:8082/api/csrf-token
-#+end_src
-
-#+RESULTS:
-#+begin_example
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-  "csrf_token": "IjgwZGZiM2Q5MmFkYTgyZGI3Mjc3MzM4NWE2NDRiMWFiNDE3ZTE0MDYi.Z4g3Lg.Drq1O5aWPPpjkznp5gM-er4ZvyI"
-}
-#+end_example
 
 *** king.create.request
 
   + require authentication: true
   + require authorization: false
 
-#+begin_src verb
-  post http://localhost:8082/api/king
-  X-CSRF-TOKEN: IjgwZGZiM2Q5MmFkYTgyZGI3Mjc3MzM4NWE2NDRiMWFiNDE3ZTE0MDYi.Z4g3Lg.Drq1O5aWPPpjkznp5gM-er4ZvyI
-  content-type: application/json
+  #+begin_src verb
+    get http://tax.example.com/api/csrf-token
+  #+end_src
+
+  #+RESULTS:
+  #+begin_example
+  HTTP/1.1 200 OK
+  Content-Type: application/json
 
   {
-      "email": "bob2@example.com",
-      "nick": "bob2",
-      "password": "secret password"
+    "csrf_token": "IjQ0NjEzYTg0OTNhNzU2NDFmYTAzMTYyM2Q1MTRlNDE2ZDRkZDhiNDgi.Z4pzww.0Zq0l9Z-rXVf0zGqoN-qoibmB1w"
   }
-#+end_src
+  #+end_example
 
-#+RESULTS:
-#+begin_example
-HTTP/1.1 201 CREATED
-Content-Type: application/json
+  session cookie will implicitly be inserted by verb
 
-{
-  "king": {
-    "4": {
-      "id": 4,
-      "nick": "bob2"
+  #+begin_src verb
+    post http://tax.example.com/api/king/
+    X-CSRF-TOKEN: IjQ0NjEzYTg0OTNhNzU2NDFmYTAzMTYyM2Q1MTRlNDE2ZDRkZDhiNDgi.Z4pzww.0Zq0l9Z-rXVf0zGqoN-qoibmB1w
+    content-type: application/json
+
+    {
+        "email": "bob@example.com",
+        "nick": "bob",
+        "password": "secret password"
+    }
+  #+end_src
+
+  #+RESULTS:
+  #+begin_example
+  HTTP/1.1 201 CREATED
+  Content-Type: application/json
+
+  {
+    "king": {
+      "1": {
+        "id": 1,
+        "nick": "bob"
+      }
     }
   }
-}
-#+end_example
+  #+end_example
 
 *** king.create.response
 
