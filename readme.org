@@ -116,6 +116,8 @@ below are useful psql commands,
 
   -- see schema of a table
   \d king
+
+  ALTER USER tax_user WITH PASSWORD 'new_password';
 #+end_src
 
 ** run the tests
