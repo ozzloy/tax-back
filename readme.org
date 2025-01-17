@@ -154,41 +154,80 @@ on the server, first configure the environment, as per the
 instructions above
 
 ** backend
+
+*** initial setup, only do once per deployment, not during updates
+
+**** get code
+
+***** if checking out backend by itself
+
 #+begin_src bash
-  git clone https://gitea.com/ozzloy/tax.git
-  cd tax
+  git clone https://gitea.com/ozzloy/tax-back
+  cd tax-back
   # configure environment, see development directions
 #+end_src
 
+***** if doing backend and frontend together,
+
+#+begin_src bash
+  git clone --recursive https://gitea.com/ozzloy/tax
+#+end_src
+
+*** steps for every deployment update
+
+**** update code
+
+***** if doing backend by itself
+
+#+begin_src bash
+  cd tax-back
+  git pull
+#+end_src
+
+**** if doing backend and frontend
+
+#+begin_src bash
+  cd tax
+  git submodule update --init --recursive
+#+end_src
+
+*** set up environment variables
+
+see developer setup at top of this file for ~pyrightconfig.json~ and
+~.env~.
+
 *** apache2
 
-use the file ~etc/apache2/sites-available/tax.each.do-api.conf~
+use the file ~conf/etc/apache2/sites-available/tax.example.com.conf~
 for routing https traffic to the backend.
 
 then
 
 #+begin_src bash
-  sudo a2ensite tax.each.do-api
+  sudo a2ensite tax.example.com
   sudo systemctl restart apache2
+  pipenv install
   pipenv run gunicorn wsgi:app -b '[::]:8082'
 #+end_src
 
-then gets to https://tax.each.do/api will go to unicorn
+then http get requests to https://tax.example.com/api will go to
+unicorn
 
 what follows is a block showing the request, then another block
 showing the important parts of the response.
 
 #+begin_src verb
-  get https://tax.each.do/api/csrf-token
+  get http://tax.example.com/api/csrf-token
 #+end_src
 
 #+RESULTS:
 #+begin_example
 HTTP/1.1 200 OK
 Content-Type: application/json
+Set-Cookie: session=eyJjc3JmX3Rva2VuIjoiZTUwYmVkZmY0MDI3N2Q4NDA2ZTQ3NmVkM2E1MWExZDI2ZWU4ZDUzMyJ9.Z4nRXw.C4dXjsFJVGOnQBAWU04NqgPDYVA; Secure; HttpOnly; Path=/; SameSite=Lax
 
 {
-  "csrf_token": "IjIwMjdmODZhM2Y1ZDkwZDY2OWNiZWM5YjM2YWIzNGU4NjNhYjNiMGMi.Z4hGRQ.bN54gtNc5wf6WI0_NkrJ54AiIw0"
+  "csrf_token": "ImU1MGJlZGZmNDAyNzdkODQwNmU0NzZlZDNhNTFhMWQyNmVlOGQ1MzMi.Z4nRXw.fNZXik2DZpiJjsmhxjjzkz9RONs"
 }
 #+end_example
 
