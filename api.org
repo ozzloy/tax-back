@@ -752,7 +752,7 @@ not own it
 
   {
       "name": "blue steele",
-      "text_color": "blue",
+      "foreground_color": "blue",
       "background_color": "steele"
   }
 #+end_src
@@ -770,7 +770,7 @@ not own it
           "1": {
               "id": 1,
               "name": "blue steele",
-              "text_color": "blue",
+              "foreground_color": "blue",
               "background_color": "steele"
           }
       }
@@ -789,7 +789,7 @@ not own it
       "message": "validation error",
       "errors": {
           "name": "theme name required",
-          "text_color": "text color is required",
+          "foreground_color": "foreground color is required",
           "background_color": "background color is required"
       }
   }
@@ -805,7 +805,7 @@ not own it
       "message": "validation error",
       "errors": {
           "name": "theme name must have at least 1 character",
-          "text_color": "text color must have at least 1 character",
+          "foreground_color": "foreground color must have at least 1 character",
           "background_color": "background color must have at least 1 character"
       }
   }
@@ -832,7 +832,7 @@ not own it
           "1": {
               "id": 1,
               "name": "blue steele",
-              "text_color": "blue",
+              "foreground_color": "blue",
               "background_color": "steele"
           }
       }
@@ -875,13 +875,13 @@ not own it
           "1": {
               "id": 1,
               "name": "blue steele",
-              "text_color": "blue",
+              "foreground_color": "blue",
               "background_color": "steele"
           },
           "2": {
               "id": 1,
               "name": "tropic thunder",
-              "text_color": "darkslateblue",
+              "foreground_color": "darkslateblue",
               "background_color": "darkslategray"
           }
       }
@@ -902,7 +902,7 @@ see authentication and authorization failures described above.
 
   {
       "name": "blue steele",
-      "text_color": "blue",
+      "foreground_color": "blue",
       "background_color": "steele"
   }
 #+end_src
@@ -920,7 +920,7 @@ see authentication and authorization failures described above.
           "1": {
               "id": 1,
               "name": "blue steele",
-              "text_color": "blue",
+              "foreground_color": "blue",
               "background_color": "steele"
           }
       }
@@ -939,7 +939,7 @@ see authentication and authorization failures described above.
       "message": "validation error",
       "errors": {
           "name": "theme name required",
-          "text_color": "text color is required",
+          "foreground_color": "foreground color is required",
           "background_color": "background color is required"
       }
   }
@@ -955,7 +955,7 @@ see authentication and authorization failures described above.
       "message": "validation error",
       "errors": {
           "name": "theme name must have at least 1 character",
-          "text_color": "text color must have at least 1 character",
+          "foreground_color": "foreground color must have at least 1 character",
           "background_color": "background color must have at least 1 character"
       }
   }
@@ -1234,7 +1234,7 @@ filer id comes is current session's king id
       "message": "validation error",
       "errors": {
           "name": "form_1040 name must have at least 1 character",
-          "text_color": "text color must have at least 1 character",
+          "foreground_color": "foreground color must have at least 1 character",
           "background_color": "background color must have at least 1 character"
       }
   }
@@ -1488,7 +1488,7 @@ near top
       "message": "validation error",
       "errors": {
           "name": "address name must have at least 1 character",
-          "text_color": "text color must have at least 1 character",
+          "foreground_color": "foreground color must have at least 1 character",
           "background_color": "background color must have at least 1 character"
       }
   }

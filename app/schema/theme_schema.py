@@ -29,10 +29,10 @@ class ThemeCreateSchema(BaseModel):
     """Validate theme creation requests."""
 
     name: str = Field(min_length=1)
-    text_color: str = Field(min_length=1)
+    foreground_color: str = Field(min_length=1)
     background_color: str = Field(min_length=1)
 
-    @field_validator("text_color", "background_color")
+    @field_validator("foreground_color", "background_color")
     @classmethod
     def validate_color(cls, value: str) -> str:
         """Ensure that color comes from web color names."""
@@ -46,7 +46,7 @@ class ThemeCreateSchema(BaseModel):
         json_schema_extra={
             "example": {
                 "name": "blue steele",
-                "text_color": "blue",
+                "foreground_color": "blue",
                 "background_color": "steelblue",
             }
         }
@@ -57,12 +57,14 @@ class ThemeUpdateSchema(BaseModel):
     """Validate theme update requests."""
 
     name: Optional[str] = Field(default=None, min_length=1)
-    text_color: Optional[str] = Field(default=None, min_length=1)
+    foreground_color: Optional[str] = Field(
+        default=None, min_length=1
+    )
     background_color: Optional[str] = Field(
         default=None, min_length=1
     )
 
-    @field_validator("text_color", "background_color")
+    @field_validator("foreground_color", "background_color")
     @classmethod
     def validate_color(cls, value: str) -> str:
         """Ensure that color comes from web color names."""
@@ -78,7 +80,7 @@ class ThemeSchema(BaseModel):
 
     id: int
     name: str = Field(min_length=1)
-    text_color: str
+    foreground_color: str
     background_color: str
     king_id: Optional[int] = None
     created: datetime
@@ -86,7 +88,7 @@ class ThemeSchema(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-    @field_validator("text_color", "background_color")
+    @field_validator("foreground_color", "background_color")
     @classmethod
     def validate_color(cls, value: str) -> str:
         """Ensure that color comes from web color names."""

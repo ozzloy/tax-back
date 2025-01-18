@@ -38,7 +38,7 @@ class ThemeStub(factory.Factory):
     name = factory.LazyAttribute(
         lambda obj: f"{fake.bs()} {obj._counter}"
     )
-    text_color = factory.LazyFunction(get_random_color)
+    foreground_color = factory.LazyFunction(get_random_color)
     background_color = factory.LazyFunction(get_random_color)
 
 

@@ -39,7 +39,7 @@ def test_theme_create_invalid_fields(logged_in_king):
         },
         {
             "data": ThemeStub().model_dump(),
-            "invalid_field": "text_color",
+            "invalid_field": "foreground_color",
             "invalid_value": "not a web color",
         },
         {
@@ -150,7 +150,10 @@ def test_theme_update_all_fields(logged_in_king):
         updated_theme["background_color"]
         == updated_data["background_color"]
     )
-    assert updated_theme["text_color"] == updated_data["text_color"]
+    assert (
+        updated_theme["foreground_color"]
+        == updated_data["foreground_color"]
+    )
 
     assert theme["updated"] < updated_theme["updated"]
 

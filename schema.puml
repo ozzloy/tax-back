@@ -35,7 +35,7 @@ TABLE(king) {
 
 TABLE(theme) {
     name: STRING
-    text_color: STRING
+    foreground_color: STRING
     background_color: STRING
     FOREIGN_KEY(king_id): INT
 }

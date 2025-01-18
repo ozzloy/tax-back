@@ -9,13 +9,13 @@ from app.schema import ThemeCreateSchema
 theme_seeds = [
     {
         "name": "night",
-        "text_color": "chartreuse",
+        "foreground_color": "chartreuse",
         "background_color": "#111",
         "king_id": None,
     },
     {
         "name": "light",
-        "text_color": "#111111",
+        "foreground_color": "#111111",
         "background_color": "black",
         "king_id": None,
     },
