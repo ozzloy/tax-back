@@ -38,10 +38,16 @@ def create():
 
 
 @theme_blueprint.route("/", methods=["GET"])
-@login_required
 def read_all():
     """Read all themes."""
-    themes = db.session.query(Theme).all()
+    if current_king.is_authenticated:
+        themes = db.session.query(Theme).all()
+    else:
+        themes = (
+            db.session.query(Theme)
+            .filter(Theme.king_id.is_(None))
+            .all()
+        )
 
     slice = {
         "theme": {str(theme.id): theme.to_dict() for theme in themes}
