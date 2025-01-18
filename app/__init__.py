@@ -30,7 +30,6 @@ def create_app(config_class=Config):
     CORS(
         app,
         supports_credentials=True,
-        expose_headers=["X-CSRF-TOKEN"],
     )
 
     login_manager = LoginManager()
