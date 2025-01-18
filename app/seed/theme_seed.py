@@ -15,8 +15,8 @@ theme_seeds = [
     },
     {
         "name": "light",
-        "foreground_color": "#111111",
-        "background_color": "black",
+        "foreground_color": "black",
+        "background_color": "whitesmoke",
         "king_id": None,
     },
 ]
