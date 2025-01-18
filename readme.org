@@ -128,7 +128,7 @@ below are useful psql commands,
 
 yay!
 
-* run
+* run in development
 #+begin_src bash
   pipenv run flask run
 #+end_src
