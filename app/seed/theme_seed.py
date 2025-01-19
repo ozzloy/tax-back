@@ -29,6 +29,7 @@ def seed_theme():
         name = theme_data["name"]
         theme_data = ThemeCreateSchema(**theme_data).model_dump()
         theme_data["king_id"] = king_id
+
         theme = Theme.query.filter(
             and_(
                 Theme.king_id == king_id,
