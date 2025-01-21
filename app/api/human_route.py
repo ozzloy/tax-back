@@ -3,6 +3,7 @@
 from flask import abort, Blueprint, request
 from flask_login import current_user as current_king, login_required
 from http import HTTPStatus as http
+from sqlalchemy.exc import IntegrityError
 
 from app import db
 from app.model import Human
@@ -27,7 +28,15 @@ def create():
     human = Human(**human_data)
 
     db.session.add(human)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        errors = {}
+        return {
+            "message": "integrity error",
+            "errors": {"_error": "unable to create human"},
+        }, http.CONFLICT
 
     state_data = {"human": {str(human.id): human.to_dict()}}
 
@@ -81,7 +90,15 @@ def update(human_id):
     for field, value in update_data.items():
         setattr(human, field, value)
 
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        errors = {}
+        return {
+            "message": "integrity error",
+            "errors": {"_error": "unable to update human"},
+        }, http.CONFLICT
 
     partial_state_data = {"human": {str(human.id): human.to_dict()}}
     partial_state = StatePartialSchema.model_validate(
@@ -99,7 +116,15 @@ def delete(human_id):
     human_id = human.id
 
     db.session.delete(human)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        errors = {}
+        return {
+            "message": "integrity error",
+            "errors": {"_error": "unable to delete human"},
+        }, http.CONFLICT
 
     partial_state_data = {"human": {str(human_id): None}}
     partial_state = StatePartialSchema.model_validate(

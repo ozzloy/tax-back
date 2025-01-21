@@ -24,9 +24,11 @@ could be used. for example, #123, or rgb(a,b,c)
 [2025-01-10 Fri 09:49 -0800]
 ** TODO do endpoints
 [2025-01-10 Fri 09:49 -0800]
-*** TODO endpoints for form_1040
+*** DONE endpoints for form_1040
+CLOSED: [2025-01-21 Tue]
 [2025-01-10 Fri 09:49 -0800]
-**** TODO setup form_1040
+**** DONE setup form_1040
+CLOSED: [2025-01-21 Tue]
 [2025-01-14 Tue 13:07 -0800]
 ***** DONE create schema
 CLOSED: [2025-01-14 Tue]
@@ -40,15 +42,18 @@ CLOSED: [2025-01-14 Tue]
 ***** DONE add slice to state
 CLOSED: [2025-01-14 Tue]
 [2025-01-14 Tue 14:42 -0800]
-**** TODO form_1040.create
+**** DONE form_1040.create
+CLOSED: [2025-01-21 Tue]
 [2025-01-10 Fri 09:49 -0800]
-**** TODO form_1040.read
+**** DONE form_1040.read
+CLOSED: [2025-01-21 Tue]
 [2025-01-10 Fri 09:49 -0800]
-**** TODO form_1040.update
+**** DONE form_1040.update
+CLOSED: [2025-01-21 Tue]
 [2025-01-10 Fri 09:49 -0800]
-**** TODO form_1040.delete
+**** DONE form_1040.delete
+CLOSED: [2025-01-21 Tue]
 [2025-01-10 Fri 09:49 -0800]
-
 *** DONE endpoints for address
 CLOSED: [2025-01-14 Tue]
 **** DONE setup address

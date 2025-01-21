@@ -1,6 +1,7 @@
 """endpoints for form_1040s."""
 
 from http import HTTPStatus as http
+from sqlalchemy.exc import IntegrityError
 
 from app import db
 from app.model import Form1040
@@ -26,7 +27,21 @@ def create():
     form_1040 = Form1040(**form_1040_data)
 
     db.session.add(form_1040)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollBack()
+        errors = {}
+        if "spouse_id" in str(e.orig):
+            errors["spouse_id"] = "spouse id not in human table"
+        if "filer_id" in str(e.orig):
+            errors["filer_id"] = "filer id not in human table"
+        if "address_id" in str(e.orig):
+            errors["address_id"] = "address id not in address table"
+        return {
+            "message": "integrity error",
+            "errors": errors,
+        }, http.CONFLICT
 
     state_data = {
         "form_1040": {str(form_1040.id): form_1040.to_dict()}
@@ -89,7 +104,21 @@ def update(form_1040_id):
     for field, value in update_data.items():
         setattr(form_1040, field, value)
 
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollBack()
+        errors = {}
+        if "spouse_id" in str(e.orig):
+            errors["spouse_id"] = "spouse id not in human table"
+        if "filer_id" in str(e.orig):
+            errors["filer_id"] = "filer id not in human table"
+        if "address_id" in str(e.orig):
+            errors["address_id"] = "address id not in address table"
+        return {
+            "message": "integrity error",
+            "errors": errors,
+        }, http.CONFLICT
 
     partial_state_data = {
         "form_1040": {str(form_1040.id): form_1040.to_dict()}
@@ -111,7 +140,15 @@ def delete(form_1040_id):
     form_1040_id = form_1040.id
 
     db.session.delete(form_1040)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollBack()
+        errors = {}
+        return {
+            "message": "integrity error",
+            "errors": {"_error": "unable to delete"},
+        }, http.CONFLICT
 
     partial_state_data = {"form_1040": {str(form_1040_id): None}}
     partial_state = StatePartialSchema.model_validate(

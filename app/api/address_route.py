@@ -1,6 +1,7 @@
 """endpoints for addresss."""
 
 from http import HTTPStatus as http
+from sqlalchemy.exc import IntegrityError
 
 from app import db
 from app.model import Address
@@ -26,7 +27,15 @@ def create():
     address = Address(**address_data)
 
     db.session.add(address)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        errors = {}
+        return {
+            "message": "integrity error",
+            "errors": {"_error": "unable to create address"},
+        }, http.CONFLICT
 
     state_data = {"address": {str(address.id): address.to_dict()}}
 
@@ -86,7 +95,15 @@ def update(address_id):
     for field, value in update_data.items():
         setattr(address, field, value)
 
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        errors = {}
+        return {
+            "message": "integrity error",
+            "errors": {"_error": "unable to update address"},
+        }, http.CONFLICT
 
     partial_state_data = {
         "address": {str(address.id): address.to_dict()}
@@ -108,7 +125,15 @@ def delete(address_id):
     address_id = address.id
 
     db.session.delete(address)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        errors = {}
+        return {
+            "message": "integrity error",
+            "errors": {"_error": "unable to delete address"},
+        }, http.CONFLICT
 
     partial_state_data = {"address": {str(address_id): None}}
     partial_state = StatePartialSchema.model_validate(
