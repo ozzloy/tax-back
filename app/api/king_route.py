@@ -102,11 +102,15 @@ def update():
 def delete():
     """Delete the currently logged in king's account."""
     # get current king from database
-    king = db.session.get(King, current_king.id)
+    king_id = current_king.id
+    king = db.session.get(King, king_id)
 
     # delete the king
     db.session.delete(king)
     db.session.commit()
 
     logout_king()
-    return {"current_king_id": None}, http.OK
+    return {
+        "current_king_id": None,
+        "king": {str(king_id): None},
+    }, http.OK

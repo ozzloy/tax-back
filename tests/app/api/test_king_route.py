@@ -284,6 +284,7 @@ def test_king_delete_requires_auth(client):
 def test_king_delete_success(logged_in_king):
     """test successful king account deletion."""
     client, king_data = logged_in_king
+    king_id = king_data["id"]
 
     # first verify we can access the account
     get_response = client.get("/api/king/")
@@ -295,7 +296,10 @@ def test_king_delete_success(logged_in_king):
 
     # verify response structure
     state = delete_response.json
-    assert state == {"current_king_id": None}
+    assert state == {
+        "current_king_id": None,
+        "king": {str(king_id): None},
+    }
 
     # verify we can no longer access the account
     get_response_after = client.get("/api/king/")
