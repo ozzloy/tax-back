@@ -96,7 +96,7 @@ def update(form_1040_id):
     """Update a form_1040."""
     update_data = Form1040InputSchema.model_validate(
         request.json
-    ).model_dump(exclude_none=True)
+    ).model_dump()
 
     form_1040 = db.session.get(Form1040, form_1040_id) or abort(
         http.NOT_FOUND
