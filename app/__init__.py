@@ -101,6 +101,15 @@ def create_app(config_class=Config):
 
     @app.errorhandler(IntegrityError)
     def handle_db_error(e):
+        if debug:
+            import traceback
+
+            print()
+            print(__file__)
+            print("e")
+            print(e)
+            print("\ntraceback:")
+            print(traceback.format_exc())
         db.session.rollback()
         field = "email" if "email" in str(e.orig) else "nick"
 
