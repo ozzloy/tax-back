@@ -122,9 +122,6 @@ def delete(theme_id):
     db.session.delete(theme)
     db.session.commit()
 
-    partial_state_data = {"theme": {str(theme_id): None}}
-    partial_state = StatePartialSchema.model_validate(
-        partial_state_data
-    ).model_dump(exclude_none=True)
+    partial_state = {"theme": {str(theme_id): None}}
 
     return partial_state, http.OK
