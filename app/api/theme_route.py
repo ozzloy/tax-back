@@ -3,6 +3,7 @@
 from flask import abort, Blueprint, request
 from flask_login import current_user as current_king, login_required
 from http import HTTPStatus as http
+from sqlalchemy.exc import IntegrityError
 
 from app import db
 from app.model import Theme
@@ -27,7 +28,14 @@ def create():
     theme = Theme(**theme_data)
 
     db.session.add(theme)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        return {
+            "message": "theme conflict",
+            "errors": {"name": "name is taken"},
+        }, http.CONFLICT
 
     state_data = {"theme": {str(theme.id): theme.to_dict()}}
 
@@ -87,7 +95,14 @@ def update(theme_id):
     for field, value in update_data.items():
         setattr(theme, field, value)
 
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        return {
+            "message": "theme conflict",
+            "errors": {"name": "name is taken"},
+        }, http.CONFLICT
 
     partial_state_data = {"theme": {str(theme.id): theme.to_dict()}}
     partial_state = StatePartialSchema.model_validate(
