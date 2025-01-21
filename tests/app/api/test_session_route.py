@@ -89,14 +89,28 @@ def test_session_delete_success(client):
     session_login_data = SessionLoginSchema(
         **king_signup_data
     ).model_dump()
-    client.post("/api/session/", json=session_login_data)
+    login_response = client.post(
+        "/api/session/", json=session_login_data
+    )
+    state = login_response.json
+    king_slice = state["king"]
+    king_id = state["current_king_id"]
+    king = king_slice[str(king_id)]
 
     # then logout
-    response = client.delete("/api/session/")
+    delete_response = client.delete("/api/session/")
 
     # verify response
-    assert response.status_code == http.NO_CONTENT
-    assert not response.data  # Should be empty response body
+    assert delete_response.status_code == http.OK
+    delete_state = delete_response.json
+
+    assert delete_state["current_king_id"] is None
+
+    delete_king_slice = delete_state["king"]
+    delete_king = delete_king_slice[str(king_id)]
+
+    assert delete_king["nick"] == king["nick"]
+    assert delete_king["id"] == king["id"]
 
     # attempt an unauthorized read
     read_response = client.get("/api/king/")

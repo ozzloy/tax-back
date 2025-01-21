@@ -2,6 +2,7 @@
 
 from flask import Blueprint, request
 from flask_login import (
+    current_user as current_king,
     login_user as login_king,
     logout_user as logout_king,
 )
@@ -43,5 +44,15 @@ def login():
 @session_blueprint.route("/", methods=["DELETE"])
 def logout():
     """Log out the current king."""
+
+    if not current_king.is_authenticated:
+        return {}, http.NO_CONTENT
+
+    king = current_king.to_dict()
     logout_king()
-    return "", http.NO_CONTENT
+    return {
+        # no king is logged in
+        "current_king_id": None,
+        # only remember public info about the king that logged out
+        "king": {str(king["id"]): king},
+    }, http.OK
