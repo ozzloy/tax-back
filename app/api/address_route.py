@@ -49,7 +49,11 @@ def create():
 @login_required
 def read_all():
     """Read all addresss."""
-    addresss = db.session.query(Address).all()
+    addresss = (
+        db.session.query(Address)
+        .filter(Address.king_id == current_king.id)
+        .all()
+    )
 
     slice = {
         "address": {

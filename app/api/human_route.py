@@ -50,7 +50,11 @@ def create():
 @login_required
 def read_all():
     """Read all humans."""
-    humans = db.session.query(Human).all()
+    humans = (
+        db.session.query(Human)
+        .filter(Human.king_id == current_king.id)
+        .all()
+    )
 
     slice = {
         "human": {str(human.id): human.to_dict() for human in humans}

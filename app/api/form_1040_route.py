@@ -57,7 +57,11 @@ def create():
 @login_required
 def read_all():
     """Read all form_1040s."""
-    form_1040s = db.session.query(Form1040).all()
+    form_1040s = (
+        db.session.query(Form1040)
+        .filter(Form1040.king_id == current_king.id)
+        .all()
+    )
 
     slice = {
         "form_1040": {
