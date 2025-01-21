@@ -49,14 +49,17 @@ def create():
 @king_blueprint.route("/", methods=["GET"])
 @login_required
 def read():
-    """Look up info on currently logged in king."""
-    king = db.session.get(King, current_king.id).to_private_dict()
+    """Look up info on all kings."""
+    kings = db.session.query(King).all()
 
-    king_id = current_king.id
     state_data = {
-        "current_king_id": king_id,
-        "king": {str(king_id): king},
+        "current_king_id": current_king.id,
+        "king": {str(current_king.id): king for king in kings},
     }
+    state_data["king"][
+        str(current_king.id)
+    ] = current_king.to_private_dict()
+
     partial_state = StatePartialSchema(**state_data).model_dump(
         exclude_none=True
     )
