@@ -30,7 +30,7 @@ def create():
     try:
         db.session.commit()
     except IntegrityError as e:
-        db.session.rollBack()
+        db.session.rollback()
         errors = {}
         if "spouse_id" in str(e.orig):
             errors["spouse_id"] = "spouse id not in human table"
@@ -111,7 +111,7 @@ def update(form_1040_id):
     try:
         db.session.commit()
     except IntegrityError as e:
-        db.session.rollBack()
+        db.session.rollback()
         errors = {}
         if "spouse_id" in str(e.orig):
             errors["spouse_id"] = "spouse id not in human table"
@@ -147,7 +147,7 @@ def delete(form_1040_id):
     try:
         db.session.commit()
     except IntegrityError as e:
-        db.session.rollBack()
+        db.session.rollback()
         errors = {}
         return {
             "message": "integrity error",
