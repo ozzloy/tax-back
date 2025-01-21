@@ -13,7 +13,7 @@ king_seeds = [
     {
         "email": "bob@example.com",
         "nick": "bob",
-        "password": "i love laura",
+        "password": "password",
         "theme_id": 0,
     }
 ]
