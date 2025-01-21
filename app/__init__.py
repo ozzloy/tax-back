@@ -54,16 +54,19 @@ def create_app(config_class=Config):
 
     @app.errorhandler(CSRFError)
     def handle_csrf_error(e):
-        print(__file__)
-        print(f"403 error on {request.url}")
-        print(f"request body: {request.get_data().decode('utf-8')}")
-        print(f"headers: {dict(request.headers)}")
-        import traceback
+        if debug:
+            print(__file__)
+            print(f"403 error on {request.url}")
+            print(
+                f"request body: {request.get_data().decode('utf-8')}"
+            )
+            print(f"headers: {dict(request.headers)}")
+            import traceback
 
-        print()
-        print("e")
-        print("\ntraceback:")
-        print(traceback.format_exc())
+            print()
+            print("e")
+            print("\ntraceback:")
+            print(traceback.format_exc())
         return {
             "message": "missing or invalid CSRF token"
         }, http.FORBIDDEN
@@ -112,15 +115,16 @@ def create_app(config_class=Config):
 
     @app.errorhandler(Exception)
     def handle_generic_error(e):
-        print()
-        print(__file__)
-        print(f"error type: {type(e).__name__}")
-        print(f"error message: {str(e)}")
+        if debug:
+            print()
+            print(__file__)
+            print(f"error type: {type(e).__name__}")
+            print(f"error message: {str(e)}")
 
-        import traceback
+            import traceback
 
-        print("\ntraceback:")
-        print(traceback.format_exc())
+            print("\ntraceback:")
+            print(traceback.format_exc())
 
         return {"error": str(e)}, http.INTERNAL_SERVER_ERROR
 
