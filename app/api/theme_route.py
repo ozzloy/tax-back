@@ -60,9 +60,7 @@ def read_all():
     slice = {
         "theme": {str(theme.id): theme.to_dict() for theme in themes}
     }
-    partial_state = StatePartialSchema(**slice).model_dump(
-        exclude_none=True
-    )
+    partial_state = StatePartialSchema(**slice).model_dump()
     return partial_state, http.OK
 
 
