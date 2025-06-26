@@ -1,3 +1,942 @@
+* why is this service failing?
+
+#+begin_quote
+ozzloy@each:~/bin$ sudo systemctl status -l tax-back
+● tax-back.service - tax back
+     Loaded: loaded (/etc/systemd/system/tax-back.service; enabled; preset: enabled)
+     Active: activating (auto-restart) (Result: exit-code) since Thu 2025-06-26 12:10:07 PDT; 471ms ago
+    Process: 859121 ExecStart=/home/do.each.tax/back/start-service.sh (code=exited, status=203/EXEC)
+   Main PID: 859121 (code=exited, status=203/EXEC)
+        CPU: 15ms
+
+Jun 26 12:10:07 each.do systemd[1]: tax-back.service: Main process exited, code=exited, status=203/EXEC
+Jun 26 12:10:07 each.do systemd[1]: tax-back.service: Failed with result 'exit-code'.
+ozzloy@each:~/bin$
+#+end_quote
+
+#+begin_src bash :file /var/www/tax.each.do/back/start-service.bash
+  #! /usr/bin/env bash
+
+  # <<<< pyenv <<<<
+  export PYENV_ROOT="$HOME/.pyenv"
+  [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init - bash)"
+  # >>>> pyenv >>>>
+  cd /var/www/tax.each.do/back
+  exec /usr/bin/pipenv run gunicorn wsgi:app -b '[::]:8082'
+#+end_src
+
+#+begin_src conf :file /etc/systemd/system/tax-back.service
+  [Unit]
+  Description=tax back
+  After=network.target
+
+  [Service]
+  Type=simple
+  User=do.each.tax
+  ExecStart=/home/do.each.tax/back/start-service.sh
+  Restart=always
+  RestartSec=5
+  StandardOutput=journal
+  StandardError=journal
+
+  [Install]
+  WantedBy=multi-user.target
+#+end_src
+
+but it works when the script is run as the user:
+#+begin_quote
+ozzloy@each:~/bin$ sudo su - do.each.tax
+do.each.tax@each:~$ cd back
+do.each.tax@each:~/back$ bash -x ./start-service.bash
++ export PYENV_ROOT=/var/www/tax.each.do/.pyenv
++ PYENV_ROOT=/var/www/tax.each.do/.pyenv
++ [[ -d /var/www/tax.each.do/.pyenv/bin ]]
++ export PATH=/var/www/tax.each.do/.pyenv/bin:/var/www/tax.each.do/.pyenv/plugins/pyenv-virtualenv/shims:/var/www/tax.each.do/.pyenv/shims:/var/www/tax.each.do/.pyenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
++ PATH=/var/www/tax.each.do/.pyenv/bin:/var/www/tax.each.do/.pyenv/plugins/pyenv-virtualenv/shims:/var/www/tax.each.do/.pyenv/shims:/var/www/tax.each.do/.pyenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+++ pyenv init - bash
++ eval 'PATH="$(bash --norc -ec '\''IFS=:; paths=($PATH);
+for i in ${!paths[@]}; do
+if [[ ${paths[i]} == "'\'''\''/var/www/tax.each.do/.pyenv/shims'\'''\''" ]]; then unset '\''\'\'''\''paths[i]'\''\'\'''\'';
+fi; done;
+echo "${paths[*]}"'\'')"
+export PATH="/var/www/tax.each.do/.pyenv/shims:${PATH}"
+export PYENV_SHELL=bash
+source '\''/var/www/tax.each.do/.pyenv/completions/pyenv.bash'\''
+command pyenv rehash 2>/dev/null
+pyenv() {
+  local command=${1:-}
+  [ "$#" -gt 0 ] && shift
+  case "$command" in
+  activate|deactivate|rehash|shell)
+    eval "$(pyenv "sh-$command" "$@")"
+    ;;
+  *)
+    command pyenv "$command" "$@"
+    ;;
+  esac
+}'
++++ bash --norc -ec 'IFS=:; paths=($PATH);
+for i in ${!paths[@]}; do
+if [[ ${paths[i]} == "/var/www/tax.each.do/.pyenv/shims" ]]; then unset '\''paths[i]'\'';
+fi; done;
+echo "${paths[*]}"'
+++ PATH=/var/www/tax.each.do/.pyenv/bin:/var/www/tax.each.do/.pyenv/plugins/pyenv-virtualenv/shims:/var/www/tax.each.do/.pyenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+++ export PATH=/var/www/tax.each.do/.pyenv/shims:/var/www/tax.each.do/.pyenv/bin:/var/www/tax.each.do/.pyenv/plugins/pyenv-virtualenv/shims:/var/www/tax.each.do/.pyenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+++ PATH=/var/www/tax.each.do/.pyenv/shims:/var/www/tax.each.do/.pyenv/bin:/var/www/tax.each.do/.pyenv/plugins/pyenv-virtualenv/shims:/var/www/tax.each.do/.pyenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+++ export PYENV_SHELL=bash
+++ PYENV_SHELL=bash
+++ source /var/www/tax.each.do/.pyenv/completions/pyenv.bash
++++ complete -F _pyenv pyenv
+++ command pyenv rehash
++ cd /var/www/tax.each.do/back
++ exec /usr/bin/pipenv run gunicorn wsgi:app -b '[::]:8082'
+Loading .env environment variables...
+[2025-06-26 12:15:18 -0700] [859527] [INFO] Starting gunicorn 23.0.0
+[2025-06-26 12:15:18 -0700] [859527] [INFO] Listening at: http://[::]:8082 (859527)
+[2025-06-26 12:15:18 -0700] [859527] [INFO] Using worker: sync
+[2025-06-26 12:15:18 -0700] [859600] [INFO] Booting worker with pid: 859600
+#+end_quote
+
+** reply
+
+The service is failing with exit code 203/EXEC, which means systemd
+cannot execute the script. There are two main issues:
+
+1. *Path mismatch*: Your systemd service points to
+   =/home/do.each.tax/back/start-service.sh= but your script file is
+   at =/var/www/tax.each.do/back/start-service.bash= (note the
+   different directory and file extension).
+
+2. *Missing execute permissions*: The script likely doesn't have
+   execute permissions for systemd to run it.
+
+To fix:
+
+1. *Update the systemd service* to use the correct path:
+   #+begin_src ini
+   ExecStart=/var/www/tax.each.do/back/start-service.bash
+   #+end_src
+
+2. *Make the script executable*:
+   #+begin_src bash
+   sudo chmod +x /var/www/tax.each.do/back/start-service.bash
+   #+end_src
+
+3. *Reload and restart*:
+   #+begin_src bash
+   sudo systemctl daemon-reload
+   sudo systemctl restart tax-back
+   #+end_src
+
+The script works when run manually because you're explicitly calling
+=bash -x ./start-service.bash=, which doesn't require execute
+permissions, but systemd needs the script to be executable to run it
+directly.
+
+
+* install pyenv as system user
+
+how do i install pyenv as the user do.each.tax on debian?
+
+use wget and do not use curl.
+
+#+begin_quote
+do.each.tax@each:~/back$ cat Pipfile
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+email-validator = "*"
+flask = "*"
+flask-cors = "*"
+flask-login = "*"
+flask-sqlalchemy = "*"
+flask-talisman = "*"
+gunicorn = "*"
+psycopg2 = "*"
+pydantic = "*"
+pytest-factoryboy = "*"
+python-dotenv = "*"
+us = "*"
+webcolors = "*"
+flask-wtf = "*"
+itsdangerous = "*"
+werkzeug = "*"
+
+[dev-packages]
+black = "*"
+flake8 = "*"
+isort = "*"
+pre-commit = "*"
+pytest = "*"
+
+[requires]
+python_full_version = "3.9.6"
+python_version = "3.9"
+do.each.tax@each:~/back$ pipenv run gunicorn wsgi:app -b '[::]:8082'
+Loading .env environment variables...
+Warning: Python 3.9.6 was not found on your system...
+Neither 'pyenv' nor 'asdf' could be found to install Python.
+You can specify specific versions of Python with:
+$ pipenv --python path/to/python
+do.each.tax@each:~/back$ exit
+exit
+ozzloy@each:/var/www/tax.each.do$ apt search pyenv
+Sorting... Done
+Full Text Search... Done
+direnv/stable 2.32.1-2+b4 amd64
+  Utility to set directory specific environment variables
+
+ozzloy@each:/var/www/tax.each.do$
+#+end_quote
+
+** reply
+
+To install pyenv for the user =do.each.tax= on Debian, you have a few
+options:
+
+*** Option 1: Install pyenv via the installer script (recommended)
+
+#+begin_src bash
+  # Switch to the do.each.tax user
+  su - do.each.tax
+
+  # Install dependencies first
+  sudo apt update
+
+  sudo apt install -y make build-essential libssl-dev zlib1g-dev \
+       libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+       libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev \
+       liblzma-dev python3-openssl git
+
+  # Install pyenv
+  curl https://pyenv.run | bash
+
+  # Add to shell profile
+  echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+  echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+  echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+
+  # Reload shell
+  exec "$SHELL"
+#+end_src
+
+*** Option 2: Manual git installation
+
+#+begin_src bash
+# As do.each.tax user
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+# Add the same bashrc lines as above
+#+end_src
+
+*** Install Python 3.9.6
+
+After installing pyenv:
+
+#+begin_src bash
+# Install Python 3.9.6
+pyenv install 3.9.6
+
+# Set it as global or local version
+pyenv global 3.9.6
+# or for just this project:
+cd ~/back && pyenv local 3.9.6
+#+end_src
+
+Then your pipenv should work correctly.
+
+* if a service is run as a user, .bashrc or .bash_profile?
+
+#+begin_quote
+# Load pyenv automatically by appending
+# the following to
+# ~/.bash_profile if it exists, otherwise ~/.profile (for login shells)
+# and ~/.bashrc (for interactive shells) :
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - bash)"
+
+# Restart your shell for the changes to take effect.
+
+# Load pyenv-virtualenv automatically by adding
+# the following to ~/.bashrc:
+
+eval "$(pyenv virtualenv-init -)"
+#+end_quote
+
+#+begin_src conf :file /etc/systemd/system/tax-back.service
+  [Unit]
+  Description=tax back
+  After=network.target
+
+  [Service]
+  Type=simple
+  User=do.each.tax
+  WorkingDirectory=/var/www/tax.each.do/back
+  ExecStart=/usr/bin/pipenv run gunicorn wsgi:app -b '[::]:8082'
+  Restart=always
+  RestartSec=5
+  StandardOutput=journal
+  StandardError=journal
+
+  [Install]
+  WantedBy=multi-user.target
+#+end_src
+
+on a debian machine, should i push the pyenv stuff in .bashrc or
+.bash_profile for the user do.each.tax?
+
+** reply
+For a systemd service, you should put the pyenv configuration in
+*=.bash_profile=* (or =.profile= if =.bash_profile= doesn't exist).
+
+Here's why:
+
+- *=.bashrc=* is for interactive shells only
+- *=.bash_profile=* (or =.profile=) is for login shells and
+  non-interactive contexts
+- systemd services run as non-interactive shells, so they don't source
+  =.bashrc=
+
+However, there's a better approach for systemd services:
+
+*** Recommended Solution:
+Set environment variables directly in the service file
+
+#+begin_src ini
+[Unit]
+Description=tax back
+After=network.target
+
+[Service]
+Type=simple
+User=do.each.tax
+WorkingDirectory=/var/www/tax.each.do/back
+Environment=PYENV_ROOT=/home/do.each.tax/.pyenv
+Environment=PATH=/home/do.each.tax/.pyenv/bin:/home/do.each.tax/.pyenv/shims:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/pipenv run gunicorn wsgi:app -b '[::]:8082'
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+#+end_src
+
+This is more reliable because:
+1. It's explicit and doesn't depend on shell profile loading
+2. It's easier to debug
+3. It's the systemd-recommended way
+
+If you still prefer the profile approach, use =.bash_profile= or
+=.profile=, not =.bashrc=.
+
+
+** follow, is that all the service needs?
+
+it seems like the service might need more setup than that.
+
+#+begin_quote
+do.each.tax@each:~$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+do.each.tax@each:~$ ls $PYENV_ROOT/bin
+pyenv
+do.each.tax@each:~$ export PATH="$PYENV_ROOT/bin:$PATH"
+do.each.tax@each:~$ pyenv init - bash
+PATH="$(bash --norc -ec 'IFS=:; paths=($PATH);
+for i in ${!paths[@]}; do
+if [[ ${paths[i]} == "''/var/www/tax.each.do/.pyenv/shims''" ]]; then unset '\''paths[i]'\'';
+fi; done;
+echo "${paths[*]}"')"
+export PATH="/var/www/tax.each.do/.pyenv/shims:${PATH}"
+export PYENV_SHELL=bash
+source '/var/www/tax.each.do/.pyenv/completions/pyenv.bash'
+command pyenv rehash 2>/dev/null
+pyenv() {
+  local command=${1:-}
+  [ "$#" -gt 0 ] && shift
+  case "$command" in
+  activate|deactivate|rehash|shell)
+    eval "$(pyenv "sh-$command" "$@")"
+    ;;
+  *)
+    command pyenv "$command" "$@"
+    ;;
+  esac
+}
+do.each.tax@each:~$ pyenv virtualenv-init -
+export PATH="/var/www/tax.each.do/.pyenv/plugins/pyenv-virtualenv/shims:${PATH}";
+export PYENV_VIRTUALENV_INIT=1;
+_pyenv_virtualenv_hook() {
+  local ret=$?
+  if [ -n "${VIRTUAL_ENV-}" ]; then
+    eval "$(pyenv sh-activate --quiet || pyenv sh-deactivate --quiet || true)" || true
+  else
+    eval "$(pyenv sh-activate --quiet || true)" || true
+  fi
+  return $ret
+};
+if ! [[ "${PROMPT_COMMAND-}" =~ _pyenv_virtualenv_hook ]]; then
+  PROMPT_COMMAND="_pyenv_virtualenv_hook;${PROMPT_COMMAND-}"
+fi
+do.each.tax@each:~$
+#+end_quote
+
+
+
+You're absolutely right! The simple =Environment== approach won't work
+because =pyenv init= and =pyenv virtualenv-init= generate complex
+shell code that needs to be executed, not just environment variables.
+
+Looking at the output, you need:
+1. The pyenv shims in PATH
+2. The pyenv shell function defined
+3. The virtualenv hook function
+4. Various pyenv-specific environment variables
+
+** Better Solutions:
+
+*** Option 1: Use ExecStartPre to source the profile
+#+begin_src ini
+[Unit]
+Description=tax back
+After=network.target
+
+[Service]
+Type=simple
+User=do.each.tax
+WorkingDirectory=/var/www/tax.each.do/back
+ExecStartPre=/bin/bash -c 'source ~/.bash_profile'
+ExecStart=/bin/bash -c 'source ~/.bash_profile && /usr/bin/pipenv run gunicorn wsgi:app -b "[::]:8082"'
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+#+end_src
+
+*** Option 2: Create a wrapper script (Recommended)
+Create =/home/do.each.tax/start-service.sh=:
+#+begin_src bash
+#!/bin/bash
+source ~/.bash_profile
+cd /var/www/tax.each.do/back
+exec /usr/bin/pipenv run gunicorn wsgi:app -b '[::]:8082'
+#+end_src
+
+Make it executable:
+#+begin_src bash
+chmod +x /home/do.each.tax/start-service.sh
+#+end_src
+
+Then use it in the service:
+#+begin_src ini
+[Unit]
+Description=tax back
+After=network.target
+
+[Service]
+Type=simple
+User=do.each.tax
+ExecStart=/home/do.each.tax/start-service.sh
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+#+end_src
+
+*Option 2 is cleaner and more maintainable.* Put the pyenv config in
+=.bash_profile= and use the wrapper script approach.
+
+* how do i see whether port 8082 is being used?
+
+#+begin_src bash
+# Show what's using port 8082
+lsof -i :8082
+
+# Or with netstat
+netstat -tlnp | grep :8082
+
+# Or with ss (modern alternative)
+ss -tlnp | grep :8082
+#+end_src
+
+* is my backend service running?
+
+this is on a debian server
+
+#+begin_quote
+ozzloy@each:~$ ps aux|grep gunicorn
+ozzloy    729403  0.0  0.4   6336  2116 pts/6    S+   08:11   0:00 grep gunicorn
+ozzloy@each:~$ lsof -i :8082
+ozzloy@each:~$ sudo systemctl status tax-back
+[sudo] password for ozzloy:
+● tax-back.service - tax back
+     Loaded: loaded (/etc/systemd/system/tax-back.service; enabled; preset: enabled)
+     Active: activating (auto-restart) (Result: exit-code) since Thu 2025-06-26 08:12:53 PDT; 4s ago
+    Process: 729543 ExecStart=/usr/local/bin/pipenv run gunicorn wsgi:app -b [::]:8082 (code=exited, status=203/EXEC)
+   Main PID: 729543 (code=exited, status=203/EXEC)
+        CPU: 50ms
+
+Jun 26 08:12:58 each.do systemd[1]: tax-back.service: Scheduled restart job…002.
+Jun 26 08:12:58 each.do systemd[1]: Stopped tax-back.service - tax back.
+Jun 26 08:12:58 each.do systemd[1]: Started tax-back.service - tax back.
+Jun 26 08:12:59 each.do (pipenv)[729547]: tax-back.service: Failed to locat…tory
+Jun 26 08:12:59 each.do (pipenv)[729547]: tax-back.service: Failed at step …tory
+Jun 26 08:12:59 each.do systemd[1]: tax-back.service: Main process exited, …EXEC
+Jun 26 08:12:59 each.do systemd[1]: tax-back.service: Failed with result 'e…de'.
+Hint: Some lines were ellipsized, use -l to show in full.
+ozzloy@each:~$ sudo lsof -i :8082
+ozzloy@each:~$
+#+end_quote
+
+
+
+No, your backend service is *not running*. The issues are:
+
+1. *Service is failing to start* - status shows "activating
+   (auto-restart)" with exit code 203/EXEC
+2. *No process on port 8082* - =lsof= shows nothing listening
+3. *Error suggests directory issue* - "Failed to locate...tory" and
+   "Failed at step...tory"
+
+The problem appears to be that the service can't find the correct
+working directory or the pipenv/gunicorn executables.
+
+Check your service file:
+#+begin_src bash
+cat /etc/systemd/system/tax-back.service
+#+end_src
+
+Look for:
+- =WorkingDirectory== - should point to your project directory
+- =ExecStart== path - verify =/usr/local/bin/pipenv= exists
+- =User== - should match the user who owns the project files
+
+Quick fixes to try:
+#+begin_src bash
+# Check if pipenv exists where expected
+which pipenv
+
+# See full error details
+sudo systemctl status tax-back -l --no-pager
+#+end_src
+
+** follow, pipenv not available for do.each.tax user
+#+begin_quote
+ozzloy@each:/var/www$ cat /etc/systemd/system/tax-back.service
+[Unit]
+Description=tax back
+After=network.target
+
+[Service]
+Type=simple
+User=do.each.tax
+WorkingDirectory=/var/www/tax.each.do/back
+ExecStart=/usr/local/bin/pipenv run gunicorn wsgi:app -b '[::]:8082'
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.targetozzloy@each:/var/www$ cd tax.each.do
+ozzloy@each:/var/www/tax.each.do$ ls -l
+total 16
+drwxr-xr-x 5 do.each.tax do.each.tax 4096 Apr  1 19:41 back
+drwxr-xr-x 7 do.each.tax do.each.tax 4096 Apr  1 19:55 front
+-rw-r--r-- 1 do.each.tax do.each.tax  432 Apr  1 18:57 note.org
+-rw-r--r-- 1 do.each.tax do.each.tax 3093 Apr  1 18:57 readme.org
+ozzloy@each:/var/www/tax.each.do$ ls -l /usr/local/bin/|grep pipenv
+ozzloy@each:/var/www/tax.each.do$ which pipenv
+/home/ozzloy/.local/bin/pipenv
+ozzloy@each:/var/www/tax.each.do$
+#+end_quote
+
+** reply
+
+The issue is that =pipenv= is installed in your user's local bin
+(=/home/ozzloy/.local/bin/pipenv=) but the service runs as user
+=do.each.tax= who doesn't have access to it.
+
+Fix options:
+
+*Option 1: Install pipenv globally*
+#+begin_src bash
+sudo pip install pipenv
+# This will put it in /usr/local/bin/pipenv
+#+end_src
+
+*Option 2: Use full path to pipenv in service file*
+#+begin_src bash
+sudo systemctl edit tax-back.service
+#+end_src
+Then add:
+#+begin_src
+[Service]
+ExecStart=
+ExecStart=/home/ozzloy/.local/bin/pipenv run gunicorn wsgi:app -b '[::]:8082'
+#+end_src
+
+*Option 3: Use absolute path to python/gunicorn (recommended)*
+First, find the actual python path:
+#+begin_src bash
+cd /var/www/tax.each.do/back
+sudo -u do.each.tax /home/ozzloy/.local/bin/pipenv --venv
+# This will show the virtual environment path
+#+end_src
+
+Then update service to use the venv directly:
+#+begin_src bash
+sudo systemctl edit tax-back.service
+#+end_src
+#+begin_src
+[Service]
+ExecStart=
+ExecStart=/path/to/venv/bin/gunicorn wsgi:app -b '[::]:8082'
+#+end_src
+
+After any change:
+#+begin_src bash
+sudo systemctl daemon-reload
+sudo systemctl restart tax-back
+#+end_src
+
+** follow,
+#+begin_quote
+ozzloy@each:/var/www/tax.each.do$ sudo pip install pipenv
+error: externally-managed-environment
+
+× This environment is externally managed
+╰─> To install Python packages system-wide, try apt install
+    python3-xyz, where xyz is the package you are trying to
+    install.
+
+    If you wish to install a non-Debian-packaged Python package,
+    create a virtual environment using python3 -m venv path/to/venv.
+    Then use path/to/venv/bin/python and path/to/venv/bin/pip. Make
+    sure you have python3-full installed.
+
+    If you wish to install a non-Debian packaged Python application,
+    it may be easiest to use pipx install xyz, which will manage a
+    virtual environment for you. Make sure you have pipx installed.
+
+    See /usr/share/doc/python3.11/README.venv for more information.
+
+note: If you believe this is a mistake, please contact your Python installation or OS distribution provider. You can override this, at the risk of breaking your Python installation or OS, by passing --break-system-packages.
+hint: See PEP 668 for the detailed specification.
+ozzloy@each:/var/www/tax.each.do$ apt search pipenv
+Sorting... Done
+Full Text Search... Done
+pipenv/stable,now 2022.12.19+ds-1 all [installed]
+  Python package manager based on virtualenv and Pipfiles
+
+python3-pdm/stable 2.2.1+ds1-1 all
+  next generation Python package management tool
+
+ozzloy@each:/var/www/tax.each.do$
+#+end_quote
+
+
+Great! =pipenv= is already installed system-wide via apt. The issue is
+that the system =pipenv= is likely in =/usr/bin/pipenv=, not
+=/usr/local/bin/pipenv=.
+
+Check where the system pipenv is:
+#+begin_src bash
+which pipenv
+ls -l /usr/bin/pipenv
+#+end_src
+
+Then update your service file:
+#+begin_src bash
+sudo systemctl edit tax-back.service
+#+end_src
+
+Add this override:
+#+begin_src
+[Service]
+ExecStart=
+ExecStart=/usr/bin/pipenv run gunicorn wsgi:app -b '[::]:8082'
+#+end_src
+
+Then restart:
+#+begin_src bash
+sudo systemctl daemon-reload
+sudo systemctl restart tax-back
+sudo systemctl status tax-back
+#+end_src
+
+Alternatively, you can edit the main service file directly:
+#+begin_src bash
+sudo nano /etc/systemd/system/tax-back.service
+#+end_src
+And change the =ExecStart= line to use =/usr/bin/pipenv= instead of
+=/usr/local/bin/pipenv=.
+
+* gunicorn could not be found
+#+begin_quote
+ozzloy@each:/var/www/tax.each.do$ sudo -u do.each.tax -s
+do.each.tax@each:~$ which pipenv
+/usr/bin/pipenv
+do.each.tax@each:~$ pipenv run gunicorn wsgi:app -b '[::]:8082'
+Creating a virtualenv for this project...
+Pipfile: /var/www/tax.each.do/Pipfile
+Using /usr/bin/python3 (3.11.2) to create virtualenv...
+created virtual environment CPython3.11.2.final.0-64 in 2773ms
+  creator CPython3Posix(dest=/var/www/tax.each.do/.local/share/virtualenvs/tax.each.do-NtWVBpC2, clear=False, no_vcs_ignore=False, global=False)
+  seeder FromAppData(download=False, pip=bundle, setuptools=bundle, wheel=bundle, via=copy, app_data_dir=/var/www/tax.each.do/.local/share/virtualenv)
+    added seed packages: pip==23.0.1, setuptools==66.1.1, wheel==0.38.4
+  activators BashActivator,CShellActivator,FishActivator,NushellActivator,PowerShellActivator,PythonActivator
+
+✔ Successfully created virtual environment!
+
+Virtualenv location: /var/www/tax.each.do/.local/share/virtualenvs/tax.each.do-NtWVBpC2
+Creating a Pipfile for this project...
+Error: the command gunicorn could not be found within PATH or Pipfile's [scripts].
+do.each.tax@each:~$ ls
+back  front  note.org  Pipfile	readme.org
+do.each.tax@each:~$
+#+end_quote
+
+
+
+* pm2 service
+
+i just noticed this pm2 service. i think this is the old way of
+running the service. i would like to check what pm2 is doing and then
+get rid of this service.
+
+#+begin_src conf :file /etc/systemd/system/pm2-do.each.tax.service
+[Unit]
+Description=PM2 process manager
+Documentation=https://pm2.keymetrics.io/
+After=network.target
+
+[Service]
+Type=forking
+User=do.each.tax
+LimitNOFILE=infinity
+LimitNPROC=infinity
+LimitCORE=infinity
+Environment=PATH=/home/ozzloy/.pyenv/plugins/pyenv-virtualenv/shims:/home/ozzloy/.pyenv/shims:/home/ozzloy/.pyenv/bin:/home/ozzloy/.local/bin:/home/ozzloy/.pyenv/plugins/pyenv-virtualenv/shims:/home/ozzloy/.pyenv/bin:/home/ozzloy/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games:/usr/bin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+Environment=PM2_HOME=/var/www/tax.each.do/.pm2
+PIDFile=/var/www/tax.each.do/.pm2/pm2.pid
+Restart=on-failure
+
+ExecStart=/usr/lib/node_modules/pm2/bin/pm2 resurrect
+ExecReload=/usr/lib/node_modules/pm2/bin/pm2 reload all
+ExecStop=/usr/lib/node_modules/pm2/bin/pm2 kill
+
+[Install]
+WantedBy=multi-user.target
+#+end_src
+
+
+
+To check what PM2 is managing and then remove it safely:
+
+** Check current PM2 processes:
+#+begin_src bash
+# Switch to the service user
+sudo -u do.each.tax -s
+
+# Check what PM2 is running
+pm2 list
+pm2 info all
+pm2 logs
+#+end_src
+
+** Remove PM2 service:
+#+begin_src bash
+# Stop and disable the systemd service
+sudo systemctl stop pm2-do.each.tax.service
+sudo systemctl disable pm2-do.each.tax.service
+
+# Remove the service file
+sudo rm /etc/systemd/system/pm2-do.each.tax.service
+
+# Reload systemd
+sudo systemctl daemon-reload
+
+# Stop PM2 processes (as the service user)
+sudo -u do.each.tax pm2 kill
+
+# Optional: Remove PM2 data directory if no longer needed
+sudo rm -rf /var/www/tax.each.do/.pm2
+#+end_src
+
+The service appears to be running PM2 as user =do.each.tax= with its
+home directory at =/var/www/tax.each.do/.pm2=. Check what applications
+it's managing first to ensure you're not breaking anything important.
+
+
+* TODO make service
+
+i'm currently starting a server like this
+
+#+begin_src bash
+pipenv run gunicorn wsgi:app -b '[::]:8082'
+#+end_src
+
+i would like to use a service to start the process.  i also want to
+create a system user for this process.  the user should be named
+"do.each.tax" and have the home directory "/var/www/tax.each.do".  the
+user should have sudo permissions to start and restart the service.
+
+this is on debian.
+
+write a service file, and bash commands to create the user, start the
+process, set the service to start on boot, and restart unless stopped.
+
+
+
+Here's what you need:
+
+1. Create the system user and grant sudo permissions:
+
+#+begin_src bash
+# Create system user
+sudo useradd -r -m -d /var/www/tax.each.do -s /bin/bash do.each.tax
+
+# Grant sudo permissions for managing the service
+echo "do.each.tax ALL=(ALL) NOPASSWD: /bin/systemctl start tax-back, /bin/systemctl stop tax-back, /bin/systemctl restart tax-back, /bin/systemctl status tax-back" | sudo tee /etc/sudoers.d/do-each-tax
+sudo chmod 0440 /etc/sudoers.d/do-each-tax
+#+end_src
+
+2. Create the service file (/etc/systemd/system/tax-back.service):
+
+#+begin_src ini
+[Unit]
+Description=tax back
+After=network.target
+
+[Service]
+Type=simple
+User=do.each.tax
+WorkingDirectory=/var/www/tax.each.do/back
+ExecStart=/usr/local/bin/pipenv run gunicorn wsgi:app -b '[::]:8082'
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+#+end_src
+
+3. Enable and start the service:
+
+#+begin_src bash
+# Create service file
+sudo tee /etc/systemd/system/tax-service.service > /dev/null << 'EOT'
+[Unit]
+Description=Tax Service
+After=network.target
+
+[Service]
+Type=simple
+User=do.each.tax
+WorkingDirectory=/var/www/tax.each.do
+ExecStart=/usr/local/bin/pipenv run gunicorn wsgi:app -b '[::]:8082'
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+EOT
+
+# Reload systemd, enable and start the service
+sudo systemctl daemon-reload
+sudo systemctl enable tax-service
+sudo systemctl start tax-service
+#+end_src
+
+The service will automatically restart if it crashes and will start on
+boot.
+
+** can this line be shorter?
+this is a line in a sudoers file.  can it be made into shorter lines?
+maybe with line continuation or breaking it up into multiple logical
+lines?
+#+begin_quote
+do.each.tax ALL=(ALL) NOPASSWD: /bin/systemctl start tax-back, /bin/systemctl stop tax-back, /bin/systemctl restart tax-back, /bin/systemctl status tax-back
+#+end_quote
+
+You can break this long line into multiple lines using the backslash
+(=\=) as a line continuation character:
+
+#+begin_src
+do.each.tax ALL=(ALL) NOPASSWD: /bin/systemctl start tax-back, \
+                               /bin/systemctl stop tax-back, \
+                               /bin/systemctl restart tax-back, \
+                               /bin/systemctl status tax-back
+#+end_src
+
+Alternatively, you could use Cmnd_Alias to group related commands:
+
+#+begin_src
+Cmnd_Alias TAX_BACK_COMMANDS = /bin/systemctl start tax-back, \
+                               /bin/systemctl stop tax-back, \
+                               /bin/systemctl restart tax-back, \
+                               /bin/systemctl status tax-back
+do.each.tax ALL=(ALL) NOPASSWD: TAX_BACK_COMMANDS
+#+end_src* TODO add @login_required decorators
+
+* explain sudoers format
+#+begin_quote
+ozzloy@each:/etc/sudoers.d$ sudo cat do-each-tax
+do.each.tax ALL=(ALL) NOPASSWD: /bin/systemctl   start tax-back, \
+                                /bin/systemctl restart tax-back
+ozzloy@each:/etc/sudoers.d$ sudo cat ill-brb
+ill-brb ALL=NOPASSWD: /bin/systemctl restart ill-brb-front
+ill-brb ALL=NOPASSWD: /bin/systemctl restart ill-brb-back
+ozzloy@each:/etc/sudoers.d$ sudo cat where-da-gas-at
+where-da-gas-at ALL=NOPASSWD: /bin/systemctl restart where-da-gas-at-back
+where-da-gas-at ALL=NOPASSWD: /bin/systemctl restart where-da-gas-at-front
+ozzloy@each:/etc/sudoers.d$
+#+end_quote
+explain the content of these sudoers files.  what does each part of
+each line mean?
+
+
+
+The sudoers files define which users can run specific commands with
+sudo privileges. Let me break down the format:
+
+For each line: =USER HOST=(RUNAS) [NOPASSWD:] COMMANDS=
+
+1. *do-each-tax file*:
+   - =do.each.tax=: Username
+   - =ALL=: Applies to all hosts
+   - =(ALL)=: Can run commands as any user
+   - =NOPASSWD:=: No password required
+   - Commands: Can run systemctl start/restart for tax-back service
+   - The =\= allows the rule to continue on the next line
+
+2. *ill-brb file*:
+   - Contains two separate rules for user =ill-brb=
+   - Each rule allows password-less restart of a specific service
+   - First for ill-brb-front, second for ill-brb-back
+
+3. *where-da-gas-at file*:
+   - Similar structure to ill-brb
+   - User =where-da-gas-at= can restart where-da-gas-at-back and
+     where-da-gas-at-front services without a password
+
+The =NOPASSWD:= specification is important as it allows these users to run these specific commands via sudo without being prompted for a password.
 * TODO make form 1040 stub generate wages and withholdings better
 do something more sophisticated to generate wages and withholdings so
 that withholdings <= wages. as of this writing, this constraint is

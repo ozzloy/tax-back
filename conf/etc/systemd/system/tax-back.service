@@ -1,0 +1,15 @@
+[Unit]
+Description=tax back
+After=network.target
+
+[Service]
+Type=simple
+User=do.each.tax
+ExecStart=/var/www/tax.each.do/back/start-service.bash
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

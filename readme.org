@@ -231,6 +231,15 @@ Set-Cookie: session=eyJjc3JmX3Rva2VuIjoiZTUwYmVkZmY0MDI3N2Q4NDA2ZTQ3NmVkM2E1MWEx
 }
 #+end_example
 
+*** systemd
+
+#+begin_src bash
+  cd tax/back
+  sudo cp \
+       conf/etc/systemd/system/tax-back.service \
+       /etc/systemd/system/tax-back.service
+#+end_src
+
 * schema
 
   all tables will have fields: id, created, updated
